@@ -1,0 +1,38 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{A51F2473-40A5-4E25-85CA-B6BA1D7DA05C}</ProjectGuid>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Default.Personality.12</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+  <BorlandProject xmlns=""> <Default.Personality> </Default.Personality> </BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Target Name="ZipFileORMD26">
+    <MSBuild Projects="ZipFileORMD26.dproj" Targets="" />
+  </Target>
+  <Target Name="dclZipFileORMD26">
+    <MSBuild Projects="dclZipFileORMD26.dproj" Targets="" />
+  </Target>
+  <Target Name="ZipFileORMD26:Clean">
+    <MSBuild Projects="ZipFileORMD26.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="dclZipFileORMD26:Clean">
+    <MSBuild Projects="dclZipFileORMD26.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="ZipFileORMD26:Make">
+    <MSBuild Projects="ZipFileORMD26.dproj" Targets="Make" />
+  </Target>
+  <Target Name="dclZipFileORMD26:Make">
+    <MSBuild Projects="dclZipFileORMD26.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Build">
+    <CallTarget Targets="ZipFileORMD26;dclZipFileORMD26" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="ZipFileORMD26:Clean;dclZipFileORMD26:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="ZipFileORMD26:Make;dclZipFileORMD26:Make" />
+  </Target>
+</Project>
