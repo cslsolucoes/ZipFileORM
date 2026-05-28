@@ -27,6 +27,11 @@
 .PARAMETER DryRun
   Mostra o que seria copiado sem alterar arquivos.
 
+.PARAMETER Force
+  Por default, aborta se detectar IDE Delphi rodando — BPLs ja carregadas
+  em memoria nao podem ser sobrescritas. Use -Force para tentar mesmo
+  assim (geralmente falha com "in use by another process").
+
 .EXAMPLE
   pwsh tools/Install-Bpls.ps1
   pwsh tools/Install-Bpls.ps1 -OnlyDelphi 37
@@ -35,8 +40,21 @@
 [CmdletBinding()]
 param(
   [string[]] $OnlyDelphi = @(),
-  [switch]   $DryRun
+  [switch]   $DryRun,
+  [switch]   $Force
 )
+
+# Detect running Delphi IDE — BPLs locked in memory will fail Copy-Item.
+$running = Get-Process -Name 'bds' -ErrorAction SilentlyContinue
+if ($running -and -not $Force -and -not $DryRun) {
+  Write-Host ""
+  Write-Host "ABORT: One or more Delphi IDE processes (bds.exe) are running:" -ForegroundColor Red
+  $running | ForEach-Object { Write-Host "  PID $($_.Id) - $($_.MainWindowTitle)" -ForegroundColor Red }
+  Write-Host ""
+  Write-Host "BPL files loaded by the IDE cannot be overwritten while it is running." -ForegroundColor Yellow
+  Write-Host "Close all Delphi IDEs and re-run, OR pass -Force to attempt anyway." -ForegroundColor Yellow
+  exit 1
+}
 
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')

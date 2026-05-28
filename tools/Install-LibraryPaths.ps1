@@ -35,16 +35,39 @@
 .PARAMETER DryRun
   Mostra o que seria feito sem alterar o registro.
 
+.PARAMETER Force
+  Por default, o script ABORTA se detectar IDE Delphi rodando (bds.exe).
+  Razao: o IDE cacheia o valor de Search Path em memoria; se o usuario
+  clicar Save no dialog Library, escreve o cache de volta no registro e
+  sobrescreve nossas alteracoes. Use -Force para ignorar essa protecao.
+
 .EXAMPLE
   pwsh tools/Install-LibraryPaths.ps1
   pwsh tools/Install-LibraryPaths.ps1 -OnlyDelphi 29
   pwsh tools/Install-LibraryPaths.ps1 -DryRun
+  pwsh tools/Install-LibraryPaths.ps1 -Force
 #>
 [CmdletBinding()]
 param(
   [string[]] $OnlyDelphi = @(),
-  [switch]   $DryRun
+  [switch]   $DryRun,
+  [switch]   $Force
 )
+
+# Detect running Delphi IDE — refuse to run unless -Force.
+$running = Get-Process -Name 'bds' -ErrorAction SilentlyContinue
+if ($running -and -not $Force -and -not $DryRun) {
+  Write-Host ""
+  Write-Host "ABORT: One or more Delphi IDE processes (bds.exe) are running:" -ForegroundColor Red
+  $running | ForEach-Object { Write-Host "  PID $($_.Id) - $($_.MainWindowTitle)" -ForegroundColor Red }
+  Write-Host ""
+  Write-Host "If you continue while IDE is open, the IDE will cache stale values"  -ForegroundColor Yellow
+  Write-Host "and may overwrite our registry changes when you click Save in"        -ForegroundColor Yellow
+  Write-Host "Tools > Options > Library."                                            -ForegroundColor Yellow
+  Write-Host ""
+  Write-Host "Close all Delphi IDEs and re-run, OR pass -Force to bypass." -ForegroundColor Yellow
+  exit 1
+}
 
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
