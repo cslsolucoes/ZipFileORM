@@ -167,6 +167,66 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-05-27"
+    },
+    {
+      "id": "bug-zf-015",
+      "timestamp": "2026-05-28T03:00:00Z",
+      "error_message": "GitHub preview renderizou 'MigraÃ§Ã£o ZipFileORM' e 'MudanÃ§as' em vez de 'Migração' e 'Mudanças' em Documentation/Roadmap/Migracao_v3_to_v4.md (reported by user via screenshot)",
+      "file": "9 files: .wolf/{anatomy,buglog,cerebrum,memory}, Documentation/Arquitetura/{Camadas,Commons,Modulos}_V1.0.md, Documentation/Esboco de Telas/README.md, Documentation/Roadmap/Migracao_v3_to_v4.md",
+      "root_cause": "Commit a5b5efed (Rename palette page ZipCompress -> ZipFileORM, prior session) introduced double-encoding mojibake: original UTF-8 bytes (e.g. 'ç' as C3 A7) were read as Windows-1252 by some tool, producing Latin-1 chars ('Ã§'), then re-saved as UTF-8 — so 'ç' became 4 bytes C3 83 C2 A7 displayed by GitHub as 'Ã§'. Pattern affected ã/á/é/ê/ó/õ/ú/ç plus em-dash '—' (became 'â€\"') and arrow '→' (became 'â†''). My subsequent ASCII-only Zipfile->ZipFile bulk replace did NOT touch these bytes, propagating the corruption to commit eafdae68.",
+      "fix": "Reverse round-trip per file: (1) read bytes, (2) strip BOM if added by corruption, (3) decode UTF-8 -> .NET string with visible mojibake, (4) re-encode as Windows-1252 (EncoderExceptionFallback), (5) validate result is valid UTF-8 (DecoderExceptionFallback), (6) write bytes. Safety check correctly refused 4 files where 'Ã' was a legit Portuguese letter (NÃO etc.) — those produce invalid UTF-8 when reverse-encoded and abort.",
+      "tags": ["encoding", "utf-8", "mojibake", "powershell", "documentation", "github-render"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-05-28"
+    },
+    {
+      "id": "bug-zf-016",
+      "timestamp": "2026-05-28T02:30:00Z",
+      "error_message": "Bulk text replace (Zipfile -> ZipFile) accidentally modified binary files (.dcu, .exe, .o, .ppu, .rsj) in packages/, tests/, example/",
+      "file": "packages/*.dcu, tests/*.exe, tests/*.o, tests/*.ppu, tests/zipfile.rsj, example/project1.exe",
+      "root_cause": "PowerShell `Get-ChildItem -LiteralPath -Include '*.dpk','*.dproj'` — the `-Include` parameter is silently IGNORED when used with `-LiteralPath` (only works with `-Path` followed by wildcard). Result: all files in the recursed directory were collected, including binaries, and the text replace ran on their byte content.",
+      "fix": "Replacement is benign here (Zipfile and ZipFile are both 7 bytes, no offset shift) — binaries got string-table mismatch but no structural damage; build artifacts get overwritten on next rebuild anyway. Going forward: use `Get-ChildItem -Path 'packages\\*' -Include '*.dpk' -Recurse` OR pipe through `Where-Object { $_.Extension -in '.pas','.dpk' }` for explicit filtering.",
+      "tags": ["powershell", "get-childitem", "literalpath", "include-filter", "bulk-replace"],
+      "related_bugs": ["bug-zf-015"],
+      "occurrences": 1,
+      "last_seen": "2026-05-28"
+    },
+    {
+      "id": "bug-zf-017",
+      "timestamp": "2026-05-28T03:50:00Z",
+      "error_message": "Library/delphi-win64/ + Library/fpc-win32/ + Library/fpc-win64/ vendored .obj files (109 total) absent from GitHub after push — only delphi-win32 visible",
+      "file": ".gitignore line 19 (*.o) + Library/{delphi-win64,fpc-win32,fpc-win64}/*.o",
+      "root_cause": "Catch-all '*.o' rule in .gitignore (FPC output section) was filtering 109 pre-compiled C/C++ object files vendored under Library/. Delphi-Win64 + FPC builds use .o extension (Delphi accepts both COFF .obj and ELF-style .o); only Library/delphi-win32/ tracked because it uses .obj.",
+      "fix": "Add explicit negation in .gitignore: `!Library/**/*.o` and `!Library/**/*.a`. Stage the 109 missing objects. Commit 62f9fa3f.",
+      "tags": ["gitignore", "vendored", "library", "delphi-win64", "fpc"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-05-28"
+    },
+    {
+      "id": "bug-zf-018",
+      "timestamp": "2026-05-28T01:30:00Z",
+      "error_message": "Git status reported src/ZipfileORM*.pas as 'modified' (not 'renamed') after case-only rename ZipfileORM.pas -> ZipFileORM.pas — commit would have lost the case correction",
+      "file": "src/ZipFileORM{.pas,.Interfaces.pas,.Compression.pas,.Events.pas}",
+      "root_cause": "Windows filesystem is case-insensitive (NTFS default). Git has `core.ignorecase=true` to match, so `ZipfileORM.pas` and `ZipFileORM.pas` are treated as the same path — a case-only rename appears as a content modification using the OLD name in the index.",
+      "fix": "Two-step `git mv -f` to register the rename: `git mv -f src/ZipfileORM.pas src/ZipFileORM_tmp.pas && git mv -f src/ZipFileORM_tmp.pas src/ZipFileORM.pas`. Then `git status` shows the file as `R` (rename) and commits preserve the new case.",
+      "tags": ["git", "windows", "case-insensitive", "rename", "core.ignorecase"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-05-28"
+    },
+    {
+      "id": "bug-zf-019",
+      "timestamp": "2026-05-28T01:45:00Z",
+      "error_message": "dcc32 D37 W32: F2039 Could not create output file 'Lib\\RAD13\\Win32\\dclZipFileORMD37.bpl' during full matrix rebuild (22/23 OK)",
+      "file": "tools/Build-AllDelphis.ps1",
+      "root_cause": "RAD Studio 13 IDE was running with ZipFileORMD37Grp.groupproj open, holding the design-time BPL Win32 loaded — dcc32 cannot overwrite. Build-AllDelphis.ps1 lacked the IDE-running guard that Install-LibraryPaths.ps1 already had (asymmetry between Build and Install scripts).",
+      "fix": "Add pre-flight Get-Process bds check at top of Build-AllDelphis.ps1: abort with PID list + window titles unless -Force is passed. Symmetric to Install-*.ps1 guard (commit 606f3b18). Applied in commit eafdae68.",
+      "tags": ["delphi", "bpl", "file-lock", "rad-studio", "build-script", "ide-guard"],
+      "related_bugs": ["bug-zf-007"],
+      "occurrences": 1,
+      "last_seen": "2026-05-28"
     }
   ],
   "metadata": {
@@ -174,6 +234,6 @@
     "filtered_from": "Gnostice/.wolf/buglog.json",
     "filter_date": "2026-05-27",
     "filter_criteria": "Entries containing zipfile/TZipFile/TSevenZFile/TTarFile/TCabFile/TArjFile/TIsoFile/TLhaFile/TRarFile/TGzipFile/TTarGzFile or ZipFile.* unit name",
-    "total_entries": 14
+    "total_entries": 19
   }
 }

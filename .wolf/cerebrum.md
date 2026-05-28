@@ -41,6 +41,13 @@
 - **`{$IFDEF FPC} {$mode delphi}{$H+} {$ENDIF}` no topo:** padrão obrigatório para units que devem compilar Delphi+FPC.
 - **`uses` clause:** `{$IFNDEF FPC}System.ZLib{$ELSE}ZStream{$ENDIF}` para zlib cross. Delphi usa `System.ZLib`, FPC usa `ZStream`.
 
+### Text encoding & file headers
+- **Mojibake detection signatures** (UTF-8 double-encoding): bytes `C3 83 C2 XX` (Latin-1 letters Ã§/Ã£/Ã¡/...), `C3 A2 E2 82 AC E2 80 9D` (em-dash —), `C3 A2 E2 80 A0 E2 80 99` (right arrow →). Scan files for these as canary; ASCII-only replaces preserve mojibake silently.
+- **Mojibake fix strategy** (reverse round-trip): (1) read bytes, (2) strip leading BOM if present, (3) decode UTF-8 → .NET string, (4) re-encode as Windows-1252 with `EncoderExceptionFallback`, (5) validate result as strict UTF-8 (`DecoderExceptionFallback`), (6) write bytes. The validation step catches false positives where the file already has legitimate uppercase 'Ã' in Portuguese words like "NÃO" — those produce invalid UTF-8 when reverse-encoded and abort safely.
+- **PowerShell `Get-ChildItem -LiteralPath -Include`:** `-Include` is IGNORED when `-LiteralPath` is used (only works with `-Path` + wildcard). Result: filter silently fails and recursion pulls in all files including binaries (DCU/EXE/PPU). Use `-Path` with wildcard OR explicit file extension filtering after `Get-ChildItem`.
+- **BOM policy:** src/*.pas normalized to **no-BOM** (more diff-friendly, dcc32 and FPC accept both). Mixed BOM in same tree pollutes diffs. Decision applied in commit `4f36592a`.
+- **Pascal source header rule scope:** `backend-pascal-source-header_V1.0.0` §11 — "para fontes existentes, aplicar apenas quando o arquivo for tocado na tarefa atual — NÃO fazer varredura retroativa". Header retrofits são incrementais, não bulk.
+
 ## Do-Not-Repeat
 
 | Date | Mistake | Fix |
@@ -50,6 +57,9 @@
 | 2026-05-27 | `System.Drawing.Bitmap.Save(BMP)` para usar com brcc32 | Bitmap salvo é v4. Escrever BMP v3 manualmente |
 | 2026-05-27 | Tentei `-foZipFile.dcr` com brcc32 em PowerShell pure | Sintaxe `-fo` em PS é problemática. Usar via Bash ou aspas: `& brcc -fo"ZipFile.dcr" zipfile.rc` |
 | 2026-05-27 | Tentei rebuildar BPL com IDE aberto | RAD Studio locka BPL deployada. Fechar IDE antes de rebuild+redeploy |
+| 2026-05-28 | Bulk replace ASCII-only (`Zipfile` → `ZipFile`) em arquivos com mojibake pré-existente — não tocou os bytes corrompidos, propagou o estado quebrado para o commit | Antes de qualquer bulk-replace, scan o tree por mojibake signatures (`C3 83 C2`, `C3 A2 E2 82 AC`); corrija ANTES do replace funcional |
+| 2026-05-28 | `Get-ChildItem -LiteralPath -Include '*.dpk'` recursou e pegou .dcu/.exe/.ppu também — `-Include` foi silenciosamente ignorado, bulk replace atingiu binários | Usar `-Path` + wildcard (`Path 'packages\*' -Include '*.dpk'`) OU filtrar via pipeline `Where-Object { $_.Extension -in '.pas','.dpk' }` |
+| 2026-05-28 | Assumir BOM uniforme no tree (21/40 src tinham BOM, 19/40 não) — sem padrão | Política explícita: src/ é **no-BOM**. Scripts de geração devem usar `[System.Text.UTF8Encoding]::new($false)` |
 
 ## Decision Log
 
@@ -63,3 +73,6 @@
 | 2026-05-27 | Multi-IDE D24..D37 rollout completo (49 BPLs) | Suporte amplo Delphi 10.1 Berlin → Delphi 13 Florence |
 | 2026-05-27 | Eventos em `ZipFile.Events.pas` compartilhado | Evita duplicação de tipos em 10 components |
 | 2026-05-27 | Cleanup Lib/ build artifacts | Build artifacts regeneráveis. Lib/ é cache local, não fonte. BPLs deployadas em BDSCOMMONDIR continuam intactas |
+| 2026-05-28 | Facade namespace normalizado para `ZipFileORM` (F maiúsculo) — alinha repo/packages/dproj/tag; 4 facade units renomeadas no src/ | Inconsistência detectada após a migração v3→v4; capital-F era o canônico no resto do projeto. Diff: 4 case-only renames (via two-step git mv no Windows) + 323 replaces em 67 arquivos. Commit `eafdae68` |
+| 2026-05-28 | `.gitignore` ganhou exceção `!Library/**/*.o` + `!Library/**/*.a` | Regra `*.o` (FPC artifacts) estava ocultando 109 .obj/.o vendored em `Library/{delphi-win64,fpc-win32,fpc-win64}/`. Só `delphi-win32` passava porque usa `.obj`. Commit `62f9fa3f` |
+| 2026-05-28 | src/*.pas normalizado para **no-BOM** + mojibake fix nos headers (17 src + 1 packages) + 6 stale names sincronizados | Higiene de tree pós-migração. Build verificado idêntico (437060 bytes code) — só comentários. Commit `4f36592a` |
