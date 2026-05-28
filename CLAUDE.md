@@ -87,20 +87,29 @@ msbuild ZipFileORMD37.dproj /t:Build /p:Config=Release /p:Platform=Win32
 # Build packages para todos os Delphis (D24..D37 W32+W64):
 powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1
 
-# Build + adicionar Library Paths automaticamente em cada Delphi:
+# Build + COMPLETO (LibraryPaths + Bpls em BDSCOMMONDIR):
+powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -Install
+
+# Apenas Library Paths (registry):
 powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -InstallLibPaths
 
+# Apenas BPLs (copy para BDSCOMMONDIR\Bpl\):
+powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -InstallBpls
+
 # Subset:
-powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -OnlyDelphi 29,37
+powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -OnlyDelphi 29,37 -Install
 
-# Apenas instalar/atualizar Library Paths (sem rebuild):
+# Apenas instalar/atualizar (sem rebuild):
 powershell -ExecutionPolicy Bypass -File tools/Install-LibraryPaths.ps1
+powershell -ExecutionPolicy Bypass -File tools/Install-Bpls.ps1
 
-# Dry-run (mostra o que seria mudado sem alterar o registro):
+# Dry-run:
 powershell -ExecutionPolicy Bypass -File tools/Install-LibraryPaths.ps1 -DryRun
+powershell -ExecutionPolicy Bypass -File tools/Install-Bpls.ps1 -DryRun
 
-# Remover paths do registro (cleanup):
+# Cleanup completo:
 powershell -ExecutionPolicy Bypass -File tools/Uninstall-LibraryPaths.ps1
+powershell -ExecutionPolicy Bypass -File tools/Uninstall-Bpls.ps1
 
 # Build dos OBJs C/C++ (só quando SDK muda):
 powershell tools/Build-LzmaObjs.ps1

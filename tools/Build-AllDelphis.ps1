@@ -11,12 +11,23 @@
   Apos o build, dispara tools/Install-LibraryPaths.ps1 para adicionar os
   paths de Library de cada Delphi (HKCU\...\BDS\<bds>\Library\<Plat>\Search Path).
   Idempotente — paths ja presentes nao sao duplicados.
+
+.PARAMETER InstallBpls
+  Apos o build, dispara tools/Install-Bpls.ps1 para copiar as BPLs runtime+
+  design-time para %BDSCOMMONDIR%\Bpl\ de cada Delphi. Necessario para o IDE
+  conseguir resolver dependencias ao instalar a dcl*.bpl.
+
+.PARAMETER Install
+  Atalho para -InstallLibPaths -InstallBpls (faz tudo apos build verde).
 #>
 [CmdletBinding()]
 param(
   [string[]] $OnlyDelphi = @(),
-  [switch]   $InstallLibPaths
+  [switch]   $InstallLibPaths,
+  [switch]   $InstallBpls,
+  [switch]   $Install
 )
+if ($Install) { $InstallLibPaths = $true; $InstallBpls = $true }
 
 $ErrorActionPreference = 'Stop'
 $root    = Split-Path -Parent $PSScriptRoot
@@ -84,18 +95,34 @@ $total = $results.Count
 $ok    = ($results | Where-Object OK).Count
 "$ok / $total OK"
 
-# Optional: install Library Paths in each Delphi's HKCU registry
-if ($InstallLibPaths -and ($ok -eq $total)) {
-  $installScript = Join-Path $PSScriptRoot 'Install-LibraryPaths.ps1'
-  if (Test-Path $installScript) {
-    if ($OnlyDelphi.Count -gt 0) {
-      & $installScript -OnlyDelphi $OnlyDelphi
-    } else {
-      & $installScript
-    }
-  } else {
-    Write-Host "WARN: Install-LibraryPaths.ps1 not found in $PSScriptRoot" -ForegroundColor Yellow
+function Invoke-PostBuildScript {
+  param([string] $ScriptName, [string[]] $OnlyDelphi)
+  $sp = Join-Path $PSScriptRoot $ScriptName
+  if (-not (Test-Path $sp)) {
+    Write-Host "WARN: $ScriptName not found in $PSScriptRoot" -ForegroundColor Yellow
+    return
   }
-} elseif ($InstallLibPaths -and ($ok -ne $total)) {
-  Write-Host "SKIP Install-LibraryPaths.ps1 — build had failures ($ok / $total)" -ForegroundColor Yellow
+  if ($OnlyDelphi.Count -gt 0) {
+    & $sp -OnlyDelphi $OnlyDelphi
+  } else {
+    & $sp
+  }
+}
+
+# Optional post-build: install Library Paths in HKCU registry
+if ($InstallLibPaths) {
+  if ($ok -eq $total) {
+    Invoke-PostBuildScript -ScriptName 'Install-LibraryPaths.ps1' -OnlyDelphi $OnlyDelphi
+  } else {
+    Write-Host "SKIP Install-LibraryPaths.ps1 - build had failures ($ok / $total)" -ForegroundColor Yellow
+  }
+}
+
+# Optional post-build: copy BPLs to BDSCOMMONDIR\Bpl\
+if ($InstallBpls) {
+  if ($ok -eq $total) {
+    Invoke-PostBuildScript -ScriptName 'Install-Bpls.ps1' -OnlyDelphi $OnlyDelphi
+  } else {
+    Write-Host "SKIP Install-Bpls.ps1 - build had failures ($ok / $total)" -ForegroundColor Yellow
+  }
 }
