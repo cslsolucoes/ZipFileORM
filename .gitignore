@@ -20,6 +20,11 @@
 *.a
 *.compiled
 
+# Vendored pre-compiled C/C++ object files MUST be tracked even though they
+# use the .o extension (Delphi Win64 + FPC link against them at build time).
+!Library/**/*.o
+!Library/**/*.a
+
 # Editor / IDE temp
 *.tmp
 ~$*
