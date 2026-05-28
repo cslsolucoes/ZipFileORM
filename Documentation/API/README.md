@@ -14,14 +14,14 @@ Esqueleto navegável por módulo. Cada subpasta tem README placeholder.
 
 ## Índice por módulo
 
-### Facade pública (`ZipfileORM.*`)
+### Facade pública (`ZipFileORM.*`)
 
 | Módulo | Classes/Interfaces principais |
 |---|---|
-| [ZipfileORM/](ZipfileORM/) | `TArchive` (factory class), `TArchiveFormat` (re-export) |
-| [ZipfileORM.Interfaces/](ZipfileORM.Interfaces/) | `IArchive`, `IArchiveEntry`, `IArchiveBuilder` |
-| [ZipfileORM.Compression/](ZipfileORM.Compression/) | `TCompressionMethod`, helpers |
-| [ZipfileORM.Events/](ZipfileORM.Events/) | 15 `TArchive*Event` types + `TArchiveReplaceAction` enum |
+| [ZipFileORM/](ZipFileORM/) | `TArchive` (factory class), `TArchiveFormat` (re-export) |
+| [ZipFileORM.Interfaces/](ZipFileORM.Interfaces/) | `IArchive`, `IArchiveEntry`, `IArchiveBuilder` |
+| [ZipFileORM.Compression/](ZipFileORM.Compression/) | `TCompressionMethod`, helpers |
+| [ZipFileORM.Events/](ZipFileORM.Events/) | 15 `TArchive*Event` types + `TArchiveReplaceAction` enum |
 
 ### Commons (cross-format)
 

@@ -1,10 +1,10 @@
-{ ZipfileORM.pas
+{ ZipFileORM.pas
 
   Facade publica unica do ZipFileORM v4.0.0.
 
   Consumidor escreve:
 
-    uses ZipfileORM;
+    uses ZipFileORM;
 
   E ganha acesso a:
   - Todas as 10 classes T<Format>File (TZipFile, TTarFile, etc.) via re-export
@@ -12,7 +12,7 @@
   - TArchiveFormat enum (cross-format)
   - TCompressionMethod enum (cross-format)
   - IArchive/IArchiveEntry interfaces (contrato uniforme)
-  - Eventos compartilhados (TArchive*Event de ZipfileORM.Events)
+  - Eventos compartilhados (TArchive*Event de ZipFileORM.Events)
   - Exceptions base (EArchive de Commons.Exceptions)
 
   Uso:
@@ -27,7 +27,7 @@
       afTar: ...
     end;
 }
-unit ZipfileORM;
+unit ZipFileORM;
 
 {$I Commons.FPC.inc}
 
@@ -39,14 +39,14 @@ uses
   ZipFile, TarFile, TarGzFile, GzipFile, CabFile, SevenZFile,
   ArjFile, IsoFile, LhaFile, RarFile,
   // Facade contracts:
-  ZipfileORM.Interfaces, ZipfileORM.Compression, ZipfileORM.Events,
+  ZipFileORM.Interfaces, ZipFileORM.Compression, ZipFileORM.Events,
   // Detection (delegate):
   Archive.Open,
   // Commons:
   Commons.Exceptions;
 
 type
-  // Re-export de TArchiveFormat para acesso direto via ZipfileORM.pas
+  // Re-export de TArchiveFormat para acesso direto via ZipFileORM.pas
   TArchiveFormat = Archive.Open.TArchiveFormat;
 
   // Re-export do erro de detecao
@@ -75,12 +75,12 @@ type
   end;
 
   // Re-exports adicionais para uses-clause-clean consumers
-  TCompressionMethod    = ZipfileORM.Compression.TCompressionMethod;
-  TCompressionMethodSet = ZipfileORM.Compression.TCompressionMethodSet;
+  TCompressionMethod    = ZipFileORM.Compression.TCompressionMethod;
+  TCompressionMethodSet = ZipFileORM.Compression.TCompressionMethodSet;
 
 const
-  ZipfileORM_VERSION = '4.0.0';
-  ZipfileORM_BUILD_DATE = '2026-05-28';
+  ZipFileORM_VERSION = '4.0.0';
+  ZipFileORM_BUILD_DATE = '2026-05-28';
 
 implementation
 

@@ -1,12 +1,12 @@
-{ ZipfileORM.Compression.pas
+{ ZipFileORM.Compression.pas
 
   Enum global cross-format de métodos de compressão + helpers de mapeamento.
-  Usado pela facade ZipfileORM.pas e pelos módulos format que precisam
+  Usado pela facade ZipFileORM.pas e pelos módulos format que precisam
   expor o método em runtime de forma uniforme.
 
   ZipFileORM v4.0.0 — single source of truth para método de compressão.
 }
-unit ZipfileORM.Compression;
+unit ZipFileORM.Compression;
 
 {$I Commons.FPC.inc}
 

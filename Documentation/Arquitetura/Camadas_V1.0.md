@@ -27,9 +27,9 @@ date: 2026-05-28
 ```
 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
 â”‚  L1 â€” FACADE PUBLICA                                                â”‚
-â”‚  ZipfileORM.*                                                       â”‚
-â”‚  ZipfileORM.pas Â· ZipfileORM.Interfaces Â· ZipfileORM.Compression   â”‚
-â”‚  ZipfileORM.Events                                                  â”‚
+â”‚  ZipFileORM.*                                                       â”‚
+â”‚  ZipFileORM.pas Â· ZipFileORM.Interfaces Â· ZipFileORM.Compression   â”‚
+â”‚  ZipFileORM.Events                                                  â”‚
 â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
                               â”‚  importa
 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
@@ -64,16 +64,16 @@ date: 2026-05-28
 
 ---
 
-## L1 â€” Facade Publica (`ZipfileORM.*`)
+## L1 â€” Facade Publica (`ZipFileORM.*`)
 
 ### Membros
 
 | Ficheiro | Responsabilidade |
 |---|---|
-| `ZipfileORM.pas` | Re-exporta todos os 10 T<Format>File; define `TArchive` (class factory + DetectFormat); constante `ZipfileORM_VERSION` |
-| `ZipfileORM.Interfaces` | `IArchive`, `IArchiveEntry`, `IArchiveBuilder` â€” contratos read-only uniformes |
-| `ZipfileORM.Compression` | `TCompressionMethod` enum cross-format + helpers `CompressionMethodToString` |
-| `ZipfileORM.Events` | 15+ tipos de evento (`TArchiveLifecycleEvent`, `TArchiveEntryFoundEvent`, etc.) compartilhados por todos os modulos |
+| `ZipFileORM.pas` | Re-exporta todos os 10 T<Format>File; define `TArchive` (class factory + DetectFormat); constante `ZipFileORM_VERSION` |
+| `ZipFileORM.Interfaces` | `IArchive`, `IArchiveEntry`, `IArchiveBuilder` â€” contratos read-only uniformes |
+| `ZipFileORM.Compression` | `TCompressionMethod` enum cross-format + helpers `CompressionMethodToString` |
+| `ZipFileORM.Events` | 15+ tipos de evento (`TArchiveLifecycleEvent`, `TArchiveEntryFoundEvent`, etc.) compartilhados por todos os modulos |
 
 ### O que L1 pode importar
 
@@ -95,7 +95,7 @@ date: 2026-05-28
 ### Contrato de fronteira (uso pelo consumidor)
 
 ```pascal
-uses ZipfileORM;  // unica clausula necessaria
+uses ZipFileORM;  // unica clausula necessaria
 
 // Deteccao automatica + criacao:
 var Fmt: TArchiveFormat;
@@ -140,16 +140,16 @@ var Arc: IArchive;
 | L3 sub-modulos format-only do mesmo formato | ZipFile importa ZipFile.ZIP64, ZipFile.UTF8, etc. |
 | L3 helper streams transversais | TarGzFile importa TarFile.GzipStream; GzipFile idem |
 | L4 Commons.* | Reutilizacao de algoritmos cross-format |
-| L1 ZipfileORM.Events | Tipos de evento compartilhados |
-| L1 ZipfileORM.Compression | TCompressionMethod (enum cross-format) |
+| L1 ZipFileORM.Events | Tipos de evento compartilhados |
+| L1 ZipFileORM.Compression | TCompressionMethod (enum cross-format) |
 
 ### O que L2 nao pode importar
 
 | Proibido | Motivo |
 |---|---|
 | Outro modulo format L2 | Excecao: TTarGzFile importa TTarFile (wrapper legÃ­timo) â€” todos os outros pares sao proibidos |
-| ZipfileORM.pas (facade) | Dependencia circular â€” L1 importa L2, nao o contrario |
-| ZipfileORM.Interfaces | Excecao: pode importar para implementar `IArchive` se necessario |
+| ZipFileORM.pas (facade) | Dependencia circular â€” L1 importa L2, nao o contrario |
+| ZipFileORM.Interfaces | Excecao: pode importar para implementar `IArchive` se necessario |
 
 > Excecao documentada: `TTarGzFile` importa `TTarFile` (camada L2 â†’ L2) porque e um wrapper deliberado que delega toda a logica TAR ao `FInner: TTarFile`. Esta relacao e unica e permitida.
 
@@ -281,7 +281,7 @@ Streams reutilizaveis que nao sao TComponent e podem ser consumidos por mais de 
 | Camada | Pode importar | Nao pode importar |
 |---|---|---|
 | **L1 Facade** | L2 format, L3 Archive.Open, L4 Commons.Exceptions + Commons.Types | L3 sub-modulos format-only, Commons.Compression.*, Commons.Encryption |
-| **L2 Format** | L3 proprios sub-modulos + helper streams, L4 Commons.*, L1 Events + Compression | L1 ZipfileORM.pas, outros L2 (exceto TTarGzFileâ†’TTarFile) |
+| **L2 Format** | L3 proprios sub-modulos + helper streams, L4 Commons.*, L1 Events + Compression | L1 ZipFileORM.pas, outros L2 (exceto TTarGzFileâ†’TTarFile) |
 | **L3A Sub-modulo format-only** | L4 Commons.* (raro), RTL | L2 outros formatos, L1, outro L3A |
 | **L3B Helper stream** | L4 Commons.* (se necessario), RTL | L2 qualquer TComponent, L1, outro L3A |
 | **L4 Commons** | Outros L4, RTL, OBJs externos | L1, L2, L3 |
@@ -292,7 +292,7 @@ Streams reutilizaveis que nao sao TComponent e podem ser consumidos por mais de 
 
 ```
 Consumer
-  â””â”€ uses ZipfileORM                           [L1: facade]
+  â””â”€ uses ZipFileORM                           [L1: facade]
        â””â”€ TArchive.CreateZip(...)              [L1: factory]
             â””â”€ TZipFile.Create + .Open         [L2: ZipFile]
                  â”œâ”€ ZipFile.UTF8 (detect bit11)[L3A: sub-modulo]
@@ -308,7 +308,7 @@ Consumer
 
 ```
 Consumer
-  â””â”€ uses ZipfileORM                            [L1: facade]
+  â””â”€ uses ZipFileORM                            [L1: facade]
        â””â”€ TArchive.CreateTarGz(...)             [L1: factory]
             â””â”€ TTarGzFile.Open                  [L2: TarGzFile]
                  â”œâ”€ TGzipReadStream (decompress)[L3B: helper stream]

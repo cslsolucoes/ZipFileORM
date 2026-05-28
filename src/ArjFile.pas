@@ -56,7 +56,7 @@ unit ArjFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 const
   ARJ_MAGIC = $EA60;

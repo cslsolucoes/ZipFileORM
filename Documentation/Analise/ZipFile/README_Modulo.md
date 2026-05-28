@@ -21,7 +21,7 @@ Implementa `TZipFile`, componente TComponent que le e escreve arquivos ZIP (PKWA
 | `ZipFile.Compression.LZMA.pas` | — | Codec LZMA (promovido em v4 para `Commons.Compression.LZMA.pas`) |
 | `ZipFile.Streaming.pas` | — | API de streaming progressivo (OnEntryFound/OnExtract) |
 | `ZipFile.Fluent.pas` | — | Builder fluente `TZipFile.Create.WithFileName(...).ThatOpens` |
-| `ZipFile.Events.pas` | — | 15 tipos de evento compartilhados (promovido em v4 para `ZipfileORM.Events.pas`) |
+| `ZipFile.Events.pas` | — | 15 tipos de evento compartilhados (promovido em v4 para `ZipFileORM.Events.pas`) |
 | `ZipFile.Progress.pas` | — | `TZipProgressEvent` (promovido em v4 para `Commons.Progress.pas`) |
 
 ## Capacidades

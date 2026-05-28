@@ -19,7 +19,7 @@ unit TarGzFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events, TarFile, TarFile.GzipStream;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, TarFile, TarFile.GzipStream;
 
 type
   ETarGzError = class(Exception);

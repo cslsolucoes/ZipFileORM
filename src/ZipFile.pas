@@ -43,12 +43,12 @@ uses
   ZLib,
   {$ENDIF}
   Commons.Compression.Base, Commons.Compression.None, Commons.Compression.ZLib, Commons.Compression.Consts,
-  ZipFile.UTF8, ZipFile.ZIP64, Commons.Progress, ZipfileORM.Events, Commons.Encryption.AES,
+  ZipFile.UTF8, ZipFile.ZIP64, Commons.Progress, ZipFileORM.Events, Commons.Encryption.AES,
   ZipFile.Streaming, Commons.Compression.LZMA;
 
 resourcestring
   rsFilenameSDoesNotExistInS = 'Filename %s does not exist in %s';
-  rsZipfileSDoesNotExist = 'Zipfile %s does not exist';
+  rsZipFileSDoesNotExist = 'ZipFile %s does not exist';
 
 type
   TZipSearchRec = record
@@ -1764,7 +1764,7 @@ var
   FileDateTime: TDateTime;
 begin
   if not SysUtils.FileExists(AFileName) then
-    raise Exception.CreateFmt(rsZipfileSDoesNotExist, [AFileName]);
+    raise Exception.CreateFmt(rsZipFileSDoesNotExist, [AFileName]);
 
   newfile := TFileStream.Create(AFileName,fmOpenRead);
   FileDateTime := FileDateToDateTime(FileAge(AFileName));

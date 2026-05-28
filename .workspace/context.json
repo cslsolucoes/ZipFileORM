@@ -25,7 +25,7 @@
   },
   "_frameworks_overrides": {},
   "namespaces": {
-    "facade": "ZipfileORM",
+    "facade": "ZipFileORM",
     "commons": "Commons",
     "formats": ["ZipFile", "TarFile", "TarGzFile", "GzipFile", "CabFile", "SevenZFile", "ArjFile", "IsoFile", "LhaFile", "RarFile"],
     "streamHelpers": ["Bzip2.Stream", "UUE.Stream", "ZCompress.LzwStream"]

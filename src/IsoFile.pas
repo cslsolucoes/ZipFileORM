@@ -32,7 +32,7 @@ unit IsoFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 const
   ISO_SECTOR_SIZE   = 2048;

@@ -34,7 +34,7 @@ unit RarFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 const
   // RAR5 marker: 8 bytes "Rar!\x1A\x07\x01\x00"

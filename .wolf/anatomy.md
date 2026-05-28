@@ -7,13 +7,13 @@
 
 ## Source inventory (`src/` flat)
 
-### Facade pÃºblica (4 ficheiros) â€” `ZipfileORM.*`
+### Facade pÃºblica (4 ficheiros) â€” `ZipFileORM.*`
 | Ficheiro | DescriÃ§Ã£o |
 | --- | --- |
-| `ZipfileORM.pas` | TArchive factory + uses agregado de todos os mÃ³dulos. Re-exporta TArchiveFormat. |
-| `ZipfileORM.Interfaces.pas` | IArchive, IArchiveEntry, IArchiveBuilder â€” contratos read-only cross-format. |
-| `ZipfileORM.Compression.pas` | TCompressionMethod enum global + helpers stringâ†”enum. |
-| `ZipfileORM.Events.pas` | 15 TArchive*Event types compartilhados. Era ZipFile.Events.pas. |
+| `ZipFileORM.pas` | TArchive factory + uses agregado de todos os mÃ³dulos. Re-exporta TArchiveFormat. |
+| `ZipFileORM.Interfaces.pas` | IArchive, IArchiveEntry, IArchiveBuilder â€” contratos read-only cross-format. |
+| `ZipFileORM.Compression.pas` | TCompressionMethod enum global + helpers stringâ†”enum. |
+| `ZipFileORM.Events.pas` | 15 TArchive*Event types compartilhados. Era ZipFile.Events.pas. |
 
 ### Commons (13 ficheiros) â€” `Commons.*` (cross-format)
 | Ficheiro | DescriÃ§Ã£o |
@@ -91,7 +91,7 @@ Apoio: `zipfileReg.pas` (RegisterComponents + RegisterPropertyInCategory), `ZipF
 ## Status build (D29 Win32 â€” sanity baseline)
 
 - Commons standalone: âœ… (839 L)
-- ZipfileORM facade: âœ… (13151 L compiladas)
+- ZipFileORM facade: âœ… (13151 L compiladas)
 - Packages D24..D29 + D37 W32+W64: âœ… (23/23)
 - Tests Delphi: âœ… (21/21 DPRs)
 

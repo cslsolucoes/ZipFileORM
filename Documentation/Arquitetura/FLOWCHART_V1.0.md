@@ -8,13 +8,13 @@ date: 2026-05-28
 
 ```mermaid
 flowchart TB
-    Consumer["Consumer<br/>uses ZipfileORM;"]
+    Consumer["Consumer<br/>uses ZipFileORM;"]
 
-    subgraph Facade["FACADE — ZipfileORM.*"]
-        ZipfileORM["ZipfileORM.pas<br/>TArchive factory"]
-        ZipfileORM_Iface["ZipfileORM.Interfaces<br/>IArchive, IArchiveEntry"]
-        ZipfileORM_Comp["ZipfileORM.Compression<br/>TCompressionMethod"]
-        ZipfileORM_Evt["ZipfileORM.Events<br/>15 TArchive*Event"]
+    subgraph Facade["FACADE — ZipFileORM.*"]
+        ZipFileORM["ZipFileORM.pas<br/>TArchive factory"]
+        ZipFileORM_Iface["ZipFileORM.Interfaces<br/>IArchive, IArchiveEntry"]
+        ZipFileORM_Comp["ZipFileORM.Compression<br/>TCompressionMethod"]
+        ZipFileORM_Evt["ZipFileORM.Events<br/>15 TArchive*Event"]
     end
 
     subgraph Formats["MÓDULOS FORMAT (10)"]
@@ -59,12 +59,12 @@ flowchart TB
         CommonsConsts["Commons.Consts"]
     end
 
-    Consumer --> ZipfileORM
-    ZipfileORM --> Formats
-    ZipfileORM --> ZipfileORM_Iface
-    ZipfileORM --> ZipfileORM_Comp
-    ZipfileORM --> ZipfileORM_Evt
-    ZipfileORM --> ArchiveOpen
+    Consumer --> ZipFileORM
+    ZipFileORM --> Formats
+    ZipFileORM --> ZipFileORM_Iface
+    ZipFileORM --> ZipFileORM_Comp
+    ZipFileORM --> ZipFileORM_Evt
+    ZipFileORM --> ArchiveOpen
 
     ZipFile --> ZIP64
     ZipFile --> UTF8
@@ -91,7 +91,7 @@ flowchart TB
     CabFile --> Commons
     GzipFile --> Commons
 
-    Formats --> ZipfileORM_Evt
+    Formats --> ZipFileORM_Evt
     Formats --> CommonsTypes
     Formats --> CommonsExc
 
@@ -105,7 +105,7 @@ flowchart TB
 
 ## Leitura do diagrama
 
-- **Consumer** → entra pela facade `ZipfileORM.pas`.
+- **Consumer** → entra pela facade `ZipFileORM.pas`.
 - **Facade** → re-exporta os 10 módulos format + contratos públicos + detect.
 - **Módulos format** → consomem Commons.* (utilitários cross-format) + sub-módulos próprios (ZIP64, UTF8, etc.).
 - **Helper streams** (Bzip2/UUE/ZCompress) → independentes, usados via uses direto pelos formatos relevantes.

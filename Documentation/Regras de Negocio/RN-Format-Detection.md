@@ -29,7 +29,7 @@ A detecção é feita por **magic bytes** lidos dos primeiros 512 bytes do strea
 
 Arquivo canônico: `src/Archive.Open.pas`
 Função: `function DetectArchiveFormat(AStream: TStream): TArchiveFormat` e overload por path.
-Re-exportada via `ZipfileORM.pas`: `TArchive.DetectFormat()`.
+Re-exportada via `ZipFileORM.pas`: `TArchive.DetectFormat()`.
 
 ## Casos de borda
 
@@ -42,5 +42,5 @@ Re-exportada via `ZipfileORM.pas`: `TArchive.DetectFormat()`.
 ## Referências
 
 - Código: `src/Archive.Open.pas:73-125`
-- Re-export: `src/ZipfileORM.pas` (TArchive class methods)
+- Re-export: `src/ZipFileORM.pas` (TArchive class methods)
 - SPEC histórico: `Documentation/spec/zipfile-v3-multi-format-expansion.md` §ADR-002

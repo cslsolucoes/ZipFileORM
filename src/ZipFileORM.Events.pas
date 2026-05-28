@@ -1,4 +1,4 @@
-﻿{ ZipFile.Events.pas
+﻿{ ZipFileORM.Events.pas
 
   Tipos de evento compartilhados entre todos os componentes archive (TZipFile,
   TSevenZFile, TCabFile, TTarFile, TTarGzFile, TGzipFile, TArjFile, TIsoFile,
@@ -21,7 +21,7 @@
 
   Cross-platform: Delphi (D24..D37) + FPC/Lazarus.
 }
-unit ZipfileORM.Events;
+unit ZipFileORM.Events;
 
 {$IFDEF FPC}
 {$mode delphi}{$H+}

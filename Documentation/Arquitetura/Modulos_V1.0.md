@@ -16,7 +16,7 @@ date: 2026-05-28
 | O que entra | O que fica fora |
 |---|---|
 | Classes TComponent de cada formato | Implementacao interna de algoritmos (ZIP64, AES â€” ver Commons_V1.0.md) |
-| Sub-modulos format-only | Facade ZipfileORM.* (ver Camadas_V1.0.md) |
+| Sub-modulos format-only | Facade ZipFileORM.* (ver Camadas_V1.0.md) |
 | Helper streams (Bzip2, UUE, ZCompress) | Packages de instalacao (DPK/LPK â€” ver SPEC) |
 | Metodos publicos expostos | Regras de negocio ou roadmap |
 
@@ -87,7 +87,7 @@ date: 2026-05-28
 | `Commons.Compression.Consts` | Constantes de registro no factory |
 | `Commons.Encryption.AES` | WinZip AE-2 AES-256 |
 | `Commons.Progress` | `TZipProgressEvent` (progresso overall) |
-| `ZipfileORM.Events` | Todos os tipos de evento |
+| `ZipFileORM.Events` | Todos os tipos de evento |
 
 ---
 
@@ -149,7 +149,7 @@ TTarEntryType = (tetFile, tetDirectory, tetSymLink, tetHardLink, tetOther);
 | Unidade | Motivo |
 |---|---|
 | `Commons.Progress` | TZipProgressEvent |
-| `ZipfileORM.Events` | Tipos de evento |
+| `ZipFileORM.Events` | Tipos de evento |
 
 ---
 
@@ -191,7 +191,7 @@ TarGzFile.Open
 | `TarFile` | FInner: TTarFile |
 | `TarFile.GzipStream` | TGzipReadStream / TGzipWriteStream |
 | `Commons.Progress` | TZipProgressEvent |
-| `ZipfileORM.Events` | Tipos de evento |
+| `ZipFileORM.Events` | Tipos de evento |
 
 ---
 
@@ -240,7 +240,7 @@ Single-file Gzip (RFC 1952): comprime ou descomprime UM unico arquivo. Nao e um 
 |---|---|
 | `TarFile.GzipStream` | TGzipReadStream / TGzipWriteStream |
 | `Commons.Progress` | TZipProgressEvent |
-| `ZipfileORM.Events` | Tipos de evento |
+| `ZipFileORM.Events` | Tipos de evento |
 
 ---
 
@@ -291,7 +291,7 @@ TCabFile linka estaticamente `fdi.obj` do sdk/cabnet/ (Wine cabinet source compi
 | Unidade | Motivo |
 |---|---|
 | `Commons.Progress` | TZipProgressEvent |
-| `ZipfileORM.Events` | Tipos de evento |
+| `ZipFileORM.Events` | Tipos de evento |
 
 ---
 
@@ -343,7 +343,7 @@ TSevenZFile linka estaticamente os .obj do LZMA SDK 24.07 (em `Lib/lzma_obj_win3
 | Unidade | Motivo |
 |---|---|
 | `Commons.Progress` | TZipProgressEvent |
-| `ZipfileORM.Events` | Tipos de evento |
+| `ZipFileORM.Events` | Tipos de evento |
 
 ---
 
@@ -478,7 +478,7 @@ TRarFile depende de `unrar.dll` (Win32/Win64) da pasta `dll/`. A DLL e binario p
 
 ### 10.4 Dependencias internas consumidas
 
-Minima â€” apenas `SysUtils` + `Classes` + `ZipfileORM.Events` para eventos de erro.
+Minima â€” apenas `SysUtils` + `Classes` + `ZipFileORM.Events` para eventos de erro.
 
 ---
 
@@ -596,7 +596,7 @@ Nenhuma â€” implementacao pure-pascal autonoma, apenas `SysUtils` + `Classe
 
 ## Matriz resumo de dependencias por modulo
 
-| Modulo | Commons.Compression.* | Commons.Encryption.AES | Commons.Progress | ZipfileORM.Events | Lib C (OBJ) |
+| Modulo | Commons.Compression.* | Commons.Encryption.AES | Commons.Progress | ZipFileORM.Events | Lib C (OBJ) |
 |---|---|---|---|---|---|
 | TZipFile | Base, None, ZLib, LZMA, Consts | Sim (AES-256) | Sim | Sim | Sim (LZMA Win32+Win64) |
 | TTarFile | Nenhuma | Nao | Sim | Sim | Nao |

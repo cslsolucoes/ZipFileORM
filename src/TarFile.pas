@@ -40,7 +40,7 @@ unit TarFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 type
   ETarError = class(Exception);

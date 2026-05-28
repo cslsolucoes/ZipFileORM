@@ -33,7 +33,7 @@ unit LhaFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 type
   ELhaError = class(Exception);

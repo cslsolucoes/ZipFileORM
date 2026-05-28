@@ -14,15 +14,15 @@ ZipFileORM é uma biblioteca Delphi/FPC de componentes (`TComponent`) que encaps
 
 ```text
 ┌───────────────────────────────────────────────────────────────────┐
-│                    Consumer (uses ZipfileORM)                     │
+│                    Consumer (uses ZipFileORM)                     │
 └────────────────────────────────┬──────────────────────────────────┘
                                  │
 ┌────────────────────────────────▼──────────────────────────────────┐
-│ FACADE — ZipfileORM.*                                             │
-│   ZipfileORM.pas        ← TArchive factory + uses agregado        │
-│   ZipfileORM.Interfaces ← IArchive, IArchiveEntry                 │
-│   ZipfileORM.Compression← TCompressionMethod                      │
-│   ZipfileORM.Events     ← 15 TArchive*Event types                 │
+│ FACADE — ZipFileORM.*                                             │
+│   ZipFileORM.pas        ← TArchive factory + uses agregado        │
+│   ZipFileORM.Interfaces ← IArchive, IArchiveEntry                 │
+│   ZipFileORM.Compression← TCompressionMethod                      │
+│   ZipFileORM.Events     ← 15 TArchive*Event types                 │
 └────────────────────────────────┬──────────────────────────────────┘
                                  │
 ┌────────────────────────────────▼──────────────────────────────────┐
@@ -53,7 +53,7 @@ ZipFileORM é uma biblioteca Delphi/FPC de componentes (`TComponent`) que encaps
 ## Princípios arquiteturais
 
 1. **`src/` flat** — sem subpastas; naming `<Module>.<Feature>.pas` atua como pasta virtual.
-2. **Facade única** — consumidor escreve `uses ZipfileORM;` e ganha acesso a tudo.
+2. **Facade única** — consumidor escreve `uses ZipFileORM;` e ganha acesso a tudo.
 3. **Commons.* = cross-format** — algoritmos reutilizáveis (AES, LZMA, ZLib) ficam aqui.
 4. **`<Format>File.*` = format-only** — features exclusivas da spec do formato (ZIP64, UTF8 bit 11 GP flag, GzipStream inline em tar).
 5. **TComponent na palette** — 10 componentes registráveis no Object Inspector com property categories.
@@ -75,8 +75,8 @@ ZipFileORM é uma biblioteca Delphi/FPC de componentes (`TComponent`) que encaps
 |---|---|---|
 | Naming | `zipfile.pas` (minúsculo) | `ZipFile.pas` (PascalCase) |
 | Commons | `tiCompress*`, `dzlib` (MCL legacy) | `Commons.Compression.*` |
-| Facade pública | Nenhuma | `ZipfileORM.pas` (TArchive factory + uses agregado) |
-| Events | `ZipFile.Events.pas` | `ZipfileORM.Events.pas` (promovido) |
+| Facade pública | Nenhuma | `ZipFileORM.pas` (TArchive factory + uses agregado) |
+| Events | `ZipFile.Events.pas` | `ZipFileORM.Events.pas` (promovido) |
 | AES/LZMA/Progress | `ZipFile.{...}.pas` | `Commons.*` (promovido por cross-format reuse) |
 | Naming policy | Ad-hoc | `.cursor/rules/backend-pascal-unit-naming_V1.6.0` |
 

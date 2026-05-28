@@ -25,13 +25,29 @@ param(
   [string[]] $OnlyDelphi = @(),
   [switch]   $InstallLibPaths,
   [switch]   $InstallBpls,
-  [switch]   $Install
+  [switch]   $Install,
+  [switch]   $Force
 )
 if ($Install) { $InstallLibPaths = $true; $InstallBpls = $true }
 
 $ErrorActionPreference = 'Stop'
 $root    = Split-Path -Parent $PSScriptRoot
 $pkgsDir = Join-Path $root 'packages'
+
+# IDE-running guard (symmetric to Install-*.ps1). dcc32 cannot overwrite a BPL
+# that is currently loaded by an open RAD Studio IDE — produces F2039. Abort
+# early with a clear message unless -Force is passed.
+$bdsProcs = @(Get-Process -Name bds -ErrorAction SilentlyContinue)
+if ($bdsProcs.Count -gt 0 -and -not $Force) {
+  Write-Host ''
+  Write-Host 'ABORT: One or more Delphi IDE processes (bds.exe) are running:' -ForegroundColor Red
+  foreach ($p in $bdsProcs) {
+    Write-Host ("  PID {0} - {1}" -f $p.Id, $p.MainWindowTitle) -ForegroundColor Yellow
+  }
+  Write-Host 'A running IDE holds dcl*.bpl open and will cause F2039 on rebuild.' -ForegroundColor Red
+  Write-Host 'Close all Delphi IDEs and re-run, OR pass -Force to bypass.' -ForegroundColor Red
+  exit 1
+}
 
 # Note: ZipFileORM.LibraryPathReg.pas now discovers the project root at
 # runtime via GetModuleFileName(HInstance). No build-time path injection

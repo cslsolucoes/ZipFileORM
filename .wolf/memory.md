@@ -75,7 +75,7 @@ Resumo dos prioritÃ¡rios:
 | 00:02 | 6 legacy MCL refatorados para Commons.Compression.* + 3 esqueletos Commons + Commons.FPC.inc | src/Commons.*.pas | OK build standalone D29 W32 | â€” |
 | 00:03 | 13 mÃ³dulos format copiados + uses-rewrite + renomes (Bzip2.Stream/UUE.Stream/TarFile.GzipStream) | src/*.pas | 13 mÃ³dulos compilam | â€” |
 | 00:04 | PromoÃ§Ã£o AES/LZMA/Progress â†’ Commons.* + ajuste em 13 consumidores | src/Commons.{Encryption.AES,Compression.LZMA,Progress}.pas | OK | â€” |
-| 00:05 | Facade ZipfileORM.{Events,Interfaces,Compression,pas} criada | src/ZipfileORM.*.pas | 13151 linhas compilam D29 W32 | â€” |
+| 00:05 | Facade ZipFileORM.{Events,Interfaces,Compression,pas} criada | src/ZipFileORM.*.pas | 13151 linhas compilam D29 W32 | â€” |
 | 00:06 | 14 dpks gerados (7 runtime + 7 dt) + Build-AllDelphis portado | packages/ | 23/23 OK D24..D37 W32+W64 | â€” |
 | 00:07 | Tests portados (DUnitX + 20 smokes) + uses-rewrite | tests/ | 21/21 OK D29 W32 | â€” |
 | 00:08 | .workspace/context.json + CLAUDE.md + .wolf/anatomy.md atualizados | .workspace/, CLAUDE.md, .wolf/anatomy.md | OK | â€” |

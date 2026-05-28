@@ -26,7 +26,7 @@ unit GzipFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events, TarFile.GzipStream;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, TarFile.GzipStream;
 
 type
   EGzipFileError = class(Exception);

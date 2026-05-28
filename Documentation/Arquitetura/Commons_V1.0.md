@@ -19,7 +19,7 @@ date: 2026-05-28
 |---|---|
 | Todos os ficheiros `Commons.*` em `src/` | Classes TComponent dos modulos format |
 | Ficheiro `Archive.Open.pas` (detector) | Sub-modulos format-only (ZipFile.ZIP64, etc.) |
-| Ficheiros `.inc` de compilacao condicional | Facade ZipfileORM.* (ver Camadas_V1.0.md) |
+| Ficheiros `.inc` de compilacao condicional | Facade ZipFileORM.* (ver Camadas_V1.0.md) |
 
 ---
 
@@ -33,7 +33,7 @@ date: 2026-05-28
     â”‚            â”‚            â”‚            â”‚
     â–¼            â–¼            â–¼            â–¼
 â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚Commons.   â”‚ â”‚Commons.  â”‚ â”‚Commons.  â”‚ â”‚ZipfileORM.Events â”‚
+â”‚Commons.   â”‚ â”‚Commons.  â”‚ â”‚Commons.  â”‚ â”‚ZipFileORM.Events â”‚
 â”‚Compressionâ”‚ â”‚Encryptionâ”‚ â”‚Progress  â”‚ â”‚(nao e Commons.*) â”‚
 â”‚.{Base,    â”‚ â”‚.AES      â”‚ â”‚          â”‚ â”‚                  â”‚
 â”‚None,ZLib, â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
@@ -75,7 +75,7 @@ date: 2026-05-28
 
 | Modulo | Uso |
 |---|---|
-| `ZipfileORM.Interfaces` | `TCompressionMethod` via `ZipfileORM.Compression` (indireto) |
+| `ZipFileORM.Interfaces` | `TCompressionMethod` via `ZipFileORM.Compression` (indireto) |
 | Todos os modulos format | `TArchiveCapabilities` para inspecao de capacidades em runtime |
 
 ---
@@ -94,7 +94,7 @@ Constantes de versao (`ZipFileORM_VERSION = '4.0.0'`) e strings literais partilh
 
 ### Quem consome
 
-Facade `ZipfileORM.pas` e rotinas de splash/about em `packages/ZipFileORM.SplashReg.pas`.
+Facade `ZipFileORM.pas` e rotinas de splash/about em `packages/ZipFileORM.SplashReg.pas`.
 
 ---
 
@@ -141,7 +141,7 @@ Cada modulo format define suas proprias subclasses herdadas de `EArchive`:
 
 ### Quem consome
 
-`ZipfileORM.pas` re-exporta `EArchive` para que consumidores da facade possam capturar qualquer erro da biblioteca com um unico `except EArchive do`.
+`ZipFileORM.pas` re-exporta `EArchive` para que consumidores da facade possam capturar qualquer erro da biblioteca com um unico `except EArchive do`.
 
 ---
 
@@ -447,7 +447,7 @@ Incluido via `{$I Commons.FPC.inc}` no topo de qualquer unit que precisa ser cro
 
 ### Quem consome
 
-`ZipfileORM.pas`, `ZipfileORM.Interfaces`, `ZipfileORM.Compression`, `Archive.Open`, e qualquer nova unit que siga o padrao v4.0.0. As units mais antigas (TarFile, CabFile, etc.) ainda usam o pragma inline `{$IFDEF FPC}{$mode delphi}{$H+}{$ENDIF}`.
+`ZipFileORM.pas`, `ZipFileORM.Interfaces`, `ZipFileORM.Compression`, `Archive.Open`, e qualquer nova unit que siga o padrao v4.0.0. As units mais antigas (TarFile, CabFile, etc.) ainda usam o pragma inline `{$IFDEF FPC}{$mode delphi}{$H+}{$ENDIF}`.
 
 ---
 
@@ -508,13 +508,13 @@ Incluido via `{$I Commons.FPC.inc}` no topo de qualquer unit que precisa ser cro
 
 ### Quem consome
 
-`ZipfileORM.pas` â€” re-exporta `TArchiveFormat` e `EArchiveDetectError` e delega `TArchive.DetectFormat(...)` para as funcoes deste modulo.
+`ZipFileORM.pas` â€” re-exporta `TArchiveFormat` e `EArchiveDetectError` e delega `TArchive.DetectFormat(...)` para as funcoes deste modulo.
 
 ---
 
 ## Matriz de consumo (quem usa cada Commons)
 
-| Commons / Ficheiro | TZipFile | TTarFile | TTarGzFile | TGzipFile | TCabFile | TSevenZFile | ZipfileORM |
+| Commons / Ficheiro | TZipFile | TTarFile | TTarGzFile | TGzipFile | TCabFile | TSevenZFile | ZipFileORM |
 |---|---|---|---|---|---|---|---|
 | Commons.Types | Indireta | Nao | Nao | Nao | Nao | Nao | Sim |
 | Commons.Consts | Nao | Nao | Nao | Nao | Nao | Nao | Sim |

@@ -20,7 +20,7 @@ date: 2026-05-28
 - [ ] `ZipFile.UTF8.pas` — fundir em `ZipFile.pas` (helper string encoding ja e pequeno)
 - [ ] `ZipFile.Streaming.pas` — manter separado ou fundir (decidir em v4.1)
 - [ ] `ZipFile.Fluent.pas` — dissolver: metodos `With*` e `ThatOpens` passam para `TZipFile` diretamente
-- [ ] `ZipFile.Events.pas` — ja promovido para `ZipfileORM.Events.pas` em v4.0 (verificar uses)
+- [ ] `ZipFile.Events.pas` — ja promovido para `ZipFileORM.Events.pas` em v4.0 (verificar uses)
 - [ ] `ZipFile.Progress.pas` — ja promovido para `Commons.Progress.pas` em v4.0 (verificar uses)
 - [ ] `ZipFile.Encryption.AES.pas` — ja promovido para `Commons.Encryption.AES.pas` em v4.0
 - [ ] `ZipFile.Compression.LZMA.pas` — ja promovido para `Commons.Compression.LZMA.pas` em v4.0

@@ -23,7 +23,7 @@ date: 2026-05-28
 | Aspecto | Estado |
 |---|---|
 | `src/` | Flat, naming canonico `<Module>.<Feature>.pas` |
-| Facade | `ZipfileORM.{pas,.Interfaces,.Compression,.Events}` — 4 units |
+| Facade | `ZipFileORM.{pas,.Interfaces,.Compression,.Events}` — 4 units |
 | Modulos format | 13 modulos: ZipFile, TarFile, TarGzFile, GzipFile, CabFile, SevenZFile, ArjFile, IsoFile, LhaFile, RarFile + Bzip2.Stream, UUE.Stream, ZCompress.LzwStream |
 | Commons | 13 units cross-format: `Commons.Compression.{Base,None,ZLib,LZMA,Consts}`, `Commons.Encryption.AES`, `Commons.Progress`, `Commons.{Types,Consts,Exceptions}`, `Commons.{FPC,Compression.Defines}.inc` |
 | Packages | 14 dpks (7 runtime + 7 design) → 23 BPLs D24..D37 Win32+Win64, todos verde |
@@ -193,7 +193,7 @@ Cada formato recebe propriedades `published` read-only populadas durante `Open`:
 ### 4.3 Dependencias
 
 - v4.1 concluida (fontes split) — eventos ficam em `<Module>.pas` e interfaces em `<Module>.Interfaces.pas`.
-- `ZipfileORM.Events.pas` (facade de eventos) deve estar estavel desde v4.0.0.
+- `ZipFileORM.Events.pas` (facade de eventos) deve estar estavel desde v4.0.0.
 
 ### 4.4 Criterio de pronto — v4.3
 
@@ -264,7 +264,7 @@ Para cada unit publica (4 facade + 13 modulos format + 13 Commons = 30 units), a
 |---|---|---|---|---|---|
 | `Documentation/API/<Module>/README.md` (13 modulos) | Criar | `src/<Module>.pas` + `src/<Module>.Interfaces.pas` pos-split | README por modulo com visao geral, properties, metodos, eventos | 13 READMEs criados; cada um com secoes: Overview, Properties, Methods, Events, Examples | Responsavel_API |
 | `Documentation/API/Commons/README.md` | Criar | `src/Commons.*` | README das 13 units Commons agrupadas | Arquivo criado; 13 units descritas com responsabilidade | Responsavel_API |
-| `Documentation/API/ZipfileORM/README.md` | Criar | `src/ZipfileORM.*` (4 units facade) | README da facade publica | Arquivo criado; quick-start snippet incluido | Responsavel_API |
+| `Documentation/API/ZipFileORM/README.md` | Criar | `src/ZipFileORM.*` (4 units facade) | README da facade publica | Arquivo criado; quick-start snippet incluido | Responsavel_API |
 
 **P73 — Examples por componente:**
 
@@ -281,7 +281,7 @@ Para cada unit publica (4 facade + 13 modulos format + 13 Commons = 30 units), a
 ### 6.3 Criterio de pronto — v4.5
 
 - [ ] 100% dos publicos (type, method, property, const) nas 30 units com bloco `///` preenchido.
-- [ ] 15 READMEs de API criados (13 modulos + Commons + ZipfileORM).
+- [ ] 15 READMEs de API criados (13 modulos + Commons + ZipFileORM).
 - [ ] 13 arquivos `Examples_V1.0.md` criados (1 por modulo format).
 - [ ] Hub ressincronizado; `API/` e `Analise/` com status `completo`.
 
@@ -347,7 +347,7 @@ Para cada unit publica (4 facade + 13 modulos format + 13 Commons = 30 units), a
 | 14 | `Documentation/Analise/SevenZFile/MultiVolume_V1.0.md` | Ausente | Criar | v4.4 | Responsavel_Analise | Analise P41 — multi-volume write em 7z |
 | 15 | `Documentation/API/<Module>/README.md` (13 modulos) | Ausente (13 pastas vazias) | Criar | v4.5 | Responsavel_API | 13 READMEs com Overview/Properties/Methods/Events/Examples |
 | 16 | `Documentation/API/Commons/README.md` | Ausente | Criar | v4.5 | Responsavel_API | 13 units Commons descritas |
-| 17 | `Documentation/API/ZipfileORM/README.md` | Ausente | Criar | v4.5 | Responsavel_API | Facade descrita com quick-start snippet |
+| 17 | `Documentation/API/ZipFileORM/README.md` | Ausente | Criar | v4.5 | Responsavel_API | Facade descrita com quick-start snippet |
 | 18 | `Documentation/Analise/<Module>/Examples_V1.0.md` (13 modulos) | Ausente | Criar | v4.5 | Responsavel_Analise | Minimo 3 exemplos por modulo; 5 para ZipFile |
 | 19 | `Documentation/Analise/RarFile/EncoderFeasibility_V1.0.md` | Ausente | Criar | v5.0 | Responsavel_Analise | 3 abordagens avaliadas; aprovado por stakeholder |
 | 20 | `Documentation/Analise/RarFile/Encoder_V1.0.md` | Ausente | Criar (pos-decisao) | v5.0 | Responsavel_Analise | Encoder implementado documentado |

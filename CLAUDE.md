@@ -16,9 +16,9 @@ Leia e siga `.wolf/OPENWOLF.md` toda sessão.
 
 **ZipFileORM v4.0.0** é uma biblioteca Delphi/FPC de componentes para 10 formatos archive,
 refatorada da v3.x para uma arquitetura canônica `src/` flat com namespaces
-`Commons.*` (cross-format) + `ZipfileORM.*` (facade) + módulos format (`ZipFile`, `TarFile`, etc.).
+`Commons.*` (cross-format) + `ZipFileORM.*` (facade) + módulos format (`ZipFile`, `TarFile`, etc.).
 
-**Origem (preservada):** `c:\Users\Public\Documents\Embarcadero\Studio\Outros\zipfile`
+**Legacy v3.x (read-only para diff):** `c:\Users\Public\Documents\Embarcadero\Studio\Outros\zipfile`
 **Versão:** v4.0.0 (2026-05-28)
 **Plataformas:** Delphi D24..D37 (10.1 Berlin a 13 Florence, Win32+Win64) + FPC/Lazarus.
 **Licença:** LGPL-3.0
@@ -44,14 +44,14 @@ refatorada da v3.x para uma arquitetura canônica `src/` flat com namespaces
 
 Naming `<ModuleConcept>.<Feature>[.<SubFeature>].pas` atua como pasta virtual:
 
-- **Facade pública** (`ZipfileORM.*`): `ZipfileORM.pas` (TArchive factory), `ZipfileORM.Interfaces.pas` (IArchive/IArchiveEntry), `ZipfileORM.Compression.pas` (TCompressionMethod enum), `ZipfileORM.Events.pas` (15 TArchive*Event types).
+- **Facade pública** (`ZipFileORM.*`): `ZipFileORM.pas` (TArchive factory), `ZipFileORM.Interfaces.pas` (IArchive/IArchiveEntry), `ZipFileORM.Compression.pas` (TCompressionMethod enum), `ZipFileORM.Events.pas` (15 TArchive*Event types).
 - **Commons** (`Commons.*` — cross-format): `Commons.Consts.pas`, `Commons.Types.pas`, `Commons.Exceptions.pas`, `Commons.Progress.pas`, `Commons.Compression.{Base,None,ZLib,LZMA,Consts}.pas`, `Commons.Encryption.AES.pas`, `Commons.FPC.inc`, `Commons.Compression.Defines.inc`.
 - **Módulos format** (10): `ZipFile.pas`, `TarFile.pas`, `TarGzFile.pas`, `GzipFile.pas`, `CabFile.pas`, `SevenZFile.pas`, `ArjFile.pas`, `IsoFile.pas`, `LhaFile.pas`, `RarFile.pas`.
 - **Sub-módulos format-only** (ZIP-specific): `ZipFile.ZIP64.pas`, `ZipFile.UTF8.pas`, `ZipFile.Streaming.pas`, `ZipFile.Fluent.pas`; TAR-specific: `TarFile.GzipStream.pas`.
 - **Helper streams**: `Bzip2.Stream.pas`, `UUE.Stream.pas`, `ZCompress.LzwStream.pas` + Fluent variantes.
 - **Auto-detect**: `Archive.Open.pas` (TArchiveFormat + DetectArchiveFormat).
 
-**Resultado:** consumidor escreve `uses ZipfileORM;` e ganha acesso unificado.
+**Resultado:** consumidor escreve `uses ZipFileORM;` e ganha acesso unificado.
 
 ### Política de classificação Sub-módulo vs Commons
 
@@ -136,20 +136,40 @@ Chave do registro: `HKCU\Software\Embarcadero\BDS\<bds>\Library\Win{32,64}\Searc
 
 Idempotente — paths já presentes não são duplicados. Reversível via `Uninstall-LibraryPaths.ps1`. Pode ser disparado automaticamente após build com `Build-AllDelphis.ps1 -InstallLibPaths`.
 
-### Status atual da migração v3 → v4
+### Status v4.0.0
 
-✅ **Ondas completas:**
-1. Scaffold + Commons (refatoração legacy MCL para Commons.Compression.*)
-2. Copy+uses-rewrite de 13 módulos + renomes
-3. Facade ZipfileORM.* (Events/Interfaces/Compression/pas)
-4. Packages: 14 dpk gerados + Build-AllDelphis.ps1 portado — **23/23 OK** (D24..D37 W32+W64)
-5. Tests: DUnitX suite + 20 smokes compilam em D29 (21/21)
-6. Tools/CLAUDE.md/context.json — atual
+- Build matrix: **23/23 OK** (D24..D37 Win32+Win64) + FPC smokes (4 targets)
+- Tests: DUnitX suite (D29) + 20 smokes (Delphi + FPC nativo)
+- **Self-install:** design-time BPL `dclZipFileORMDxx` carrega `ZipFileORM.LibraryPathReg` que descobre paths em runtime e registra Library Paths automaticamente ao abrir o IDE — sem hardcoded paths.
+- Pendente: `Documentation/` completa via agents `documentation-*`; tag `v4.0.0`.
+- **Deferred:** split em 5 ficheiros por módulo (Types/Consts/Exceptions/Interfaces) — ~25h.
 
-⏳ **Ondas pendentes:**
-7. Documentation/ completa via agents documentation-*
-8. Commits finais + tag v4.0.0
-- **Deferred:** Split em 5 ficheiros por módulo (Types/Consts/Exceptions/Interfaces) — ~25h de trabalho profundo
+### Packages — runtime vs design-time
+
+`packages/` contém DOIS conjuntos de BPLs por versão Delphi (D24..D37):
+
+- `ZipFileORMDxx.dpk` — **runtime BPL** (componentes para apps consumidores)
+- `dclZipFileORMDxx.dpk` — **design-time BPL** (instalado no IDE; registra componentes na palette + auto-LibraryPaths)
+- Units de registro design-time:
+  - `zipfileReg.pas` — registro de componentes na palette
+  - `ZipFileORM.SplashReg.pas` — splash screen no IDE
+  - `ZipFileORM.LibraryPathReg.pas` — auto-discovery e registro de Library Paths em runtime
+
+### Running single tests
+
+```powershell
+# DUnitX — filtrar por fixture name (recompila + executa):
+& "$bds\bin\dcc32.exe" -Q -B tests\ZipFileTestsD29.dpr "-U..\src"
+tests\ZipFileTestsD29.exe --include "TZipFileAESTests"
+
+# FPC smoke individual:
+fpc -Mdelphi -Fu..\src tests\smoke_lzma_fpc.pas
+.\tests\smoke_lzma_fpc.exe
+
+# Delphi smoke individual (qualquer smoke_*.dpr em tests/):
+& "$bds\bin\dcc32.exe" -Q tests\smoke_sevenz.dpr "-U..\src"
+.\tests\smoke_sevenz.exe
+```
 
 ## Conventions
 
@@ -170,7 +190,7 @@ Conforme `.cursor/rules/backend-pascal-unit-naming_V1.6.0.mdc`:
 
 ```pascal
 uses
-  ZipfileORM;        // Facade única — re-exporta tudo
+  ZipFileORM;        // Facade única — re-exporta tudo
 
 var
   Fmt: TArchiveFormat;
@@ -191,12 +211,19 @@ begin
 end;
 ```
 
+## Vendored C/C++ sources e binários nativos
+
+- `sdk/` — source vendored read-only (arj, bzip2, cabnet, lha, lzma2601, unrar, zlib). Recompilar com `tools/Build-*Objs.ps1` apenas quando o SDK mudar.
+- `deps/` — `.obj` pré-compilados linkados em build-time pelos módulos format. Subpastas: `win32/`, `win64/`, `gcc-mingw-w64/`, `gcc-linux-musl/` (cross-compile).
+- `dll/` — DLLs runtime opcionais (`unrar_x86/`, `unrar_x86-64/` para `TRarFile`).
+
 ## Documentation
 
 - `.cursor/` — rules pack 1.6.5 + skills (project-wide governance)
 - `.workspace/context.json` — instância concreta (projectName, paths)
 - `.wolf/cerebrum.md` — preferências do usuário + learnings
-- `.wolf/anatomy.md` — inventário de ficheiros
+- `.wolf/anatomy.md` — inventário de ficheiros (consultar ANTES de ler qualquer .pas)
+- `.claudeignore` — exclui `Lib/`, `*.dcu`, `*.bpl`, `*.o`, `*.ppu`, fixtures de teste e `Documentation/` do contexto IA (consulta sob demanda)
 - `Documentation/` — gerada via agents documentation-* (Onda 7 pendente)
 
 ## Plano de migração

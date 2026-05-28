@@ -44,11 +44,11 @@ contains
   Commons.Compression.LZMA in '..\src\Commons.Compression.LZMA.pas',
   Commons.Encryption.AES in '..\src\Commons.Encryption.AES.pas',
 
-  // ── ZipfileORM facade ──
-  ZipfileORM.Events in '..\src\ZipfileORM.Events.pas',
-  ZipfileORM.Compression in '..\src\ZipfileORM.Compression.pas',
-  ZipfileORM.Interfaces in '..\src\ZipfileORM.Interfaces.pas',
-  ZipfileORM in '..\src\ZipfileORM.pas',
+  // ── ZipFileORM facade ──
+  ZipFileORM.Events in '..\src\ZipFileORM.Events.pas',
+  ZipFileORM.Compression in '..\src\ZipFileORM.Compression.pas',
+  ZipFileORM.Interfaces in '..\src\ZipFileORM.Interfaces.pas',
+  ZipFileORM in '..\src\ZipFileORM.pas',
 
   // ── Format detection ──
   Archive.Open in '..\src\Archive.Open.pas',

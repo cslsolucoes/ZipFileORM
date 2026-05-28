@@ -25,7 +25,7 @@ unit CabFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 type
   ECabError = class(Exception);

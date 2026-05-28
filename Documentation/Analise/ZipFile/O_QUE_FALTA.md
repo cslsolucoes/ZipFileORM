@@ -21,7 +21,7 @@ date: 2026-05-28
 ## Gaps especificos do split v4.1
 
 - `ZipFile.Fluent.pas` ainda existe como ficheiro separado — deve ser dissolvido.
-- `ZipFile.Events.pas` e `ZipFile.Progress.pas` podem ter referencias cruzadas que nao foram limpas apos promocao para `Commons.*` e `ZipfileORM.Events.pas`.
+- `ZipFile.Events.pas` e `ZipFile.Progress.pas` podem ter referencias cruzadas que nao foram limpas apos promocao para `Commons.*` e `ZipFileORM.Events.pas`.
 - Nenhum `IZipFile` definido — consumidores dependem de `TZipFile` concreto (violacao do principio DI).
 - Constantes magicas (numeros de versao, flags de feature) espalhadas no corpo de `ZipFile.pas` sem agrupamento em `ZipFile.Consts.pas`.
 - Hierarquia de excecoes: `EZipFile` provavelmente herda de `Exception` diretamente, nao de `EArchive` — rompe polimorfismo de tratamento de erro cross-format.

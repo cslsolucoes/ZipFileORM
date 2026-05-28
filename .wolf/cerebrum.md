@@ -48,7 +48,7 @@
 | 2026-05-27 | Tentei embedar WinRAR.exe icon via SHGetFileInfo achando que era "Windows native" | Verificar registry HKCR antes â€” se progid contÃ©m "WinRAR" Ã© trademark, nÃ£o Windows |
 | 2026-05-27 | Tentei `msbuild` para `.dpk` | Use `dcc32`/`dcc64` direto com `-LE`/`-LN`/`-N`. msbuild trunca paths em erro |
 | 2026-05-27 | `System.Drawing.Bitmap.Save(BMP)` para usar com brcc32 | Bitmap salvo Ã© v4. Escrever BMP v3 manualmente |
-| 2026-05-27 | Tentei `-foZipfile.dcr` com brcc32 em PowerShell pure | Sintaxe `-fo` em PS Ã© problemÃ¡tica. Usar via Bash ou aspas: `& brcc -fo"Zipfile.dcr" zipfile.rc` |
+| 2026-05-27 | Tentei `-foZipFile.dcr` com brcc32 em PowerShell pure | Sintaxe `-fo` em PS Ã© problemÃ¡tica. Usar via Bash ou aspas: `& brcc -fo"ZipFile.dcr" zipfile.rc` |
 | 2026-05-27 | Tentei rebuildar BPL com IDE aberto | RAD Studio locka BPL deployada. Fechar IDE antes de rebuild+redeploy |
 
 ## Decision Log

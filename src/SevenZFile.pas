@@ -34,7 +34,7 @@ unit SevenZFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipfileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
 
 type
   ESevenZError = class(Exception);

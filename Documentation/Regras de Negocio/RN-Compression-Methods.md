@@ -12,7 +12,7 @@ Cada formato suporta um subset distinto de métodos de compressão. O consumidor
 
 ## Regra
 
-Enum global `TCompressionMethod` (em `ZipfileORM.Compression.pas`) cobre todos os métodos. A matriz read/write por formato:
+Enum global `TCompressionMethod` (em `ZipFileORM.Compression.pas`) cobre todos os métodos. A matriz read/write por formato:
 
 | Formato | Read methods | Write methods |
 |---|---|---|
@@ -29,7 +29,7 @@ Enum global `TCompressionMethod` (em `ZipfileORM.Compression.pas`) cobre todos o
 
 ## Implementação
 
-- Enum: `src/ZipfileORM.Compression.pas` (`TCompressionMethod`)
+- Enum: `src/ZipFileORM.Compression.pas` (`TCompressionMethod`)
 - Helpers: `CompressionMethodToString`, `StringToCompressionMethod`
 - Per-format: `T<Format>File.CompressionMethod` (property published em alguns componentes)
 
@@ -42,7 +42,7 @@ Enum global `TCompressionMethod` (em `ZipfileORM.Compression.pas`) cobre todos o
 
 ## Referências
 
-- `src/ZipfileORM.Compression.pas` — enum + helpers
+- `src/ZipFileORM.Compression.pas` — enum + helpers
 - `src/ZipFile.pas` — TZipFile.Compression property
 - `src/SevenZFile.pas` — TSevenZFile.CompressionMethod
 - `src/CabFile.pas` — TCabFile.Compression (TCabCompressionType)

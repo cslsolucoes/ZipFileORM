@@ -13,7 +13,7 @@ Documentos de regras técnicas do projeto. Geração detalhada (formato padrão 
 | RN | Tópico | Fonte primária (src/) | Detalhamento |
 |---|---|---|---|
 | [RN-Format-Detection.md](RN-Format-Detection.md) | Auto-detect de formato por magic bytes | `Archive.Open.pas` | 🟡 base |
-| [RN-Compression-Methods.md](RN-Compression-Methods.md) | Matriz métodos de compressão por formato | `ZipfileORM.Compression.pas` | 🟡 base |
+| [RN-Compression-Methods.md](RN-Compression-Methods.md) | Matriz métodos de compressão por formato | `ZipFileORM.Compression.pas` | 🟡 base |
 | [RN-Encryption-AES.md](RN-Encryption-AES.md) | AES-256 WinZip AE-2 | `Commons.Encryption.AES.pas` | 🟡 base |
 | [RN-Streaming-Rules.md](RN-Streaming-Rules.md) | Contratos de stream read-only | `ZipFile.Streaming.pas` | 🟡 base |
 | [RN-Naming-Conventions.md](RN-Naming-Conventions.md) | UTF-8 bit 11, ZIP64 limits, TAR formats | `ZipFile.UTF8.pas`, `ZipFile.ZIP64.pas`, `TarFile.pas` | 🟡 base |

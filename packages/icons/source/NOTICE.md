@@ -51,7 +51,7 @@ Invoke-WebRequest -Uri 'https://upload.wikimedia.org/wikipedia/commons/...' \
 .\tools\Generate-IconBmps.ps1  # System.Drawing.Bitmap + HighQualityBicubic
 
 # (3) Compile DCR
-brcc32 -foZipfile.dcr ZipFileORM.rc
+brcc32 -foZipFileORM.dcr ZipFileORM.rc
 
 # (4) Rebuild dcl BPL
 dcc32 -Q -B dclZipFileORMD<XX>.dpk

@@ -1,4 +1,4 @@
-{ ZipfileORM.Interfaces.pas
+{ ZipFileORM.Interfaces.pas
 
   Contratos publicos cross-format do ZipFileORM:
   - IArchive: interface read-only comum para leitura de qualquer formato
@@ -6,12 +6,12 @@
   - IArchiveEnumerator: enumeracao das entries
 
   Cada modulo format (ZipFile, TarFile, etc.) pode implementar IArchive
-  expondo sua leitura via um adapter — a facade ZipfileORM.pas usa esse
+  expondo sua leitura via um adapter — a facade ZipFileORM.pas usa esse
   contrato como output uniforme de TArchive.OpenFile().
 
   ZipFileORM v4.0.0 — facade public contracts.
 }
-unit ZipfileORM.Interfaces;
+unit ZipFileORM.Interfaces;
 
 {$I Commons.FPC.inc}
 
@@ -20,7 +20,7 @@ interface
 uses
   SysUtils, Classes,
   Commons.Types,
-  ZipfileORM.Compression;
+  ZipFileORM.Compression;
 
 type
   // Entrada (file ou directory) dentro de um archive — visão read-only

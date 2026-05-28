@@ -13,7 +13,7 @@ date: 2026-05-28
 uses zipfile, ZipFile.Encryption.AES, ZipFile.Compression.LZMA;
 
 // v4.0.0:
-uses ZipfileORM;   // basta isso â€” facade re-exporta tudo
+uses ZipFileORM;   // basta isso â€” facade re-exporta tudo
 ```
 
 ## MudanÃ§as de naming (breaking)
@@ -23,7 +23,7 @@ uses ZipfileORM;   // basta isso â€” facade re-exporta tudo
 | `unit zipfile;` | `unit ZipFile;` | PascalCase consistente |
 | `tiCompress`, `tiCompressNone`, `tiCompressZLib`, `tiConstants` | `Commons.Compression.{Base,None,ZLib,Consts}` | RefatoraÃ§Ã£o legacy MCL |
 | `dzlib` | `Commons.Compression.ZLib.Bridge` | FPC-only bridge |
-| `ZipFile.Events` | `ZipfileORM.Events` | Promovido para facade |
+| `ZipFile.Events` | `ZipFileORM.Events` | Promovido para facade |
 | `ZipFile.Encryption.AES` | `Commons.Encryption.AES` | Promovido para Commons (cross-format) |
 | `ZipFile.Compression.LZMA` | `Commons.Compression.LZMA` | Promovido para Commons (cross-format) |
 | `ZipFile.Progress` | `Commons.Progress` | Promovido para Commons (cross-format) |
@@ -36,7 +36,7 @@ uses ZipfileORM;   // basta isso â€” facade re-exporta tudo
 
 | Namespace | ConteÃºdo |
 |---|---|
-| `ZipfileORM.*` | Facade pÃºblica (4 units): `ZipfileORM`, `.Interfaces`, `.Compression`, `.Events` |
+| `ZipFileORM.*` | Facade pÃºblica (4 units): `ZipFileORM`, `.Interfaces`, `.Compression`, `.Events` |
 | `Commons.*` | 13 utilitÃ¡rios cross-format |
 | `<Format>File` | 10 mÃ³dulos format (TComponent classes) |
 | `<Format>File.<SubConcept>` | Sub-mÃ³dulos format-only (ZIP64, UTF8, Streaming, GzipStream) |
@@ -44,7 +44,7 @@ uses ZipfileORM;   // basta isso â€” facade re-exporta tudo
 
 ## Refactor checklist (consumidor)
 
-1. **Trocar uses:** `uses zipfile` â†’ `uses ZipfileORM`
+1. **Trocar uses:** `uses zipfile` â†’ `uses ZipFileORM`
 2. **Remover uses especÃ­ficos:** `ZipFile.Events`, `ZipFile.Encryption.AES`, `ZipFile.Compression.LZMA`, `ZipFile.Progress` â€” todos agora vÃªm da facade ou de `Commons.*`.
 3. **Atualizar paths em DPRs/DPKs:** se referenciava `..\src\tiCompress.pas` â†’ `..\src\Commons.Compression.Base.pas`.
 4. **Recompilar packages:** rodar `tools/Build-AllDelphis.ps1`.
