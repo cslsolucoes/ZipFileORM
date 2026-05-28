@@ -6,10 +6,13 @@
 
 .DESCRIPTION
   Para cada IDE Delphi suportado e instalado (D24/Berlin..D37/Florence),
-  adiciona os seguintes paths ao 'Search Path' da chave Library do BDS:
+  adiciona os seguintes paths a TRES chaves de Library por plataforma:
 
-    HKCU\Software\Embarcadero\BDS\<bds>\Library\Win32\Search Path
-    HKCU\Software\Embarcadero\BDS\<bds>\Library\Win64\Search Path
+    HKCU\Software\Embarcadero\BDS\<bds>\Library\<Plat>\Search Path
+    HKCU\Software\Embarcadero\BDS\<bds>\Library\<Plat>\LibraryPath
+    HKCU\Software\Embarcadero\BDS\<bds>\Library\<Plat>\Browsing Path
+
+  (Plataformas: Win32 e Win64)
 
   Paths adicionados:
     - <root>\src                  (fonte .pas)
@@ -19,6 +22,11 @@
   As mudancas tomam efeito quando o Delphi for re-aberto.
 
   Operacao idempotente: paths ja presentes nao sao duplicados.
+
+  Por que tres chaves:
+    Search Path    - usado pelo compilador (dcc32/dcc64) para localizar units.
+    LibraryPath    - "Library path" no dialog Tools > Options > Library.
+    Browsing Path  - usado pelo IDE para "Find Declaration"/navigation.
 
 .PARAMETER OnlyDelphi
   Filtra para uma ou mais versoes especificas (ex.: -OnlyDelphi 29,37).
@@ -55,18 +63,15 @@ if ($OnlyDelphi.Count -gt 0) {
   $delphis = $delphis | Where-Object { $_.D -in $OnlyDelphi }
 }
 
-function Add-PathToRegistry {
+function Add-PathToRegistryValue {
   param(
-    [string] $RegKey,
+    [string]   $RegKey,
+    [string]   $ValueName,
     [string[]] $PathsToAdd,
-    [string] $Label,
-    [bool] $IsDryRun
+    [string]   $Label,
+    [bool]     $IsDryRun
   )
-  if (-not (Test-Path $RegKey)) {
-    Write-Host "  SKIP $Label - registry key not present" -ForegroundColor DarkGray
-    return
-  }
-  $current = (Get-ItemProperty -Path $RegKey -Name 'Search Path' -ErrorAction SilentlyContinue).'Search Path'
+  $current = (Get-ItemProperty -Path $RegKey -Name $ValueName -ErrorAction SilentlyContinue).$ValueName
   if ($null -eq $current) { $current = '' }
   $newPath = $current
   $added = @()
@@ -82,17 +87,40 @@ function Add-PathToRegistry {
     $added += $p
   }
   if ($added.Count -eq 0) {
-    Write-Host "  $Label - all paths already present" -ForegroundColor DarkGray
+    Write-Host "    [$ValueName] all present" -ForegroundColor DarkGray
     return
   }
   if ($IsDryRun) {
-    Write-Host "  DRYRUN $Label - would add:" -ForegroundColor Yellow
-    $added | ForEach-Object { Write-Host "    + $_" -ForegroundColor Yellow }
+    Write-Host "    DRYRUN [$ValueName] would add $($added.Count):" -ForegroundColor Yellow
+    $added | ForEach-Object { Write-Host "      + $_" -ForegroundColor Yellow }
     return
   }
-  Set-ItemProperty -Path $RegKey -Name 'Search Path' -Value $newPath
-  Write-Host "  OK $Label - added:" -ForegroundColor Green
-  $added | ForEach-Object { Write-Host "    + $_" -ForegroundColor Green }
+  # If value did not exist, create it as REG_SZ
+  if (-not (Get-ItemProperty -Path $RegKey -Name $ValueName -ErrorAction SilentlyContinue)) {
+    New-ItemProperty -Path $RegKey -Name $ValueName -Value $newPath -PropertyType String | Out-Null
+  } else {
+    Set-ItemProperty -Path $RegKey -Name $ValueName -Value $newPath
+  }
+  Write-Host "    OK [$ValueName] added $($added.Count):" -ForegroundColor Green
+  $added | ForEach-Object { Write-Host "      + $_" -ForegroundColor Green }
+}
+
+function Add-PathToRegistry {
+  param(
+    [string]   $RegKey,
+    [string[]] $PathsToAdd,
+    [string]   $Label,
+    [bool]     $IsDryRun
+  )
+  if (-not (Test-Path $RegKey)) {
+    Write-Host "  SKIP $Label - registry key not present" -ForegroundColor DarkGray
+    return
+  }
+  Write-Host "  $Label" -ForegroundColor Cyan
+  # Populate all 3 path-related values: Search Path, LibraryPath, Browsing Path
+  foreach ($vn in @('Search Path', 'LibraryPath', 'Browsing Path')) {
+    Add-PathToRegistryValue -RegKey $RegKey -ValueName $vn -PathsToAdd $PathsToAdd -Label $Label -IsDryRun $IsDryRun
+  }
 }
 
 Write-Host ""

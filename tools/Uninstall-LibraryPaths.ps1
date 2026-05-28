@@ -39,22 +39,15 @@ $delphis = @(
 )
 if ($OnlyDelphi.Count -gt 0) { $delphis = $delphis | Where-Object { $_.D -in $OnlyDelphi } }
 
-function Remove-PathFromRegistry {
+function Remove-PathFromRegistryValue {
   param(
-    [string] $RegKey,
+    [string]   $RegKey,
+    [string]   $ValueName,
     [string[]] $PathsToRemove,
-    [string] $Label,
-    [bool] $IsDryRun
+    [bool]     $IsDryRun
   )
-  if (-not (Test-Path $RegKey)) {
-    Write-Host "  SKIP $Label - registry key not present" -ForegroundColor DarkGray
-    return
-  }
-  $current = (Get-ItemProperty -Path $RegKey -Name 'Search Path' -ErrorAction SilentlyContinue).'Search Path'
-  if ($null -eq $current -or $current -eq '') {
-    Write-Host "  $Label - Search Path empty" -ForegroundColor DarkGray
-    return
-  }
+  $current = (Get-ItemProperty -Path $RegKey -Name $ValueName -ErrorAction SilentlyContinue).$ValueName
+  if ($null -eq $current -or $current -eq '') { return }
   $tokens = $current -split ';' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
   $kept = @()
   $removed = @()
@@ -66,18 +59,35 @@ function Remove-PathFromRegistry {
     if ($shouldRemove) { $removed += $t } else { $kept += $t }
   }
   if ($removed.Count -eq 0) {
-    Write-Host "  $Label - no ZipFileORM paths present" -ForegroundColor DarkGray
+    Write-Host "    [$ValueName] none present" -ForegroundColor DarkGray
     return
   }
   if ($IsDryRun) {
-    Write-Host "  DRYRUN $Label - would remove:" -ForegroundColor Yellow
-    $removed | ForEach-Object { Write-Host "    - $_" -ForegroundColor Yellow }
+    Write-Host "    DRYRUN [$ValueName] would remove $($removed.Count):" -ForegroundColor Yellow
+    $removed | ForEach-Object { Write-Host "      - $_" -ForegroundColor Yellow }
     return
   }
   $newPath = ($kept -join ';')
-  Set-ItemProperty -Path $RegKey -Name 'Search Path' -Value $newPath
-  Write-Host "  OK $Label - removed:" -ForegroundColor Green
-  $removed | ForEach-Object { Write-Host "    - $_" -ForegroundColor Green }
+  Set-ItemProperty -Path $RegKey -Name $ValueName -Value $newPath
+  Write-Host "    OK [$ValueName] removed $($removed.Count):" -ForegroundColor Green
+  $removed | ForEach-Object { Write-Host "      - $_" -ForegroundColor Green }
+}
+
+function Remove-PathFromRegistry {
+  param(
+    [string]   $RegKey,
+    [string[]] $PathsToRemove,
+    [string]   $Label,
+    [bool]     $IsDryRun
+  )
+  if (-not (Test-Path $RegKey)) {
+    Write-Host "  SKIP $Label - registry key not present" -ForegroundColor DarkGray
+    return
+  }
+  Write-Host "  $Label" -ForegroundColor Cyan
+  foreach ($vn in @('Search Path', 'LibraryPath', 'Browsing Path')) {
+    Remove-PathFromRegistryValue -RegKey $RegKey -ValueName $vn -PathsToRemove $PathsToRemove -IsDryRun $IsDryRun
+  }
 }
 
 Write-Host ""
