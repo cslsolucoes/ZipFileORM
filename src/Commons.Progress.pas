@@ -1,4 +1,4 @@
-﻿{ ZipFile.Progress.pas
+{ Commons.Progress.pas
 
   Progress event type for long-running ZIP operations
   (AppendStream, GetFileStream, UpdateFile, DeleteFile).

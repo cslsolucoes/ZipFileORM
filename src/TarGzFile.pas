@@ -1,11 +1,11 @@
-﻿{ TarGzFile.pas
+{ TarGzFile.pas
 
-  Combo TAR + Gzip â€” wraps TTarFile (POSIX ustar) com layer Gzip transparent
+  Combo TAR + Gzip — wraps TTarFile (POSIX ustar) com layer Gzip transparent
   permitindo arquivos .tar.gz / .tgz comuns em ecossistema Unix/Docker/CI.
 
-  ImplementaÃ§Ã£o:
-  - Read: descomprime gzip para memÃ³ria, abre TTarFile no buffer descomprimido
-  - Write: escreve TAR em memÃ³ria, comprime para o arquivo .tar.gz final
+  Implementação:
+  - Read: descomprime gzip para memória, abre TTarFile no buffer descomprimido
+  - Write: escreve TAR em memória, comprime para o arquivo .tar.gz final
 
   Para arquivos grandes (>100MB), considere TTarFile direto + TGzipReadStream
   manual em vez deste wrapper (que carrega tudo em RAM).

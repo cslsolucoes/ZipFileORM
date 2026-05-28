@@ -1,6 +1,6 @@
-﻿{ ZipFile.Compression.LZMA.pas
+{ Commons.Compression.LZMA.pas
 
-  LZMA (method 14 PKWARE) compression for ZIP entries â€” Win32 only.
+  LZMA (method 14 PKWARE) compression for ZIP entries — Win32 only.
 
   Statically links the LZMA SDK 24.07 C sources compiled to OMF objects
   via Embarcadero bcc32c.exe (BCC102 freeware):
@@ -13,7 +13,7 @@
   Compiled with:
       bcc32c -c -O2 -D_7ZIP_ST -o<dest>.obj <src>.c
 
-  Win64 NOT supported in this revision â€” BCC102 freeware ships only the
+  Win64 NOT supported in this revision — BCC102 freeware ships only the
   Win32 OMF toolchain (no bcc64x). On Win64 builds, the public functions
   raise EZipLZMANotSupportedOnPlatform.
 
@@ -73,7 +73,7 @@ procedure LzmaCompressBuffer(
 );
 
 // Decompress AComp into APlain (APlainExpectedLen MUST match the original
-// uncompressed length â€” ZIP stores it in LFH/CDH uncompressedsize, so caller
+// uncompressed length — ZIP stores it in LFH/CDH uncompressedsize, so caller
 // knows it). APropsEncoded is the 5-byte header.
 procedure LzmaDecompressBuffer(
   const AComp: TBytes; ACompLen: NativeInt;
@@ -139,7 +139,7 @@ var
 
 // CRT stubs: Delphi nao tem CRT C-callable, entao implementamos manualmente
 // em Pascal redirecionando para RTL primitives. Em FPC, msvcrt.dll fornece
-// os simbolos reais â€” Pascal stubs seriam duplicacao e linker rejeitaria.
+// os simbolos reais — Pascal stubs seriam duplicacao e linker rejeitaria.
 //
 // STUB_NAME_USES_UNDERSCORE: Delphi externals devem ser literal (`_memset`
 // para Win32 OMF, `memset` para Win64 ELF).
@@ -217,10 +217,10 @@ begin
     Result := ptr;
   end;
 end;
-{$ENDIF}  // NOT FPC â€” FPC usa msvcrt.dll diretamente
+{$ENDIF}  // NOT FPC — FPC usa msvcrt.dll diretamente
 
 // MatchFinderMt_* stubs come from LzmaStubsST.obj (compiled from
-// sdk/lzma2601/C/LzmaStubsST.c) â€” separating C stubs gives us the leading-
+// sdk/lzma2601/C/LzmaStubsST.c) — separating C stubs gives us the leading-
 // underscore exports that bcc32c emits natively, which is what the LzmaEnc.obj
 // references expect. Pascal cdecl exports do NOT prefix `_`, so doing the
 // stubs in Pascal here doesn't resolve to the right symbol names.
@@ -249,15 +249,15 @@ function IsProcessorFeaturePresent(ProcessorFeature: Cardinal): LongBool; stdcal
 
 // =============================================================================
 //   Linkage of the four LZMA SDK objects (OMF, compiled by bcc32c).
-//   Order matters â€” Alloc must be last so its symbols are still pending when
+//   Order matters — Alloc must be last so its symbols are still pending when
 //   the LZMA objects reference them.
 // =============================================================================
 
 // v3.6: Delphi vs FPC tem diretorios distintos. Delphi usa bcc32c/bcc64
 // (OMF/ELF Embarcadero); FPC usa mingw-w64 (COFF). FPC linker rejeita
-// formato Embarcadero e vice-versa â€” precisam paths separados.
+// formato Embarcadero e vice-versa — precisam paths separados.
 {$IFDEF FPC}
-  // System DLLs (mingw COFF expects explicit linking â€” VirtualAlloc etc.
+  // System DLLs (mingw COFF expects explicit linking — VirtualAlloc etc.
   // do kernel32, Alloc.c usa large pages no Win64 + CpuArch IsProcessor*).
   // msvcrt fornece memcpy/memset/memmove/malloc/free reais (FPC RTL nao
   // expoe esses simbolos como C-callable; nossos stubs Pascal nao linkam).
@@ -303,9 +303,9 @@ function IsProcessorFeaturePresent(ProcessorFeature: Cardinal): LongBool; stdcal
 
 // C name mangling differs between Win32 (leading `_`) and Win64 (no prefix).
 // Pascal `external name 'X'` literal:
-//  - Delphi: nao decora â€” usa nome verbatim. Win32 OMF emite `_LzmaEncode`,
+//  - Delphi: nao decora — usa nome verbatim. Win32 OMF emite `_LzmaEncode`,
 //    entao precisamos declarar `name '_LzmaEncode'`.
-//  - FPC cdecl: decora automaticamente em Win32 (adiciona `_`) â€” declarar
+//  - FPC cdecl: decora automaticamente em Win32 (adiciona `_`) — declarar
 //    `name '_LzmaEncode'` resulta em `__LzmaEncode` (double). Usar nome bare.
 //  - Em Win64 ambos (Delphi+FPC) usam nome bare.
 {$IF DEFINED(WIN32) AND NOT DEFINED(FPC)}
@@ -353,7 +353,7 @@ procedure LzmaEncProps_Init(p: Pointer); cdecl; external name 'LzmaEncProps_Init
 {$ENDIF}
 
 // CLzmaEncProps layout (must match LzmaEnc.h CLzmaEncProps record exactly).
-// Pack(4) â€” the C struct has no special pragma so default 4-byte alignment.
+// Pack(4) — the C struct has no special pragma so default 4-byte alignment.
 type
   TCLzmaEncProps = packed record
     level: Integer;          // 0..9, default 5
@@ -458,7 +458,7 @@ end;
 
 {$ELSE}
 
-// Win64 / FPC fallback â€” raises clearly so caller knows LZMA isn't available.
+// Win64 / FPC fallback — raises clearly so caller knows LZMA isn't available.
 
 procedure LzmaCompressBuffer(
   const APlain: TBytes; APlainLen: NativeInt;
@@ -469,7 +469,7 @@ procedure LzmaCompressBuffer(
 begin
   raise EZipLZMANotSupportedOnPlatform.Create(
     'LZMA (method 14) requires Delphi Win32 with the BCC102-compiled .obj ' +
-    'set. Win64/FPC paths are not yet wired â€” use Deflate (method 8) or ' +
+    'set. Win64/FPC paths are not yet wired — use Deflate (method 8) or ' +
     'Store (method 0) on those targets.');
 end;
 

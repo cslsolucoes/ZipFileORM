@@ -1,7 +1,7 @@
-﻿{ ZipFile.Streaming.pas
+{ ZipFile.Streaming.pas
   Stream wrappers that read entry payload directly from the underlying file
   handle without buffering the whole entry in memory (the legacy
-  TZipFile.GetFileStream returns a TMemoryStream â€” fine for small payloads,
+  TZipFile.GetFileStream returns a TMemoryStream — fine for small payloads,
   fatal for >100 MB files).
 
   Two flavours:
@@ -171,7 +171,7 @@ begin
   FInner.Position := 0;
   FPlainSize := APlainSize;
   FPosition := 0;
-  // WindowBits = -15 -> raw DEFLATE (no zlib header). ZIP entries sÃ£o raw.
+  // WindowBits = -15 -> raw DEFLATE (no zlib header). ZIP entries são raw.
   {$IFDEF FPC}
   FZStream := zstream.TDecompressionStream.Create(FInner, True);  // skipheader=True
   {$ELSE}

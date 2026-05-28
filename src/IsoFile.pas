@@ -1,6 +1,6 @@
-﻿{ IsoFile.pas
+{ IsoFile.pas
 
-  TIsoFile â€” READ-only ISO 9660 + Joliet decoder, pure-pascal.
+  TIsoFile — READ-only ISO 9660 + Joliet decoder, pure-pascal.
 
   Suporta:
    - ISO 9660 (ECMA-119) Primary Volume Descriptor + diretorios
@@ -12,10 +12,10 @@
    - Rock Ridge POSIX extensions (deferido)
    - El Torito boot
    - Multi-extent files (>4GB single file)
-   - UDF (Universal Disk Format â€” usado em DVD/Blu-ray)
+   - UDF (Universal Disk Format — usado em DVD/Blu-ray)
 
   Cross-platform: Delphi (Win32/Win64) + FPC (Win32/Win64/Linux i386/x86_64).
-  Sem dependencia C â€” apenas SysUtils + Classes.
+  Sem dependencia C — apenas SysUtils + Classes.
 
   API espelhada de TZipFile/TSevenZFile/etc.:
    - Active, FileName, Open, Close
@@ -90,7 +90,7 @@ type
     FEntries: array of TIsoEntry;
     FJolietActive: Boolean;
     FVolumeID: string;
-    // Read-only PVD (Primary Volume Descriptor) fields â€” populated by FindBestVolumeDescriptor.
+    // Read-only PVD (Primary Volume Descriptor) fields — populated by FindBestVolumeDescriptor.
     FSystemID: string;
     FPublisherID: string;
     FPreparerID: string;
@@ -168,7 +168,7 @@ type
     // 1 = single ISO; >1 = volume set (raro).
     property VolumeSetSize: Word read FVolumeSetSize;
     property ArchiveSize: Int64 read FArchiveSize;
-    // Volume flags (SVD byte 7 â€” FRAR bit indicates UTF-16 LE encoding etc.)
+    // Volume flags (SVD byte 7 — FRAR bit indicates UTF-16 LE encoding etc.)
     property VolumeFlags: Byte read FVolumeFlags;
     // Sequence number deste volume dentro do set (1-based).
     property VolumeSequenceNumber: Word read FVolumeSequenceNumber;
@@ -181,7 +181,7 @@ type
     // Datas adicionais do PVD.
     property ExpirationDate: TDateTime read FExpirationDate;
     property EffectiveDate: TDateTime read FEffectiveDate;
-    // ApplicationUse (PVD bytes 884..1395) â€” 512 bytes livres para apps.
+    // ApplicationUse (PVD bytes 884..1395) — 512 bytes livres para apps.
     property ApplicationUse: TBytes read FApplicationUse;
     // True se Rock Ridge System Use Entries detectadas (POSIX file metadata).
     property HasRockRidge: Boolean read FHasRockRidge;
@@ -324,7 +324,7 @@ begin
     begin
       // Joliet detection: escape sequence at offset 88 (8 bytes)
       // Joliet usa "%/@" (0x25 0x2F 0x40) ou "%/C" (0x25 0x2F 0x43)
-      // ou "%/E" (0x25 0x2F 0x45) â€” level 1/2/3
+      // ou "%/E" (0x25 0x2F 0x45) — level 1/2/3
       IsJolietSvd := (Buf[88] = $25) and (Buf[89] = $2F) and
                      ((Buf[90] = $40) or (Buf[90] = $43) or (Buf[90] = $45));
       if IsJolietSvd then
@@ -403,13 +403,13 @@ begin
       Fn := DecodeUcs2Be(Buf, Offset + 33, FnLen)
     else
       Fn := DecodeIso8859(Buf, Offset + 33, FnLen);
-    // ISO 9660 strip ";N" version suffix â€” convencao mantida em Joliet tambem
+    // ISO 9660 strip ";N" version suffix — convencao mantida em Joliet tambem
     if Pos(';', Fn) > 0 then
       Fn := Copy(Fn, 1, Pos(';', Fn) - 1);
 
     if IsDirChild then
     begin
-      // subdir â€” recursar
+      // subdir — recursar
       Entry.FullPath := APathPrefix + Fn + '/';
       Entry.Extent := ChildExtent;
       Entry.Size := ChildSize;

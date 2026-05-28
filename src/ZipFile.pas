@@ -1,4 +1,4 @@
-﻿{*
+{*
  * ZipFile.pas
  *
  * Class that encapsulates a ZipFile.
@@ -194,15 +194,15 @@ type
     FUseAES: Boolean;      // Liga AES-256 WinZip-AE-2 no write path (le sempre auto-detecta).
     FUseLZMA: Boolean;     // Quando True, AppendStream comprime com LZMA method=14 (Win32 only).
     FForceZip64: Boolean;  // Forca emissao de ZIP64 extras + EOCD ainda que sizes pequenos.
-    // v3.12 design-time enrichment â€” backing fields
-    FCompressionLevel: Integer; // 0..9 â€” para Deflate; reservado para futuras impls
+    // v3.12 design-time enrichment — backing fields
+    FCompressionLevel: Integer; // 0..9 — para Deflate; reservado para futuras impls
     FAESKeySize: Word;         // 128/192/256 (AE-2 sempre 256 atualmente)
-    FArchiveComment: string;   // ZIP archive comment (EOCDR field) â€” reservado para wire
+    FArchiveComment: string;   // ZIP archive comment (EOCDR field) — reservado para wire
     FVolumeSize: Int64;        // 0 = single .zip; >0 = split em .z01/.z02/.zip
     FStoreMSDosAttributes: Boolean;  // armazena DOS file attributes
     FStoreUnixAttributes: Boolean;   // armazena Unix permissions via extra field
     FStoreNTSecurity: Boolean;       // armazena NTFS security descriptor (extra)
-    FArchiveSize: Int64;       // physical .zip size â€” read-only via GetFileSize alias
+    FArchiveSize: Int64;       // physical .zip size — read-only via GetFileSize alias
     // ZIP64 shadow tracking (Int64 reais quando os campos 32-bit on-disk
     // carregam sentinel 0xFFFFFFFF/0xFFFF). Sempre populado, mesmo em
     // archives pequenos, para simplificar o codigo.
@@ -222,7 +222,7 @@ type
     procedure DoProgressChunkedCopy(ASrc, ADst: TStream; ATotal: Int64);
     // Read-side ZIP64: detecta sentinel 0xFFFFFFFF/0xFFFF na EOCD standard
     // ou ZIP64 EOCD Locator imediatamente antes; parseia ZIP64 EOCD Record
-    // e popula shadow Int64 fields. Nao raise â€” silencia para archives
+    // e popula shadow Int64 fields. Nao raise — silencia para archives
     // ZIP64 sao agora suportados em leitura.
     procedure DetectAndParseZip64;
     // Per-entry ZIP64: parseia extra field 0x0001 quando sentinel detectado;
@@ -292,7 +292,7 @@ type
     procedure DeleteFile(AFileName: string);
     procedure UpdateFile(Stream: TStream; ZIPFileName: string);
 
-    // v2.4: Fluent inline configurators â€” cada um seta a property correspondente
+    // v2.4: Fluent inline configurators — cada um seta a property correspondente
     // e devolve Self, permitindo chaining no estilo:
     //   Zip.WithUtf8.WithAES('senha').WithProgress(handler);
     // Sem builder externo, sem mudar lifecycle, 100% backward compat com
@@ -402,10 +402,10 @@ uses
   RarFile;
 {$ENDIF}
 
-// Register â€” chamado pelo Lazarus em FPC (via HasRegisterProc no .lpk).
+// Register — chamado pelo Lazarus em FPC (via HasRegisterProc no .lpk).
 // Em Delphi a registration acontece em packages/zipfileReg.pas (que tambem
 // configura property categories no Object Inspector). Aqui em FPC mantemos
-// apenas RegisterComponents â€” Lazarus nao suporta property categories.
+// apenas RegisterComponents — Lazarus nao suporta property categories.
 procedure Register;
 begin
 {$IFDEF FPC}
@@ -463,7 +463,7 @@ begin
   SetLength(Bytes, Total);
   Move(Pointer(ARaw)^, Bytes[0], Total);
   P := 0;
-  // Scan all extra fields ([HdrID(2)][Size(2)][Data(Size)]) â€” pick 0x9901
+  // Scan all extra fields ([HdrID(2)][Size(2)][Data(Size)]) — pick 0x9901
   while P + 4 <= Total do
   begin
     HdrID    := Bytes[P] or (Bytes[P+1] shl 8);
@@ -770,9 +770,9 @@ end;
 
 // ============================================================================
 //   v2.4: Fluent inline configurators
-//   Cada mÃ©todo seta property correspondente e devolve Self â†’ chaining.
+//   Cada método seta property correspondente e devolve Self → chaining.
 //   Comportamento 100% equivalente a `Self.X := value;` exceto que pode ser
-//   encadeado em uma Ãºnica expressÃ£o.
+//   encadeado em uma única expressão.
 // ============================================================================
 
 function TZipFile.WithUtf8(AEnable: Boolean): TZipFile;
@@ -877,7 +877,7 @@ begin
       DetectAndParseZip64;
 
       //read all file headers from ZipFile (use Int64 shadow for count + offset).
-      // FPC i386 nao aceita Int64 em variavel de loop â€” usar while.
+      // FPC i386 nao aceita Int64 em variavel de loop — usar while.
       fs.Seek(FZip64CDOffset, soFromBeginning);
       i := 1;
       while i <= FZip64TotalEntries do
@@ -1207,7 +1207,7 @@ begin
       raise Commons.Encryption.AES.EZipAESError.CreateFmt(
         'Entry "%s" missing or invalid 0x9901 AES extra field.', [AFileName]);
     if (LRealMethod <> 0) then
-      // Method != Store â€” fallback to GetFileStream (decompress goes via TMemoryStream).
+      // Method != Store — fallback to GetFileStream (decompress goes via TMemoryStream).
     begin
       LBufLen := 0;
       Result := GetFileStream(AFileName, LBufLen);
@@ -1251,14 +1251,14 @@ begin
         Result := ZipFile.Streaming.TZipEntryReadStream.Create(fs, filedataoffset,
                     FEntryCSize64[index]);
       8:
-        // DEFLATE: v3.2 streaming â€” decompress on demand, sem alocar memoria
+        // DEFLATE: v3.2 streaming — decompress on demand, sem alocar memoria
         // para o entry inteiro. Forward-only seek.
         Result := ZipFile.Streaming.TZipEntryDeflateReadStream.Create(
                     ZipFile.Streaming.TZipEntryReadStream.Create(fs, filedataoffset,
                       FEntryCSize64[index]),
                     FEntryUSize64[index]);
     else
-      // Outros metodos (LZMA, etc) â€” fallback legacy GetFileStream (in-memory)
+      // Outros metodos (LZMA, etc) — fallback legacy GetFileStream (in-memory)
       LBufLen := 0;
       LMem := GetFileStream(AFileName, LBufLen);
       LMem.Position := 0;
@@ -1308,7 +1308,7 @@ begin
                           FileHeaderList[fileindex].start.lastmodfiletime,
                           FileDateTime);
     DateTime := FileDateTime;
-    // v2.0 ZIP64: usa shadow Int64 â€” TZipSearchRec.USize/CSize sao Int64
+    // v2.0 ZIP64: usa shadow Int64 — TZipSearchRec.USize/CSize sao Int64
     USize := FEntryUSize64[fileindex];
     CSize := FEntryCSize64[fileindex];
     Name := FileHeaderList[fileindex].add.filename
@@ -1380,7 +1380,7 @@ begin
   SetLength(FEntryUSize64,  fileheadercount);
   SetLength(FEntryCSize64,  fileheadercount);
   SetLength(FEntryOffset64, fileheadercount);
-  // Always populate shadow Int64 â€” used by GetFileStream/GetEntryStream even
+  // Always populate shadow Int64 — used by GetFileStream/GetEntryStream even
   // when ZIP64 isn't needed (the sentinel parser falls through to the 32-bit
   // values in that case).
   FEntryUSize64[Pred(fileheadercount)]  := FSize;
@@ -1726,7 +1726,7 @@ begin
     {$ENDIF}
   end;
 
-  // v2.3: ZIP64 archive-level emission â€” if any trigger fired, write the
+  // v2.3: ZIP64 archive-level emission — if any trigger fired, write the
   // ZIP64 EOCD Record + ZIP64 EOCD Locator right BEFORE the standard EOCD,
   // and clamp the standard EOCD fields to sentinel values where they
   // overflow 16/32-bit limits.

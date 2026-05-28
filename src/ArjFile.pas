@@ -1,21 +1,21 @@
-﻿{ ArjFile.pas
+{ ArjFile.pas
 
-  TArjFile â€” READ-only ARJ decoder, pure-pascal.
+  TArjFile — READ-only ARJ decoder, pure-pascal.
 
   Suporta:
    - Magic 0xEA60 (LE 0x60 0xEA) detection
    - Main header (file_type=2) skip + per-file header parsing
-   - Method 0 (stored / no compression) â€” extract direto
+   - Method 0 (stored / no compression) — extract direto
    - Listing/metadata para qualquer method
-   - Extended header chain (skipped â€” opcional)
+   - Extended header chain (skipped — opcional)
 
   NAO suporta nesta versao (deferido para v3.4.1):
-   - Methods 1-9 (ARJ LZ77 variants) â€” ReadAsBytes raise EArjError
+   - Methods 1-9 (ARJ LZ77 variants) — ReadAsBytes raise EArjError
    - Encryption (file_type=1)
    - Multi-volume archives
 
   Cross-platform: Delphi (Win32/Win64) + FPC (Win32/Win64/Linux i386/x86_64).
-  Sem dependencia C â€” apenas SysUtils + Classes.
+  Sem dependencia C — apenas SysUtils + Classes.
 
   API espelhada de TZipFile/TLhaFile/TIsoFile.
 
@@ -115,7 +115,7 @@ type
     FEntries: array of TArjEntry;
     FArchiveName: string;
     FArchiveComment: string;
-    // Read-only header fields â€” populated by ParseHeader / DoOpenAndIndex.
+    // Read-only header fields — populated by ParseHeader / DoOpenAndIndex.
     FHostOS: Byte;             // ARJ host OS code: 0=MSDOS, 1=PRIMOS, 2=Unix, 3=Amiga,
                                //   4=Mac, 5=OS/2, 6=Apple ][, 7=Atari, 8=NeXT, 9=VMS,
                                //   10=Win95, 11=WinNT
@@ -358,7 +358,7 @@ begin
   AFileType := Buf[6];
 
   AEntry.FileType := AFileType;
-  AEntry.Method := Buf[7];  // alguns layouts diferentes â€” em geral byte 9, mas SDK varia
+  AEntry.Method := Buf[7];  // alguns layouts diferentes — em geral byte 9, mas SDK varia
   // Per ARJ V format: method esta em offset 7 do basic header
   // (reservados como 'reserved' em algumas docs). Mantemos como Method=Buf[7].
   // Para Store-only smoke, qualquer valor serve.
@@ -380,7 +380,7 @@ begin
   // After basic header: header_crc32 (4 bytes) + ext_hdr chain
   ReadOffset := AOffset + 4 + BasicHdrSize + 4;  // skip header CRC
 
-  // Ext header chain â€” each: 2 bytes size; if size=0 done; else size bytes + 4 bytes ext CRC
+  // Ext header chain — each: 2 bytes size; if size=0 done; else size bytes + 4 bytes ext CRC
   while ReadOffset + 2 <= FStream.Size do
   begin
     ExtSize := ReadLEUInt16At(ReadOffset);
@@ -513,7 +513,7 @@ begin
   if FEntries[Idx].IsDirectory then
     raise EArjError.CreateFmt('TArjFile.ReadAsBytes: "%s" eh um diretorio', [AName]);
 
-  // Method 0 = stored. Methods 1-9 = ARJ LZ77 variants â€” deferidos v3.4.1.
+  // Method 0 = stored. Methods 1-9 = ARJ LZ77 variants — deferidos v3.4.1.
   if FEntries[Idx].Method <> 0 then
     raise EArjMethodNotSupported.CreateFmt(
       'TArjFile.ReadAsBytes: method %d nao suportado em v3.4 (apenas method 0 / Store; ' +

@@ -1,17 +1,17 @@
-﻿{ Bzip2.Bzip2Stream.pas
+{ Bzip2.Stream.pas
 
-  BZIP2 stream compression/decompression â€” binding ao bzip2 1.1.0-dev SDK
+  BZIP2 stream compression/decompression — binding ao bzip2 1.1.0-dev SDK
   (Snyder fork) compilado em 4 toolchains via tools/Build-Bzip2Objs.ps1:
    - Delphi Win32 OMF (bcc32c)
-   - Delphi Win64 ELF (bcc64) â€” habilitado em v3.8
-   - FPC Win32+Win64 COFF (mingw-w64) â€” habilitado em v3.8
+   - Delphi Win64 ELF (bcc64) — habilitado em v3.8
+   - FPC Win32+Win64 COFF (mingw-w64) — habilitado em v3.8
 
   API minimalista:
    - Bz2CompressBytes  / Bz2DecompressBytes
    - Bz2CompressStream / Bz2DecompressStream (one-shot buffer-in-memory)
 
   Streaming real (TBz2CompressStream/TBz2DecompressStream classes) deferido
-  para v3.8.1 â€” exige BZ2_bzCompress/BZ2_bzDecompress sequenciais com
+  para v3.8.1 — exige BZ2_bzCompress/BZ2_bzDecompress sequenciais com
   estado bz_stream persistente entre chamadas, similar ao zlib z_stream.
 }
 unit Bzip2.Stream;
@@ -62,9 +62,9 @@ implementation
 //
 // BZ2_bzBuffToBuff* sao __stdcall em Win32 (WINAPI macro), mas o symbol
 // fica SEM prefixo nas duas plataformas que importamos:
-//   bcc32c stdcall â†’ `BZ2_bzBuffToBuffCompress` (sem `_`, sem `@N`)
-//   bcc64 (sem stdcall distinto) â†’ `BZ2_bzBuffToBuffCompress`
-//   mingw stdcall Win32 â†’ `_BZ2_bzBuffToBuffCompress@28` (com `_` e `@N`)
+//   bcc32c stdcall → `BZ2_bzBuffToBuffCompress` (sem `_`, sem `@N`)
+//   bcc64 (sem stdcall distinto) → `BZ2_bzBuffToBuffCompress`
+//   mingw stdcall Win32 → `_BZ2_bzBuffToBuffCompress@28` (com `_` e `@N`)
 // Para FPC mingw, precisariamos definir `BZ_NO_STDCALL` ou recompilar
 // sem `WINAPI`. Vamos forcar BZ_API = func cdecl puro via -DBZ_NO_WINAPI
 // se necessario para FPC. Por ora, smoke FPC fica pendente.
@@ -171,7 +171,7 @@ end;
 
 // bzlib.c usa fprintf(stderr, ...) so em BZ2_bz__AssertH__fail e em
 // bzopen-style helpers (alto-nivel). API one-shot que usamos nao bate
-// nesses paths â€” stubs no-op cobrem a linkagem.
+// nesses paths — stubs no-op cobrem a linkagem.
 //
 // Win64 + FPC mingw: -DBZ_NO_STDIO desabilita esses paths no source, entao
 // nao precisamos dos stubs stdio. So Win32 (que nao passamos -DBZ_NO_STDIO
@@ -187,7 +187,7 @@ var
 // cdecl + varargs nao permitido em Pascal-implementado; fprintf/printf
 // no path de fprintf so dispara em assertion failures que nao queremos
 // suportar mesmo. Stubs sem varargs sao OK porque cdecl callee nao precisa
-// limpar stack (caller cleanup) â€” extra args ficam stranded mas nao crash.
+// limpar stack (caller cleanup) — extra args ficam stranded mas nao crash.
 {$IFDEF WIN32}
 function _fprintf(stream: Pointer; const fmt: PAnsiChar): Integer; cdecl;
 begin
@@ -269,7 +269,7 @@ begin
 end;
 {$ENDIF}  // WIN32 stdio stubs
 
-// Linkagem do BZIP2 â€” TODOS os .c combinados num unico OBJ via BzipCombined.c
+// Linkagem do BZIP2 — TODOS os .c combinados num unico OBJ via BzipCombined.c
 // (mutual deps bzlib.c <-> compress.c <-> blocksort.c <-> ... resolvem internamente)
 {$IFDEF WIN32}
   {$L ..\Library\delphi-win32\BzipCombined.obj}
@@ -278,7 +278,7 @@ end;
   {$L ..\Library\delphi-win64\BzipCombined.o}
 {$ENDIF}
 
-// BZ2_bzBuffToBuffCompress â€” one-shot in-memory compression
+// BZ2_bzBuffToBuffCompress — one-shot in-memory compression
 //   dest, destLen: output buffer + size (in: capacity, out: actual)
 //   source, sourceLen: input
 //   blockSize100k: 1..9 (9 = best compression, 900KB block)
@@ -290,7 +290,7 @@ end;
 // NAO cdecl, senao o callee ja desempilhou args (stdcall) e o caller faz
 // pop redundante causando AV ao retornar. bcc32c clang emite o symbol
 // SEM prefixo `_` quando __stdcall (diferente do cdecl OMF que adiciona
-// `_`). Em Win64, x64 ABI nao tem distinÃ§Ã£o stdcall/cdecl no ABI â€” bcc64
+// `_`). Em Win64, x64 ABI nao tem distinção stdcall/cdecl no ABI — bcc64
 // emite sem prefixo direto.
 function BZ2_bzBuffToBuffCompress(
   dest: Pointer; var destLen: Cardinal;

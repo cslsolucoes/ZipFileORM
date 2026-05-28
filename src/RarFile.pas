@@ -1,25 +1,25 @@
-﻿{ RarFile.pas
+{ RarFile.pas
 
-  TRarFile â€” READ-only RAR decoder, pure-pascal.
+  TRarFile — READ-only RAR decoder, pure-pascal.
 
   Suporta:
    - RAR5 format (marker "Rar!\x1A\x07\x01\x00", 8 bytes)
    - Variable-length integer (vint) decoder (LSB-first, 7-bit + continuation)
    - Block parsing: archive header, file headers, end-of-archive
-   - Method 0 (store / no compression) â€” extract direto
+   - Method 0 (store / no compression) — extract direto
    - UTF-8 filenames (RAR5 nativo)
    - Listing/metadata para qualquer method
 
   NAO suporta nesta versao (deferido para v3.5.1):
-   - RAR4 legacy format (marker "Rar!\x1A\x07\x00", 7 bytes) â€” autodetect
+   - RAR4 legacy format (marker "Rar!\x1A\x07\x00", 7 bytes) — autodetect
      emite EUnsupportedFormat
-   - Methods 1-5 (RAR LZSS, PPMd) â€” ReadAsBytes raise ERarMethodNotSupported
+   - Methods 1-5 (RAR LZSS, PPMd) — ReadAsBytes raise ERarMethodNotSupported
    - Encryption (header ou data)
    - Multi-volume archives
    - WRITE
 
   Cross-platform: Delphi (Win32/Win64) + FPC (Win32/Win64/Linux i386/x86_64).
-  Sem dependencia C â€” apenas SysUtils + Classes.
+  Sem dependencia C — apenas SysUtils + Classes.
 
   API espelhada de TZipFile/TLhaFile/TArjFile/TIsoFile.
 
@@ -109,7 +109,7 @@ type
     FStream: TFileStream;
     FEntries: array of TRarEntry;
     FIsRar5: Boolean;
-    // Read-only header info â€” populated by ParseRar4/ParseRar5.
+    // Read-only header info — populated by ParseRar4/ParseRar5.
     FMajorVersion: Byte;        // 4 ou 5
     FMinVersionToExtract: Byte; // RAR5: version_to_extract
     FArchiveFlags: Cardinal;    // archive header flags
@@ -128,7 +128,7 @@ type
     FHasLockFlag: Boolean;       // Lock flag (archive read-only flag)
     FIsFirstVolume: Boolean;     // True se este eh o primeiro volume do set
     FIsLastVolume: Boolean;      // True se este eh o ultimo volume do set
-    FQuickOpenInfo: Boolean;     // QO header presente (RAR5 â€” quick directory access)
+    FQuickOpenInfo: Boolean;     // QO header presente (RAR5 — quick directory access)
     FArchiveNameInternal: string; // archive name dentro do header (RAR4 .sfx)
 
     function ReadByte_: Byte;
@@ -200,7 +200,7 @@ type
     property IsFirstVolume: Boolean read FIsFirstVolume;
     // True se este eh o ultimo volume do multi-volume set.
     property IsLastVolume: Boolean read FIsLastVolume;
-    // True se QuickOpen header presente (RAR5 â€” speedup directory access).
+    // True se QuickOpen header presente (RAR5 — speedup directory access).
     property QuickOpenInfo: Boolean read FQuickOpenInfo;
     // Nome interno do archive (RAR4 SFX armazena o nome original).
     property ArchiveNameInternal: string read FArchiveNameInternal;
@@ -315,7 +315,7 @@ begin
     Exit;
   end;
 
-  // RAR4: "Rar!\x1A\x07\x00" (7 bytes) â€” deferido v3.5.1
+  // RAR4: "Rar!\x1A\x07\x00" (7 bytes) — deferido v3.5.1
   if (Marker[0] = $52) and (Marker[1] = $61) and (Marker[2] = $72) and (Marker[3] = $21) and
      (Marker[4] = $1A) and (Marker[5] = $07) and (Marker[6] = $00) then
   begin
@@ -365,7 +365,7 @@ begin
         Exit;
 
       RAR_BLOCK_MAIN:
-        ; // archive header â€” ignored para listing
+        ; // archive header — ignored para listing
 
       RAR_BLOCK_FILE:
         begin
@@ -506,7 +506,7 @@ begin
   if FEntries[Idx].IsDirectory then
     raise ERarError.CreateFmt('TRarFile.ReadAsBytes: "%s" eh um diretorio', [AName]);
 
-  // Method 0 = stored. Methods 1-5 = LZSS/PPMd â€” deferidos v3.5.1.
+  // Method 0 = stored. Methods 1-5 = LZSS/PPMd — deferidos v3.5.1.
   if FEntries[Idx].Method <> 0 then
     raise ERarMethodNotSupported.CreateFmt(
       'TRarFile.ReadAsBytes: method %d nao suportado em v3.5 (apenas method 0 / Store; ' +

@@ -1,5 +1,5 @@
-﻿{ ZipFile.Fluent.pas
-  Fluent builder API over TZipFile â€” opt-in convenience wrapper that does
+{ ZipFile.Fluent.pas
+  Fluent builder API over TZipFile — opt-in convenience wrapper that does
   NOT change anything about the legacy TZipFile API. Use it when you want
   a chained, readable, single-expression build:
 
@@ -9,7 +9,7 @@
         .WithAES('correct horse battery staple')
         .OnProgress(MyHandler)
         .AppendStream(stream, 'a.bin')
-        .AppendFile('relatÃ³rio.txt', 'relatÃ³rio.txt')
+        .AppendFile('relatório.txt', 'relatório.txt')
         .Execute;
 
   Or to read:

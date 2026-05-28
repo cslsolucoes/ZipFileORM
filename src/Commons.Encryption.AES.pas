@@ -1,4 +1,4 @@
-﻿{ ZipFile.Encryption.AES.pas
+{ Commons.Encryption.AES.pas
 
   WinZip AE-2 AES-256 encryption for ZIP entries.
 
@@ -43,7 +43,7 @@ const
   WINZIP_AES_EXTRA_FIELD_ID  = $9901;
   // Compression method placeholder when AES-encrypted (real method is in extra)
   WINZIP_AES_METHOD          = 99;
-  // GP flag bit 0 â€” encryption indicator
+  // GP flag bit 0 — encryption indicator
   GP_FLAG_ENCRYPTED          = $0001;
 
 type
@@ -314,7 +314,7 @@ begin
 end;
 
 // =============================================================================
-//   AES-256 (FIPS 197) â€” pure-pascal, no T-tables
+//   AES-256 (FIPS 197) — pure-pascal, no T-tables
 // =============================================================================
 
 const
@@ -412,7 +412,7 @@ begin
 end;
 
 // CPUID-based AES-NI capability test (cached). Only meaningful on x64 Delphi
-// builds â€” FPC and Win32 always use the pure-pascal path.
+// builds — FPC and Win32 always use the pure-pascal path.
 {$IF NOT DEFINED(FPC) AND DEFINED(CPUX64)}
 {$DEFINE ZIPFILE_AESNI_CANDIDATE}
 {$IFEND}
@@ -422,7 +422,7 @@ var
   GAESNICached: Integer = -1;  // -1 = not probed, 0 = not available, 1 = available
 
 // Dedicated asm-only function (Win64 ABI does not allow inline asm in
-// regular Pascal bodies â€” only fully-asm procedures).
+// regular Pascal bodies — only fully-asm procedures).
 // Returns CPUID(1).ECX as a Cardinal so the AESNI flag (bit 25) can be tested.
 function CpuId1Ecx: Cardinal;
 asm
@@ -501,7 +501,7 @@ begin
     // SubBytes
     for I := 0 to 15 do
       State[I] := SBOX[State[I]];
-    // ShiftRows â€” operate on columns (col-major layout: State[col*4+row])
+    // ShiftRows — operate on columns (col-major layout: State[col*4+row])
     // row 0: no shift
     // row 1: shift left 1
     T0 := State[1];

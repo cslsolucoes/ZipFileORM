@@ -1,4 +1,4 @@
-﻿{ UUE.UUEStream.pas
+{ UUE.Stream.pas
 
   uuencode/uudecode pure-pascal (formato Unix tradicional).
   Stream-based + helpers para encoding/decoding de TBytes/string.

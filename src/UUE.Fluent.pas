@@ -1,4 +1,4 @@
-﻿{ UUE.Fluent.pas
+{ UUE.Fluent.pas
   Fluent builder API sobre UUE codec (UUE.UUEStream).
 
   Uso (encode):

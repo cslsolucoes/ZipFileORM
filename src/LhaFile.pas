@@ -1,22 +1,22 @@
-﻿{ LhaFile.pas
+{ LhaFile.pas
 
-  TLhaFile â€” READ-only LHA/LZH decoder, pure-pascal.
+  TLhaFile — READ-only LHA/LZH decoder, pure-pascal.
 
   Suporta:
    - Header level 0, 1, 2 parsing completo
-   - Method `-lh0-` (Store / no compression) â€” extract direto
+   - Method `-lh0-` (Store / no compression) — extract direto
    - Listing/metadata para qualquer method (-lh1- a -lh7-, -lzs-, -lz4-, etc.)
    - Detecao de directory entries (-lhd-)
 
   NAO suporta nesta versao (deferido para v3.3.1):
-   - Methods -lh1- a -lh7- (LZSS + static/dynamic Huffman) â€” ReadAsBytes
+   - Methods -lh1- a -lh7- (LZSS + static/dynamic Huffman) — ReadAsBytes
      raise ELhaError 'method not supported'
    - Methods -lzs-, -lz4-, -lz5-, -lh8-, -lh9- (legacy/raros)
-   - WRITE â€” apenas READ
+   - WRITE — apenas READ
    - Multi-volume archives
 
   Cross-platform: Delphi (Win32/Win64) + FPC (Win32/Win64/Linux i386/x86_64).
-  Sem dependencia C â€” apenas SysUtils + Classes.
+  Sem dependencia C — apenas SysUtils + Classes.
 
   API espelhada de TZipFile/TSevenZFile/TIsoFile.
 
@@ -77,7 +77,7 @@ type
     FOnLog: TArchiveLogEvent;
     FStream: TFileStream;
     FEntries: array of TLhaEntry;
-    // Read-only info â€” populated by DoOpenAndIndex.
+    // Read-only info — populated by DoOpenAndIndex.
     FHeaderLevel: Byte;          // 0, 1, 2 ou 3 (LHA header format variant)
     FOSCode: Byte;               // OS marker per LHA spec ($4D=M=MSDOS, $4A=J=Java,
                                  //   $55=U=Unix, $57=W=Windows, $4D=Mac, etc.)
@@ -132,7 +132,7 @@ type
     property EntryCount: Integer read GetEntryCount;
 
     // ---- Read-only LHA header info ----
-    // 0, 1, 2 ou 3 â€” variante do header LHA (Level-0 mais antigo, Level-2 default moderno).
+    // 0, 1, 2 ou 3 — variante do header LHA (Level-0 mais antigo, Level-2 default moderno).
     property HeaderLevel: Byte read FHeaderLevel;
     // OS marker per LHA spec: 'M'=$4D MSDOS, 'U'=$55 Unix, 'W'=$57 Windows,
     // 'J'=$4A Java/CP932, 'm'=$6D Mac, '2'=$32 OS/2 etc.
@@ -235,7 +235,7 @@ end;
 
 // Level 0/1: header size byte + 21 bytes fixed + filename + CRC + extended.
 // Layout (offsets relativos ao inicio do header, antes do header_size byte):
-//   -1: (nada â€” header_size eh o primeiro byte do header)
+//   -1: (nada — header_size eh o primeiro byte do header)
 //    0: header_size (1 byte) - tamanho do header excluindo este byte e checksum
 //    1: header_sum (1 byte)
 //    2: method[5]
@@ -287,7 +287,7 @@ begin
   AEntry.HeaderLevel := Level;
   AEntry.IsDirectory := (Method = '-lhd-') or ((Attr and $10) <> 0);
 
-  // Filename (FnLen bytes at offset AOffset + 22) â€” single-byte ASCII/CP
+  // Filename (FnLen bytes at offset AOffset + 22) — single-byte ASCII/CP
   // codepage. Read into AnsiString primeiro, depois converte para string
   // Unicode preservando bytes (assume ASCII/OEM).
   ReadBytesAt(AOffset + 22, HdrBuf, FnLen);
@@ -411,7 +411,7 @@ begin
         Move(HdrBuf[0], FnAnsi[1], ExtSize - 3);
       Fn := string(FnAnsi);
     end
-    else if ExtId = $02 then  // directory header â€” concatenar
+    else if ExtId = $02 then  // directory header — concatenar
     begin
       ReadBytesAt(ExtOffset + 3, HdrBuf, ExtSize - 3);
       SetLength(DirAnsi, ExtSize - 3);
@@ -562,7 +562,7 @@ begin
 
   // Decompressao: apenas Store (-lh0-) implementada em pure-pascal.
   // Methods Huffman-based (-lh1- a -lh7-, -lzs-) requerem decoder LZSS +
-  // tabela Huffman â€” deferidos para v3.3.1 (provavelmente static-link
+  // tabela Huffman — deferidos para v3.3.1 (provavelmente static-link
   // SDK sdk/lha/src/{huf,dhuf,shuf,larc,slide}.c via Combined.c).
   if FEntries[Idx].Method = '-lh0-' then
   begin
@@ -608,7 +608,7 @@ begin
 end;
 
 // =============================================================================
-//   v3.3.2 LH4/5/6/7 decoder â€” LZSS + static Huffman pure-pascal port
+//   v3.3.2 LH4/5/6/7 decoder — LZSS + static Huffman pure-pascal port
 //   derivado de sdk/lha/src/[huf,bitio,maketbl,slide].c
 // =============================================================================
 //
@@ -700,7 +700,7 @@ begin
   Result := Ctx.Bitbuf shr (16 - N);
 end;
 
-// Make Huffman decode table â€” port direto de sdk/lha/src/maketbl.c
+// Make Huffman decode table — port direto de sdk/lha/src/maketbl.c
 function LhaMakeTable(var Ctx: TLhaDecodeCtx;
   NChar: Integer; const BitLen: array of Byte;
   TableBits: Integer; Table: PWord): Integer;
@@ -754,7 +754,7 @@ begin
     if L = 0 then Continue;
     if L <= TableBits then
     begin
-      // code fits in table â€” direct fill
+      // code fits in table — direct fill
       I := Integer(Start[L]);
       M := I + Integer(Weight[L]);
       if M > TableSize then M := TableSize;
@@ -767,7 +767,7 @@ begin
     end
     else
     begin
-      // long code â€” traverse tree
+      // long code — traverse tree
       Idx := Start[L];
       Ptr := @PWordArray(Table)^[Idx shr (16 - TableBits)];
       Idx := Idx shl TableBits;

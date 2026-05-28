@@ -1,11 +1,11 @@
-﻿{ Tar.GzipStream.pas
+{ TarFile.GzipStream.pas
 
   Streams Gzip (RFC 1952) sobre TStream. Wraps:
   - Delphi: System.ZLib (TZCompressionStream/TZDecompressionStream com
     parametro WindowBits = 31 que ativa gzip header em vez de zlib raw)
   - FPC: zstream unit (Tcompressionstream/Tdecompressionstream nao oferecem
     gzip diretamente; fallback aqui usa System.ZLib via wrapper unicode-aware
-    OU port pure-pascal â€” TODO v3.6 quando integrar LZMA FPC)
+    OU port pure-pascal — TODO v3.6 quando integrar LZMA FPC)
 
   API:
   - TGzipReadStream(InnerStream): le bytes gzipped do inner e devolve
@@ -190,7 +190,7 @@ end;
 
 destructor TGzipWriteStream.Destroy;
 begin
-  // FZStream.Destroy flush + close â€” DEVE rodar antes de FInner.Free.
+  // FZStream.Destroy flush + close — DEVE rodar antes de FInner.Free.
   FreeAndNil(FZStream);
   if FOwnsInner then
     FreeAndNil(FInner);

@@ -1,11 +1,11 @@
-﻿{ GzipFile.pas
+{ GzipFile.pas
 
   Single-file Gzip (RFC 1952) component. Para o caso comum de comprimir/
   descomprimir UM arquivo (.log.gz, .sql.gz, .txt.gz) sem packaging tar.
 
-  DiferenÃ§as vs. TTarGzFile:
+  Diferenças vs. TTarGzFile:
   - TTarGzFile = tar + gzip combo (multi-arquivo, virtual filesystem).
-  - TGzipFile  = single-file gzip apenas (1 source â†’ 1 .gz; 1 .gz â†’ 1 target).
+  - TGzipFile  = single-file gzip apenas (1 source → 1 .gz; 1 .gz → 1 target).
 
   API typical:
     GzipFile1.FileName := 'app.log.gz';
@@ -53,15 +53,15 @@ type
     FLevel: Integer;
     FOriginalName: string;
     FComment: string;                  // gzip COMMENT header field (RFC 1952)
-    FOriginalTimestamp: TDateTime;     // MTIME field â€” emitted on Compress*; populated by Open
+    FOriginalTimestamp: TDateTime;     // MTIME field — emitted on Compress*; populated by Open
     FOSCode: Byte;                     // OS field (3=Unix, 0=FAT, 11=NTFS, 255=unknown)
-    // Read-only â€” populated after Open ou DecompressTo*.
+    // Read-only — populated after Open ou DecompressTo*.
     FCRC32: LongWord;
-    FUncompressedSize: Int64;          // ISIZE field (modulo 2^32 per RFC â€” Int64 to allow >4GB approx)
+    FUncompressedSize: Int64;          // ISIZE field (modulo 2^32 per RFC — Int64 to allow >4GB approx)
     FCompressedSize: Int64;            // physical .gz file size
     // v3.12 extra RFC 1952 / deflate options
-    FTextMode: Boolean;                // FTEXT bit (FLG[0]) â€” likely ASCII text
-    FHeaderCRC: Boolean;               // FHCRC bit (FLG[1]) â€” adds 2-byte CRC16 do header
+    FTextMode: Boolean;                // FTEXT bit (FLG[0]) — likely ASCII text
+    FHeaderCRC: Boolean;               // FHCRC bit (FLG[1]) — adds 2-byte CRC16 do header
     FExtraField: TBytes;               // FEXTRA bytes (FLG[2])
     FStrategy: Byte;                   // Deflate strategy: 0=default, 1=filtered, 2=huffman-only,
                                        //   3=RLE, 4=fixed. Default 0.
@@ -73,7 +73,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    // Abrir/fechar â€” equivalente a checar se o .gz existe e Ã© legÃ­vel.
+    // Abrir/fechar — equivalente a checar se o .gz existe e é legível.
     procedure Open;
     procedure Close;
 
@@ -89,7 +89,7 @@ type
     function  DecompressToBytes: TBytes;
     function  DecompressToString: string;
 
-    // One-shot helpers (nÃ£o exigem FileName / Active).
+    // One-shot helpers (não exigem FileName / Active).
     class procedure CompressFile(const ASourcePath, ATargetGzPath: string; ALevel: Integer = 6);
     class procedure DecompressFile(const ASourceGzPath, ATargetPath: string);
 
@@ -105,7 +105,7 @@ type
     // 1=fast, 9=best, 6=balance.
     property Level: Integer read FLevel write SetLevel default 6;
 
-    // ---- Header metadata (RFC 1952) â€” emitted on Compress*; reservado para
+    // ---- Header metadata (RFC 1952) — emitted on Compress*; reservado para
     // populacao via Open. Implementacao do parser de header gzip fica para v3.2.
     // Original filename (FNAME field).
     property OriginalName: string read FOriginalName write FOriginalName;
@@ -117,11 +117,11 @@ type
     property OSCode: Byte read FOSCode write FOSCode default 255;
 
     // ---- Advanced gzip flags (RFC 1952) ----
-    // FTEXT bit (FLG[0]) â€” hint que conteudo eh ASCII text.
+    // FTEXT bit (FLG[0]) — hint que conteudo eh ASCII text.
     property TextMode: Boolean read FTextMode write FTextMode default False;
-    // FHCRC bit (FLG[1]) â€” adiciona CRC16 do header gzip.
+    // FHCRC bit (FLG[1]) — adiciona CRC16 do header gzip.
     property HeaderCRC: Boolean read FHeaderCRC write FHeaderCRC default False;
-    // FEXTRA bytes (FLG[2]) â€” extension field para aplicacoes especificas.
+    // FEXTRA bytes (FLG[2]) — extension field para aplicacoes especificas.
     property ExtraField: TBytes read FExtraField write FExtraField;
     // Deflate strategy: 0=default, 1=filtered, 2=huffman-only, 3=RLE, 4=fixed.
     property Strategy: Byte read FStrategy write FStrategy default 0;

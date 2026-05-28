@@ -1,8 +1,8 @@
-﻿{ SevenZFile.pas
+{ SevenZFile.pas
 
-  TSevenZFile â€” READ-only 7zip (.7z) decoder for Delphi (Win32+Win64).
+  TSevenZFile — READ-only 7zip (.7z) decoder for Delphi (Win32+Win64).
 
-  ImplementaÃ§Ã£o: linka estaticamente os .obj/.o do LZMA SDK 24.07 (jÃ¡
+  Implementação: linka estaticamente os .obj/.o do LZMA SDK 24.07 (já
   presentes em Lib/lzma_obj_win32 + Lib/lzma_obj_win64) + wrapper
   minimalista C (sdk/lzma2601/C/SevenZWrapper.c) que encapsula:
    - CSzArEx (archive directory)
@@ -15,14 +15,14 @@
    - GetEntryStream, ReadAsBytes, ReadAsString
    - FindFirst/Next (opcional)
 
-  NÃ£o suporta WRITE (v3.2 se demanda â€” encoder LZMA2 + container 7z Ã©
-  complexo). NÃ£o suporta archives 7z criptografados com senha por
+  Não suporta WRITE (v3.2 se demanda — encoder LZMA2 + container 7z é
+  complexo). Não suporta archives 7z criptografados com senha por
   enquanto (TODO v3.1.1 via SzCtx_SetPassword extender wrapper).
 
   Plataformas suportadas (v3.1.1+):
-   - Delphi Win32: âœ… via OBJs OMF (bcc32c BCC102/D29)
-   - Delphi Win64: âœ… via OBJs ELF (bcc64 D37) + Aes/Sha256 combinados
-     (fix mutual deps + stub HW; vide Â§15.4 do SPEC v3.x)
+   - Delphi Win32: ✅ via OBJs OMF (bcc32c BCC102/D29)
+   - Delphi Win64: ✅ via OBJs ELF (bcc64 D37) + Aes/Sha256 combinados
+     (fix mutual deps + stub HW; vide §15.4 do SPEC v3.x)
    - FPC: raise ESevenZNotSupportedOnPlatform (sem rota planeada).
 }
 unit SevenZFile;
@@ -44,21 +44,21 @@ type
   // 7z format spec (lzma SDK / 7zFormat.txt):
   //
   // Compressores:
-  //   szmCopy        = $00            â€” sem compressao (Store)
-  //   szmLzma2       = $21            â€” LZMA2 (default, melhor general-purpose)
-  //   szmLzma        = $03 $01 $01    â€” LZMA classico (pre-LZMA2)
-  //   szmPpmd        = $03 $04 $01    â€” PPMd (compressao de texto excelente)
-  //   szmDeflate     = $04 $01 $08    â€” Deflate (zlib â€” compat .zip)
-  //   szmDeflate64   = $04 $01 $09    â€” Deflate64 (PKWARE extension)
-  //   szmBzip2       = $04 $02 $02    â€” bzip2 (Burrows-Wheeler)
-  //   szmZstd        = $04 $F7 $11 $01 â€” Zstandard (extensao 7-zip 22+)
-  //   szmBrotli      = $04 $F7 $11 $02 â€” Brotli (extensao 7-zip 22+)
-  //   szmLz4         = $04 $F7 $11 $04 â€” LZ4 (extensao 7-zip 22+)
-  //   szmLz5         = $04 $F7 $11 $05 â€” LZ5
-  //   szmLizard      = $04 $F7 $11 $06 â€” Lizard
+  //   szmCopy        = $00            — sem compressao (Store)
+  //   szmLzma2       = $21            — LZMA2 (default, melhor general-purpose)
+  //   szmLzma        = $03 $01 $01    — LZMA classico (pre-LZMA2)
+  //   szmPpmd        = $03 $04 $01    — PPMd (compressao de texto excelente)
+  //   szmDeflate     = $04 $01 $08    — Deflate (zlib — compat .zip)
+  //   szmDeflate64   = $04 $01 $09    — Deflate64 (PKWARE extension)
+  //   szmBzip2       = $04 $02 $02    — bzip2 (Burrows-Wheeler)
+  //   szmZstd        = $04 $F7 $11 $01 — Zstandard (extensao 7-zip 22+)
+  //   szmBrotli      = $04 $F7 $11 $02 — Brotli (extensao 7-zip 22+)
+  //   szmLz4         = $04 $F7 $11 $04 — LZ4 (extensao 7-zip 22+)
+  //   szmLz5         = $04 $F7 $11 $05 — LZ5
+  //   szmLizard      = $04 $F7 $11 $06 — Lizard
   TSevenZMethod = (
     szmCopy,         // $00
-    szmLzma2,        // $21 â€” default
+    szmLzma2,        // $21 — default
     szmLzma,         // $03 $01 $01
     szmPpmd,         // $03 $04 $01
     szmDeflate,      // $04 $01 $08
@@ -75,16 +75,16 @@ type
   // Detectados por arquitetura do binario para melhorar ratio.
   // CodecIDs $03 $03 *:
   //   szfNone     = sem filtro (default)
-  //   szfDelta    = $03 $03 $08 $01 â€” Delta encoding (audio/imagens)
-  //   szfBCJ      = $03 $03 $01 $03 â€” Branch Call/Jump x86 32-bit
-  //   szfBCJ2     = $03 $03 $01 $1B â€” BCJ2 (BCJ com 4 streams output)
-  //   szfPPC      = $03 $03 $02 $05 â€” PowerPC big-endian
-  //   szfIA64     = $03 $03 $04 $01 â€” Intel Itanium IA-64
-  //   szfARM      = $03 $03 $05 $01 â€” ARM little-endian
-  //   szfARMT     = $03 $03 $07 $01 â€” ARM Thumb
-  //   szfSPARC    = $03 $03 $08 $05 â€” SPARC
-  //   szfARM64    = $03 $03 $0A $01 â€” ARM64 / AArch64
-  //   szfRISCV    = $03 $03 $0B $01 â€” RISC-V
+  //   szfDelta    = $03 $03 $08 $01 — Delta encoding (audio/imagens)
+  //   szfBCJ      = $03 $03 $01 $03 — Branch Call/Jump x86 32-bit
+  //   szfBCJ2     = $03 $03 $01 $1B — BCJ2 (BCJ com 4 streams output)
+  //   szfPPC      = $03 $03 $02 $05 — PowerPC big-endian
+  //   szfIA64     = $03 $03 $04 $01 — Intel Itanium IA-64
+  //   szfARM      = $03 $03 $05 $01 — ARM little-endian
+  //   szfARMT     = $03 $03 $07 $01 — ARM Thumb
+  //   szfSPARC    = $03 $03 $08 $05 — SPARC
+  //   szfARM64    = $03 $03 $0A $01 — ARM64 / AArch64
+  //   szfRISCV    = $03 $03 $0B $01 — RISC-V
   TSevenZFilter = (
     szfNone, szfDelta, szfBCJ, szfBCJ2, szfPPC, szfIA64,
     szfARM, szfARMT, szfSPARC, szfARM64, szfRISCV
@@ -92,18 +92,18 @@ type
 
   // Crypto methods (codec chain $06 $F1 *):
   //   szcNone     = sem encryption
-  //   szcAES256   = $06 $F1 $07 $01 â€” AES-256 + SHA-256 (7z default)
-  //   szcZipCrypto= $06 $F1 $07 $02 â€” ZipCrypto (PKWARE legacy, weak)
+  //   szcAES256   = $06 $F1 $07 $01 — AES-256 + SHA-256 (7z default)
+  //   szcZipCrypto= $06 $F1 $07 $02 — ZipCrypto (PKWARE legacy, weak)
   TSevenZCrypto = (szcNone, szcAES256, szcZipCrypto);
 
   // LZMA match finder algorithm (parametro `mf` em 7-zip CLI).
   //   mfBT2  = binary tree, 2-byte hash
   //   mfBT3  = binary tree, 3-byte hash
-  //   mfBT4  = binary tree, 4-byte hash (default â€” best ratio)
+  //   mfBT4  = binary tree, 4-byte hash (default — best ratio)
   //   mfHC4  = hash chain, 4-byte hash (faster, lower ratio)
   TLzmaMatchFinder = (mfBT2, mfBT3, mfBT4, mfHC4);
 
-  // LZMA encoding algorithm: fast (0) ou normal (1, default â€” better ratio).
+  // LZMA encoding algorithm: fast (0) ou normal (1, default — better ratio).
   TLzmaAlgorithm = (laFast, laNormal);
 
   TSevenZFile = class(TComponent)
@@ -153,13 +153,13 @@ type
     FDictionarySize: Int64;            // LZMA dict em bytes (default 64MB)
     // ---- Parametros LZMA/LZMA2 avancados (CLI -m{...}) ----
     FAlgorithm: TLzmaAlgorithm;        // -ma (laNormal default)
-    FFastBytes: Integer;               // -mfb (5..273, default 32 â€” fb)
+    FFastBytes: Integer;               // -mfb (5..273, default 32 — fb)
     FMatchFinder: TLzmaMatchFinder;    // -mmf (mfBT4 default)
     FMatchCycles: Integer;             // -mmc (1..N, default 32)
     FLiteralContextBits: Integer;      // -mlc (0..8, default 3)
     FLiteralPosBits: Integer;          // -mlp (0..4, default 0)
     FPosBits: Integer;                 // -mpb (0..4, default 2)
-    FNumHashBytes: Integer;            // -mhb (2..4 â€” for BT match finders)
+    FNumHashBytes: Integer;            // -mhb (2..4 — for BT match finders)
     FBlockSize: Int64;                 // LZMA2 parallel block size (0 = auto)
     FWriteEndMark: Boolean;            // emit LZMA end-of-stream marker
     // ---- Codec chain extras (filters + crypto) ----
@@ -167,7 +167,7 @@ type
     FDeltaDistance: Integer;           // distancia para Delta filter (1..256, default 1)
     FCryptoMethod: TSevenZCrypto;      // metodo de encryption (default szcAES256)
     // ---- Encryption ----
-    FPassword: string;                 // AES-256 â€” reservado para v3.13
+    FPassword: string;                 // AES-256 — reservado para v3.13
     FEncryptHeaders: Boolean;          // criptografa nomes alem do conteudo
     // ---- Archive flags (CLI -m{he,hc,qs,tm,tc,ta,tr,sfx,myx}) ----
     FSolidArchive: Boolean;            // -ms (solid mode)
@@ -206,7 +206,7 @@ type
     procedure Open;
     procedure Close;
 
-    // Read API (Delphi Win32/Win64 only â€” requires SDK static link)
+    // Read API (Delphi Win32/Win64 only — requires SDK static link)
     function GetEntryCount: Integer;
     function FileExists(const AName: string): Boolean;
     function IsDir(AIndex: Integer): Boolean;
@@ -217,7 +217,7 @@ type
     function ReadAsBytes(const AName: string): TBytes;
     function ReadAsString(const AName: string): string;
 
-    // Write API (cross-platform pure-pascal â€” Store / method "Copy" only).
+    // Write API (cross-platform pure-pascal — Store / method "Copy" only).
     // Methods LZMA2 / PPMd / etc. deferidos para v3.1.2 via Lzma2Enc.c link.
     // CreateFromFiles: 1 folder por arquivo (cleaner, no SubStreamsInfo).
     //   AFileList: pares [src_path, name_in_archive] alternados.
@@ -230,7 +230,7 @@ type
 
     // v3.1.3 LZMA2 compressed WRITE (via static-link Lzma2Enc.c).
     // ALevel: 0..9 (default 5). Cada arquivo em sua propria folder
-    // (1 packed stream LZMA2 por file â€” sem solid blocks).
+    // (1 packed stream LZMA2 por file — sem solid blocks).
     procedure CreateFromBytesLzma2(const ANames: array of string;
       const AData: array of TBytes; ALevel: Integer = 5);
     procedure CreateFromFilesLzma2(const AFileList: array of string;
@@ -261,7 +261,7 @@ type
     // ============================================================
     //   Parametros LZMA/LZMA2 avancados (CLI -m{a,fb,mf,mc,lc,lp,pb,hb})
     // ============================================================
-    // Algoritmo: laFast (0) ou laNormal (1, default â€” melhor ratio).
+    // Algoritmo: laFast (0) ou laNormal (1, default — melhor ratio).
     property Algorithm: TLzmaAlgorithm read FAlgorithm write FAlgorithm default laNormal;
     // Fast bytes (-mfb): 5..273. Default 32. Maior = melhor ratio + mais lento.
     property FastBytes: Integer read FFastBytes write SetFastBytes default 32;
@@ -289,12 +289,12 @@ type
     // de arquitetura especifica (BCJ x86, ARM, etc.) ou dados estruturados (Delta).
     // szfNone = sem filtro (default).
     property PreFilter: TSevenZFilter read FPreFilter write FPreFilter default szfNone;
-    // Distancia (em bytes) para Delta filter â€” bom para audio 16-bit (=2),
+    // Distancia (em bytes) para Delta filter — bom para audio 16-bit (=2),
     // 24-bit (=3), images RGB (=3), pixels RGBA (=4). 1..256, default 1.
     property DeltaDistance: Integer read FDeltaDistance write FDeltaDistance default 1;
 
     // ============================================================
-    //   Encryption (reservado v3.13 â€” declarado para API surface)
+    //   Encryption (reservado v3.13 — declarado para API surface)
     // ============================================================
     // AES-256 password. Vazio = sem criptografia.
     property Password: string read FPassword write FPassword;
@@ -353,7 +353,7 @@ type
     property IsSolidDetected: Boolean read FIsSolidDetected;
 
     // ============================================================
-    //   Events â€” full lifecycle (write/read/extract/multi-volume)
+    //   Events — full lifecycle (write/read/extract/multi-volume)
     // ============================================================
     // Basicos
     property OnFileChanged: TNotifyEvent read FOnFileChanged write FOnFileChanged;
@@ -404,10 +404,10 @@ type
 
 implementation
 
-// v3.1.1: Win64 HABILITADO â€” mesmo conjunto de .o ELF produzidos por bcc64
-// que Commons.Compression.LZMA jÃ¡ linka com sucesso em Win64. Subset
+// v3.1.1: Win64 HABILITADO — mesmo conjunto de .o ELF produzidos por bcc64
+// que Commons.Compression.LZMA já linka com sucesso em Win64. Subset
 // estendido inclui Aes/AesOpt/Sha256/Sha256Opt/7zCrc/7zCrcOpt (decoders
-// auxiliares 7z) â€” testar individualmente caso linker rejeite algum.
+// auxiliares 7z) — testar individualmente caso linker rejeite algum.
 {$IF DEFINED(WIN32) AND NOT DEFINED(FPC)}
   {$DEFINE SEVENZ_AVAILABLE}
 {$IFEND}
@@ -418,10 +418,10 @@ implementation
 {$IFDEF SEVENZ_AVAILABLE}
 
 // ---- CRT stubs locais ao unit ----
-// Pascal {$L} resolve externals OBJ por unit (nÃ£o cross-unit). Por isso
-// duplicamos os mesmos stubs cdecl que Commons.Compression.LZMA.pas jÃ¡
+// Pascal {$L} resolve externals OBJ por unit (não cross-unit). Por isso
+// duplicamos os mesmos stubs cdecl que Commons.Compression.LZMA.pas já
 // define localmente (malloc/free/realloc/memset/memcpy/memmove). Symbol
-// names cdecl Pascal nÃ£o conflictam entre units.
+// names cdecl Pascal não conflictam entre units.
 
 {$IFDEF WIN32}
   {$DEFINE SZ_C_UNDERSCORE}
@@ -497,7 +497,7 @@ begin
   Result := dest;
 end;
 
-// === Externs (cdecl) â€” wrapper C ===
+// === Externs (cdecl) — wrapper C ===
 // Win32 OMF: bcc32c prefixa com `_`. Win64 ELF: bcc64 NAO prefixa.
 
 {$IFDEF SZ_C_UNDERSCORE}
@@ -521,7 +521,7 @@ function SzCtx_Extract(ctx: Pointer; idx: Cardinal; outBuf: PByte; bufSize: UInt
 // v3.1.3: LZMA2 encoder externs (Lzma2Enc.c). Mesma logica de underscore
 // que SzCtx_*.
 type
-  // CLzmaEncProps layout â€” DEVE bater com LzmaEnc.h CLzmaEncProps record.
+  // CLzmaEncProps layout — DEVE bater com LzmaEnc.h CLzmaEncProps record.
   // Spec: level int; dictSize UInt32; lc/lp/pb int; algo int; fb int;
   //   btMode int; numHashBytes int; numHashOutBits unsigned; mc UInt32;
   //   writeEndMark unsigned; affinity UInt64; numThreads int (MT).
@@ -576,7 +576,7 @@ function Lzma2Enc_Encode2(p, outStream: Pointer; outBuf: PByte;
   progress: Pointer): Integer; cdecl; external name 'Lzma2Enc_Encode2';
 {$ENDIF}
 
-// ISzAlloc estrutura â€” necessario passar para Lzma2Enc_Create.
+// ISzAlloc estrutura — necessario passar para Lzma2Enc_Create.
 // Reusamos a logica de PascalSzAlloc do Commons.Compression.LZMA mas
 // duplicada aqui (Pascal {$L} eh per-unit).
 type
@@ -599,12 +599,12 @@ end;
 var
   GLzmaAllocator: TSzAllocLocal = (fnAlloc: SzAllocLocal_Alloc; fnFree: SzAllocLocal_Free);
 
-// ForÃ§ar linkagem dos .obj/.o do 7z subset (jÃ¡ residentes ao lado dos LZMA).
-// Ordem importa â€” providers primeiro, consumers depois; LzmaDec/LzFind/Alloc
-// linkados aqui (mesma estratÃ©gia self-contained de Commons.Compression.LZMA).
+// Forçar linkagem dos .obj/.o do 7z subset (já residentes ao lado dos LZMA).
+// Ordem importa — providers primeiro, consumers depois; LzmaDec/LzFind/Alloc
+// linkados aqui (mesma estratégia self-contained de Commons.Compression.LZMA).
 {$IFDEF WIN32}
   // Ordem CONSUMERS primeiro, PROVIDERS depois (Delphi OBJ linker resolve
-  // refs forward â€” mesmo padrÃ£o de Commons.Compression.LZMA.pas).
+  // refs forward — mesmo padrão de Commons.Compression.LZMA.pas).
   {$L ..\Library\delphi-win32\SevenZWrapper.obj}
   {$L ..\Library\delphi-win32\7zFile.obj}
   {$L ..\Library\delphi-win32\SevenZCombined.obj}  // 7zArcIn.c + 7zDec.c (mutual deps)
@@ -632,10 +632,10 @@ var
   {$L ..\Library\delphi-win32\Alloc.obj}
 {$ENDIF}
 {$IFDEF WIN64}
-  // v3.1.1 â€” Win64 ELF linker bcc64/Delphi e single-pass; refs mutuas entre
+  // v3.1.1 — Win64 ELF linker bcc64/Delphi e single-pass; refs mutuas entre
   // OBJs separados nao resolvem. Aes.c <-> AesOpt.c e Sha256.c <-> Sha256Opt.c
   // tem refs mutuas, entao consolidadas em AesCombined.c + Sha256Combined.c.
-  // Win32 OMF (ilink32 do BCC102) e multi-pass; mantÃ©m OBJs separados la.
+  // Win32 OMF (ilink32 do BCC102) e multi-pass; mantém OBJs separados la.
   {$L ..\Library\delphi-win64\SevenZWrapper.o}
   {$L ..\Library\delphi-win64\7zFile.o}
   {$L ..\Library\delphi-win64\SevenZCombined.o}

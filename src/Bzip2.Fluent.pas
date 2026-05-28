@@ -1,4 +1,4 @@
-﻿{ Bzip2.Fluent.pas
+{ Bzip2.Fluent.pas
   Fluent builder API sobre stream codec BZIP2 (Bzip2.Bzip2Stream).
 
   Uso (compress):

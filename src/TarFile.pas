@@ -1,6 +1,6 @@
-﻿{ TarFile.pas
+{ TarFile.pas
 
-  TTarFile â€” encoder + decoder TAR formato POSIX ustar (1988), com API
+  TTarFile — encoder + decoder TAR formato POSIX ustar (1988), com API
   espelhada de TZipFile para uniformidade.
 
   Layout POSIX ustar (cada entry = header de 512 bytes + payload em
@@ -28,7 +28,7 @@
   Trailer: 2 blocos vazios (1024 bytes NUL) marcam end-of-archive.
 
   Tamanhos >8GB usam GNU extension "ustar  \0" magic ou pax extended
-  header â€” v3.0 implementa POSIX ustar (ate 8 GB por entry); pax fica
+  header — v3.0 implementa POSIX ustar (ate 8 GB por entry); pax fica
   como TODO v3.0.1 se demanda.
 }
 unit TarFile;
@@ -114,7 +114,7 @@ type
     FUnixPermissions: Boolean;         // preserva chmod bits unix completos
     FIgnoreZeroBlocks: Boolean;        // nao trate 2 zero blocks como EOF
     FAddPaxExtensions: Boolean;        // grava PAX extended headers (UTF-8/timestamps)
-    FArchiveSize: Int64;               // read-only â€” physical file size
+    FArchiveSize: Int64;               // read-only — physical file size
     procedure ReadDirectory;
     procedure WriteTrailer;
     function WriteEntryHeader(const AName: string; ASize: Int64;
@@ -173,7 +173,7 @@ type
     // ---- Block / record geometry ----
     // Tamanho de cada tar block em bytes. Default 512 (spec POSIX).
     property BlockSize: Integer read FBlockSize write FBlockSize default 512;
-    // Blocks per record (-b factor em GNU tar). Default 20 â€” record = 10240 bytes.
+    // Blocks per record (-b factor em GNU tar). Default 20 — record = 10240 bytes.
     property BlockingFactor: Integer read FBlockingFactor write FBlockingFactor default 20;
     // Physical record size = BlockSize * BlockingFactor. Read-only (calculado).
     property RecordSize: Integer read FRecordSize;
@@ -185,7 +185,7 @@ type
     property UnixPermissions: Boolean read FUnixPermissions write FUnixPermissions default False;
     // Nao termine a leitura ao encontrar 2 zero blocks (concat de tar arquivos).
     property IgnoreZeroBlocks: Boolean read FIgnoreZeroBlocks write FIgnoreZeroBlocks default False;
-    // PAX extended headers (POSIX.1-2001 â€” UTF-8 names, atime/ctime nano, etc.)
+    // PAX extended headers (POSIX.1-2001 — UTF-8 names, atime/ctime nano, etc.)
     property AddPaxExtensions: Boolean read FAddPaxExtensions write FAddPaxExtensions default False;
 
     // ---- Read-only info ----

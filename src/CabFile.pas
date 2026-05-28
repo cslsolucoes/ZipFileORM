@@ -1,14 +1,14 @@
-﻿{ CabFile.pas
+{ CabFile.pas
 
-  TCabFile â€” Microsoft Cabinet (.cab) READ via FDI (File Decompression
+  TCabFile — Microsoft Cabinet (.cab) READ via FDI (File Decompression
   Interface). WRITE deferido para v3.7.1 (via FCI).
 
   Implementacao: linka estaticamente fdi.obj do sdk/cabnet/ (Wine cabinet
   source compilado via D29 bcc32c + D29 Win SDK headers). Sem dependencia
-  cabinet.dll â€” pronto para Linux x86_64 quando FPC cross build for setup.
+  cabinet.dll — pronto para Linux x86_64 quando FPC cross build for setup.
 
-  Win32-only por enquanto (Win64 deferido â€” bcc64 ELF issues similares ao
-  v3.1 7zip; ver liÃ§Ãµes aprendidas no SPEC Â§15).
+  Win32-only por enquanto (Win64 deferido — bcc64 ELF issues similares ao
+  v3.1 7zip; ver lições aprendidas no SPEC §15).
 
   API espelha TZipFile / TSevenZFile:
     - Active, FileName, Open, Close
@@ -72,13 +72,13 @@ type
     FOnLog: TArchiveLogEvent;
     FEntries: array of TCabEntry;
     FCompression: TCabCompressionType;
-    FCompressionLevel: Integer;        // 1..9 (MSZIP/LZX) â€” reservado v3.8
+    FCompressionLevel: Integer;        // 1..9 (MSZIP/LZX) — reservado v3.8
     FExtractTarget: string;
     FExtractStream: TMemoryStream;
     FSetID: Word;                      // cabinet set ID (multi-cabinet sets)
     FCabinetIndex: Word;                // index within set (0 = first)
     FVolumeSize: Int64;                 // 0 = single .cab; >0 = split em multiple .cab
-    FReserveSize: Integer;              // per-data-block reserve bytes (advanced) â€” reservado
+    FReserveSize: Integer;              // per-data-block reserve bytes (advanced) — reservado
     // Cabinet set chain (CFHEADER szCabinetPrev/szCabinetNext + szDiskPrev/szDiskNext)
     FPreviousCabinet: string;
     FNextCabinet: string;
@@ -88,7 +88,7 @@ type
     FHeaderReserveSize: Word;          // bytes reservados no CFHEADER
     FFolderReserveSize: Byte;          // bytes reservados em cada CFFOLDER
     FDataReserveSize: Byte;            // bytes reservados em cada CFDATA
-    // Read-only â€” populated by Open.
+    // Read-only — populated by Open.
     FArchiveSize: Int64;
     FIsMultiCabinet: Boolean;
     FVersionMajor: Byte;               // cabinet format major (1)
@@ -131,7 +131,7 @@ type
 
     // ---- Compression ----
     property Compression: TCabCompressionType read FCompression write FCompression default cctNone;
-    // 1..9 â€” usado quando Compression for MSZIP/LZX. Default 6.
+    // 1..9 — usado quando Compression for MSZIP/LZX. Default 6.
     property CompressionLevel: Integer read FCompressionLevel write SetCompressionLevel default 6;
 
     // ---- Cabinet set / multi-volume ----
@@ -141,7 +141,7 @@ type
     property CabinetIndex: Word read FCabinetIndex write FCabinetIndex default 0;
     // Tamanho em bytes de cada .cab quando split. 0 = single-cabinet (default).
     property VolumeSize: Int64 read FVolumeSize write FVolumeSize default 0;
-    // Bytes reservados em cada CFDATA block (advanced â€” reservado v3.8.x).
+    // Bytes reservados em cada CFDATA block (advanced — reservado v3.8.x).
     property ReserveSize: Integer read FReserveSize write FReserveSize default 0;
 
     // ---- Extraction ----
@@ -304,7 +304,7 @@ begin
 end;
 
 // ============================================================================
-//   FDI types (Microsoft) â€” minimal subset needed for READ
+//   FDI types (Microsoft) — minimal subset needed for READ
 // ============================================================================
 
 const
@@ -395,19 +395,19 @@ type
   PFNFDINOTIFY = function(fdint: Integer; pfdin: PFDINOTIFICATION): Integer; cdecl;
   PFNFDIDECRYPT = Pointer;
 
-// Link OBJs â€” providers last.
+// Link OBJs — providers last.
 // Delphi: .obj OMF Win32 (bcc32c) ou .o ELF Win64 (bcc64) +
 //   cabinet_main.obj (Win32 helpers + clean FDIDestroy wrapper).
-// FPC: .o COFF mingw-w64 gcc (cabnet_obj_fpc_win{32,64}/) â€” pula
+// FPC: .o COFF mingw-w64 gcc (cabnet_obj_fpc_win{32,64}/) — pula
 //   cabinet_main pois Wine fdi.o ja exporta FDIDestroy clean direto.
-// v3.7.2 WRITE: adiciona zlib real linkado (8 .obj/.o) â€” MSZIP funcional.
+// v3.7.2 WRITE: adiciona zlib real linkado (8 .obj/.o) — MSZIP funcional.
 // cabstubs ainda contem __assert/_assert + zlib stubs como fallback;
 // linker resolve preferindo zlib real (definicoes vencem stubs).
 {$IFDEF FPC}
   // FPC: linkar libs Win32 + CRT mingw que fdi.o/fci.o/zlib*.o referenciam
   {$LINKLIB kernel32}
   {$LINKLIB msvcrt}
-  {$LINKLIB gcc}  // libgcc.a â€” fornece __moddi3 / __udivdi3 (64-bit math helpers gcc)
+  {$LINKLIB gcc}  // libgcc.a — fornece __moddi3 / __udivdi3 (64-bit math helpers gcc)
 {$ENDIF}
 
 {$IFDEF FPC}
@@ -439,7 +439,7 @@ type
     {$L ..\Library\fpc-win64\cabstubs.o}
   {$ENDIF}
 {$ELSE}
-  // v3.7.3: Delphi Win32 MSZIP HABILITADO â€” adler32 recompilado com
+  // v3.7.3: Delphi Win32 MSZIP HABILITADO — adler32 recompilado com
   // -DNO_DIVIDE (CHOP loop em vez de %= BASE) elimina referencia a
   // __aullrem que linker Delphi single-pass nao resolvia. zlib agora
   // linka completo em todas 4 toolchains.
@@ -512,7 +512,7 @@ function FDIDestroy(hfdi: THfdi): Integer; cdecl;
   external name 'FDIDestroy';
 {$IFEND}
 
-// cabinet_main.obj (Delphi only) refere DllGetVersion â€” stub no-op
+// cabinet_main.obj (Delphi only) refere DllGetVersion — stub no-op
 {$IFNDEF FPC}
   {$IFDEF CAB_C_UNDERSCORE}
 function _DllGetVersion(pdvi: Pointer): LongInt; cdecl;
@@ -610,7 +610,7 @@ type
 var
   GCabCtx: TCallbackContext;  // single-threaded for now; thread-local in v3.7.1
 
-// File-handle table (Pascal-managed; FDI handles sÃ£o ints opacos)
+// File-handle table (Pascal-managed; FDI handles são ints opacos)
 const
   MAX_FDI_HANDLES = 16;
 var
@@ -740,7 +740,7 @@ begin
   end;
 end;
 
-// FDI notification callback â€” chamado para cada arquivo no cabinet
+// FDI notification callback — chamado para cada arquivo no cabinet
 function CbNotify(fdint: Integer; pfdin: PFDINOTIFICATION): Integer; cdecl;
 var
   Name: AnsiString;
@@ -759,12 +759,12 @@ begin
         Entry.Date := Now;
         SetLength(GCabCtx.CabFile.FEntries, Length(GCabCtx.CabFile.FEntries) + 1);
         GCabCtx.CabFile.FEntries[High(GCabCtx.CabFile.FEntries)] := Entry;
-        Result := 0;  // skip â€” nÃ£o extrair em modo list
+        Result := 0;  // skip — não extrair em modo list
       end
       else if GCabCtx.Mode = cmExtract then
       begin
         if SameText(string(Name), string(GCabCtx.ExtractName)) then
-          Result := -7777  // virtual handle â€” sinaliza para extrair
+          Result := -7777  // virtual handle — sinaliza para extrair
         else
           Result := 0;     // skip outros
       end;
@@ -776,7 +776,7 @@ begin
 end;
 
 // ============================================================================
-//   FCI types (Microsoft) â€” WRITE side
+//   FCI types (Microsoft) — WRITE side
 // ============================================================================
 
 const
@@ -941,7 +941,7 @@ begin
   N := GetTempPathA(SizeOf(PathBuf), @PathBuf[0]);
   if N = 0 then Exit;
   if GetTempFileNameA(@PathBuf[0], 'CAB', 0, @TmpBuf[0]) = 0 then Exit;
-  // GetTempFileNameA cria o arquivo; FCI espera nome livre â€” apaga
+  // GetTempFileNameA cria o arquivo; FCI espera nome livre — apaga
   SysUtils.DeleteFile(string(AnsiString(@TmpBuf[0])));
   I := 0;
   while (I < Cardinal(cbTempName) - 1) and (TmpBuf[I] <> #0) do

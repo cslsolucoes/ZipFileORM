@@ -1,4 +1,4 @@
-﻿{ ZipFileORM.Events.pas
+{ ZipFileORM.Events.pas
 
   Tipos de evento compartilhados entre todos os componentes archive (TZipFile,
   TSevenZFile, TCabFile, TTarFile, TTarGzFile, TGzipFile, TArjFile, TIsoFile,
@@ -9,15 +9,15 @@
     TArchive<Action>QueryEvent = procedure(Sender; <args>; var <decision>) of object;
 
   Categorias:
-    Lifecycle  â€” OnBeforeOpen, OnAfterOpen, OnBeforeClose, OnAfterClose
-    Entry      â€” OnEntryFound, OnBeforeExtract, OnAfterExtract, OnBeforeAdd, OnAfterAdd
-    Progress   â€” TZipProgressEvent (overall, ja em Commons.Progress.pas)
+    Lifecycle  — OnBeforeOpen, OnAfterOpen, OnBeforeClose, OnAfterClose
+    Entry      — OnEntryFound, OnBeforeExtract, OnAfterExtract, OnBeforeAdd, OnAfterAdd
+    Progress   — TZipProgressEvent (overall, ja em Commons.Progress.pas)
                  TArchiveEntryProgressEvent (per-entry)
                  TArchiveFolderProgressEvent (per-folder em 7z)
-    Security   â€” OnAskPassword, OnReplaceQuery, OnVerify
-    Multi-vol  â€” OnRequestVolume, OnVolumeChanged
-    Diagnosticsâ€” OnError, OnLog, OnWarning
-    Codec (7z) â€” OnSolidBlockStart, OnSolidBlockEnd, OnCompressionMethodSelect
+    Security   — OnAskPassword, OnReplaceQuery, OnVerify
+    Multi-vol  — OnRequestVolume, OnVolumeChanged
+    Diagnostics— OnError, OnLog, OnWarning
+    Codec (7z) — OnSolidBlockStart, OnSolidBlockEnd, OnCompressionMethodSelect
 
   Cross-platform: Delphi (D24..D37) + FPC/Lazarus.
 }
@@ -131,7 +131,7 @@ type
 
   // -------------------- Verify / integrity --------------------
 
-  // Disparado apos calcular CRC durante extract â€” handler pode aceitar/rejeitar.
+  // Disparado apos calcular CRC durante extract — handler pode aceitar/rejeitar.
   TArchiveVerifyEvent = procedure(
     Sender: TObject;
     const EntryName: string;
