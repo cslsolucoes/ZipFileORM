@@ -87,8 +87,20 @@ msbuild ZipFileORMD37.dproj /t:Build /p:Config=Release /p:Platform=Win32
 # Build packages para todos os Delphis (D24..D37 W32+W64):
 powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1
 
+# Build + adicionar Library Paths automaticamente em cada Delphi:
+powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -InstallLibPaths
+
 # Subset:
 powershell -ExecutionPolicy Bypass -File tools/Build-AllDelphis.ps1 -OnlyDelphi 29,37
+
+# Apenas instalar/atualizar Library Paths (sem rebuild):
+powershell -ExecutionPolicy Bypass -File tools/Install-LibraryPaths.ps1
+
+# Dry-run (mostra o que seria mudado sem alterar o registro):
+powershell -ExecutionPolicy Bypass -File tools/Install-LibraryPaths.ps1 -DryRun
+
+# Remover paths do registro (cleanup):
+powershell -ExecutionPolicy Bypass -File tools/Uninstall-LibraryPaths.ps1
 
 # Build dos OBJs C/C++ (só quando SDK muda):
 powershell tools/Build-LzmaObjs.ps1
@@ -102,6 +114,18 @@ powershell tools/Build-FPC-Smoke.ps1
 # DUnitX Delphi suite:
 & "$bds/bin/dcc32.exe" -Q -B tests/ZipFileTestsD29.dpr "-U..\src"
 ```
+
+### Library Paths automáticos
+
+O script [tools/Install-LibraryPaths.ps1](tools/Install-LibraryPaths.ps1) adiciona em cada Delphi instalado (D24..D37):
+
+- `<root>\src` — fonte `.pas`
+- `<root>\Lib\RAD<xx>\Win32` — DCU/DCP runtime+designtime Win32
+- `<root>\Lib\RAD<xx>\Win64` — DCU/DCP runtime Win64
+
+Chave do registro: `HKCU\Software\Embarcadero\BDS\<bds>\Library\Win{32,64}\Search Path`.
+
+Idempotente — paths já presentes não são duplicados. Reversível via `Uninstall-LibraryPaths.ps1`. Pode ser disparado automaticamente após build com `Build-AllDelphis.ps1 -InstallLibPaths`.
 
 ### Status atual da migração v3 → v4
 

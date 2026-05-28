@@ -6,10 +6,16 @@
 
 .PARAMETER OnlyDelphi
   Para validacao seletiva. Default: todos D24..D37.
+
+.PARAMETER InstallLibPaths
+  Apos o build, dispara tools/Install-LibraryPaths.ps1 para adicionar os
+  paths de Library de cada Delphi (HKCU\...\BDS\<bds>\Library\<Plat>\Search Path).
+  Idempotente — paths ja presentes nao sao duplicados.
 #>
 [CmdletBinding()]
 param(
-  [string[]] $OnlyDelphi = @()
+  [string[]] $OnlyDelphi = @(),
+  [switch]   $InstallLibPaths
 )
 
 $ErrorActionPreference = 'Stop'
@@ -77,3 +83,19 @@ Write-Host "=== Summary ==="
 $total = $results.Count
 $ok    = ($results | Where-Object OK).Count
 "$ok / $total OK"
+
+# Optional: install Library Paths in each Delphi's HKCU registry
+if ($InstallLibPaths -and ($ok -eq $total)) {
+  $installScript = Join-Path $PSScriptRoot 'Install-LibraryPaths.ps1'
+  if (Test-Path $installScript) {
+    if ($OnlyDelphi.Count -gt 0) {
+      & $installScript -OnlyDelphi $OnlyDelphi
+    } else {
+      & $installScript
+    }
+  } else {
+    Write-Host "WARN: Install-LibraryPaths.ps1 not found in $PSScriptRoot" -ForegroundColor Yellow
+  }
+} elseif ($InstallLibPaths -and ($ok -ne $total)) {
+  Write-Host "SKIP Install-LibraryPaths.ps1 — build had failures ($ok / $total)" -ForegroundColor Yellow
+}
