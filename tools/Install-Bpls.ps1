@@ -130,21 +130,27 @@ foreach ($D in $delphis) {
   $bplW32 = Join-Path $bdsCommon 'Bpl'
   $bplW64 = Join-Path $bdsCommon 'Bpl\Win64'
 
-  # Win32: runtime + design-time
-  $rtSrc  = Join-Path $libW32 "ZipFileORMD$($D.D).bpl"
-  $dtSrc  = Join-Path $libW32 "dclZipFileORMD$($D.D).bpl"
-  Copy-Bpl -SrcFile $rtSrc -DstDir $bplW32 -Label "Win32 runtime"     -IsDryRun $DryRun.IsPresent
-  Copy-Bpl -SrcFile $dtSrc -DstDir $bplW32 -Label "Win32 design-time" -IsDryRun $DryRun.IsPresent
+  # Copy ONLY runtime BPLs - design-time BPL must remain in <root>\Lib\
+  # for ZipFileORM.LibraryPathReg.pas to discover the project root at
+  # runtime via GetModuleFileName(HInstance).
+  # User installs design-time BPL from project Lib; its dependency on the
+  # runtime BPL resolves via BDSCOMMONDIR\Bpl\ (which is in the IDE PATH).
 
-  # Win64: runtime (sempre) + design-time (apenas D29+ tem dcl Win64)
+  # Win32 runtime
+  $rtSrc = Join-Path $libW32 "ZipFileORMD$($D.D).bpl"
+  Copy-Bpl -SrcFile $rtSrc -DstDir $bplW32 -Label "Win32 runtime" -IsDryRun $DryRun.IsPresent
+
+  # Win64 runtime
   $rtSrc64 = Join-Path $libW64 "ZipFileORMD$($D.D).bpl"
-  $dtSrc64 = Join-Path $libW64 "dclZipFileORMD$($D.D).bpl"
   Copy-Bpl -SrcFile $rtSrc64 -DstDir $bplW64 -Label "Win64 runtime" -IsDryRun $DryRun.IsPresent
-  if ([double]$D.Bds -ge 23.0) {
-    Copy-Bpl -SrcFile $dtSrc64 -DstDir $bplW64 -Label "Win64 design-time" -IsDryRun $DryRun.IsPresent
-  }
 }
 
 Write-Host ""
-Write-Host "Done. The IDE can now find ZipFileORM BPLs without specifying PATH." -ForegroundColor Cyan
-Write-Host "Run Component > Install Packages and add dclZipFileORMD<XX>.bpl from %BDSCOMMONDIR%\Bpl\." -ForegroundColor Cyan
+Write-Host "Done. Runtime BPLs copied to BDSCOMMONDIR\Bpl\ for dependency resolution." -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Install via IDE:" -ForegroundColor Yellow
+Write-Host "  Component > Install Packages > Add"                                       -ForegroundColor Yellow
+Write-Host "  > <root>\Lib\RAD<xx>\Win32\dclZipFileORMD<XX>.bpl"                         -ForegroundColor Yellow
+Write-Host "    (NOT from %BDSCOMMONDIR%\Bpl - install from project Lib so the"          -ForegroundColor Yellow
+Write-Host "     design-time BPL can discover the project root at load time and"         -ForegroundColor Yellow
+Write-Host "     auto-register Library Paths via runtime detection.)"                    -ForegroundColor Yellow

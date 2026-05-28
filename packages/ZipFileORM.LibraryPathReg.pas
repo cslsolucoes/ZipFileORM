@@ -4,26 +4,28 @@
    momento em que a dcl*.bpl eh carregada (instalada via Component >
    Install Packages OU re-carregada no startup do IDE).
 
+   Sem hardcoded:
+   O root do projeto e DESCOBERTO em runtime a partir do caminho da
+   propria BPL via GetModuleFileName(HInstance). Assume que a BPL esta
+   em <root>\Lib\RAD<xx>\Win<plat>\dclZipFileORMD<XX>.bpl - sobe 4
+   niveis para encontrar <root>, depois valida que <root>\src existe.
+
+   Se a estrutura nao for reconhecida (ex.: BPL instalada de %BDSCOMMONDIR%
+   ou outro lugar), a unit nao faz nada (silently). O usuario pode rodar
+   tools\Install-LibraryPaths.ps1 manualmente como fallback.
+
    Como funciona:
    1. initialization chama RegisterZipFileORMPaths.
-   2. RegisterZipFileORMPaths le a chave base do IDE atual via ToolsAPI
-      (IOTAServices.GetBaseRegistryKey -> e.g. 'Software\Embarcadero\BDS\23.0').
-   3. Mapeia a versao do compilador (VER<XXX>) para a pasta RAD<xx>
-      correspondente.
-   4. Adiciona 2 paths (<root>\src e <root>\Lib\RAD<xx>\<Plat>) a 3 chaves
-      (Search Path, LibraryPath, Browsing Path) em ambas as plataformas
-      (Win32 e Win64), de forma idempotente.
+   2. GetModuleFileName(HInstance) -> caminho absoluto da BPL atual.
+   3. Strip: <BPL>.bpl -> <Win32|Win64> -> <RAD<xx>> -> <Lib> -> <root>
+   4. Se <root>\src nao existir, aborta.
+   5. Le IOTAServices.GetBaseRegistryKey para chave do IDE atual.
+   6. Mapeia VER<XXX> compile-time -> sufixo da plataforma.
+   7. Adiciona 2 paths (<root>\src e <root>\Lib\RAD<xx>\<Plat>) a 3
+      chaves (Search Path, LibraryPath, Browsing Path) em ambas
+      plataformas, idempotente.
 
-   O root do projeto vem de ZipFileORM.ProjectRoot.inc (gerado em build-time
-   pelo Build-AllDelphis.ps1).
-
-   Mudancas no registro tomam efeito quando o IDE for re-aberto. Para
-   refresh imediato em-memoria, o usuario pode fechar e reabrir o IDE
-   apos instalar a package.
-
-   Seguranca: TODO o codigo esta envelopado em try/except. Falhas nao
-   propagam para o IDE - se a unidade nao conseguir ler a chave base ou
-   o include nao estiver disponivel, simplesmente nao faz nada.
+   Seguranca: try/except global - falhas nao quebram o IDE.
 *)
 unit ZipFileORM.LibraryPathReg;
 
@@ -34,10 +36,9 @@ implementation
 uses
   Winapi.Windows,
   System.SysUtils,
+  System.IOUtils,
   System.Win.Registry,
   ToolsAPI;
-
-{$I ZipFileORM.ProjectRoot.inc}
 
 // Map compiler version to RAD folder name used by the build outputs.
 {$IFDEF VER310}    const cRadFolder = 'RAD10.1';   {$ENDIF}   // D24 = 10.1 Berlin
@@ -47,6 +48,42 @@ uses
 {$IFDEF VER350}    const cRadFolder = 'RAD11';     {$ENDIF}   // D28 = 11 Alexandria
 {$IFDEF VER360}    const cRadFolder = 'RAD12';     {$ENDIF}   // D29 = 12 Athens
 {$IFDEF VER370}    const cRadFolder = 'RAD13';     {$ENDIF}   // D37 = 13 Florence
+
+function GetThisBplPath: string;
+var
+  Buf: array[0..MAX_PATH] of Char;
+  Len: DWORD;
+begin
+  Len := GetModuleFileName(HInstance, Buf, MAX_PATH);
+  if Len = 0 then
+    Result := ''
+  else
+    Result := string(Buf);
+end;
+
+// Discover project root by walking up from the BPL location:
+//   <root>\Lib\RAD<xx>\Win<plat>\dclZipFileORMD<XX>.bpl
+// Strip 4 levels: file -> Win<plat> -> RAD<xx> -> Lib -> <root>
+function DiscoverProjectRoot: string;
+var
+  P: string;
+begin
+  Result := '';
+  P := GetThisBplPath;
+  if P = '' then Exit;
+  // Strip filename
+  P := TPath.GetDirectoryName(P);                  // <root>\Lib\RAD<xx>\Win<plat>
+  if P = '' then Exit;
+  P := TPath.GetDirectoryName(P);                  // <root>\Lib\RAD<xx>
+  if P = '' then Exit;
+  P := TPath.GetDirectoryName(P);                  // <root>\Lib
+  if P = '' then Exit;
+  P := TPath.GetDirectoryName(P);                  // <root>
+  if P = '' then Exit;
+  // Validate: <root>\src must exist (marker that this is a ZipFileORM project)
+  if DirectoryExists(P + '\src') then
+    Result := P;
+end;
 
 function AppendBackslash(const APath: string): string;
 begin
@@ -75,7 +112,6 @@ begin
       else
         Current := '';
 
-      // Case-insensitive substring check by tokens.
       Tokens := Current.Split([';']);
       Exists := False;
       for I := 0 to High(Tokens) do
@@ -89,7 +125,6 @@ begin
       end;
       if Exists then Exit;
 
-      // Append.
       if (Current <> '') and not Current.EndsWith(';') then
         Current := Current + ';';
       Current := Current + APath;
@@ -123,20 +158,22 @@ var
   BaseKey, LibKey: string;
   Root, SrcPath, LibW32, LibW64: string;
 begin
-  // 1. Read IDE base registry key via ToolsAPI.
+  // 1. Discover project root from BPL location at runtime.
+  Root := DiscoverProjectRoot;
+  if Root = '' then Exit;   // BPL not in expected <root>\Lib\RAD<xx>\Win<plat>\ tree
+
+  // 2. Read IDE base registry key via ToolsAPI.
   if not Supports(BorlandIDEServices, IOTAServices, Svc) or (Svc = nil) then Exit;
   BaseKey := Svc.GetBaseRegistryKey;   // e.g. 'Software\Embarcadero\BDS\23.0'
   if BaseKey = '' then Exit;
 
-  // 2. Compose paths from the compile-time project root + RAD folder.
-  Root := AppendBackslash(cZipFileORMProjectRoot);
-  if (Root = '') or (cRadFolder = '') then Exit;
-
+  // 3. Compose paths.
+  Root := AppendBackslash(Root);
   SrcPath := Root + 'src';
   LibW32 := Root + 'Lib\' + cRadFolder + '\Win32';
   LibW64 := Root + 'Lib\' + cRadFolder + '\Win64';
 
-  // 3. Write to registry. Library key holds platform sub-keys.
+  // 4. Write to registry. Library key holds platform sub-keys.
   LibKey := BaseKey + '\Library';
 
   AddPathsForPlatform(LibKey, 'Win32', SrcPath, LibW32);
@@ -147,8 +184,7 @@ initialization
   try
     RegisterZipFileORMPaths;
   except
-    // Never break IDE startup. Errors during registration are silently
-    // suppressed - user can fall back to tools/Install-LibraryPaths.ps1.
+    // Never break IDE startup.
   end;
 
 end.
