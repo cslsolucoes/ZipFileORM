@@ -1,0 +1,1 @@
+cmd_/mingw64-64/x86_64-linux-musl//include/linux/spi/.install := /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/spi ./include/uapi/linux/spi spidev.h; /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/spi ./include/generated/uapi/linux/spi ; touch /mingw64-64/x86_64-linux-musl//include/linux/spi/.install

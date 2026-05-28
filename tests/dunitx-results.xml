@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<test-results name="C:\Users\Public\Documents\Embarcadero\Studio\Outros\Gnostice\zipfile\tests\ZipFileTestsD29.exe" total="43" errors="0" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2026-05-25" time="0.160">
+  <culture-info current-culture="en" current-uiculture="en" />
+  <test-suite type="Assembly" name="ZipFileTestsD29.exe" executed="true" result="Success" success="True" time="0.160" asserts="0">
+    <results>
+        <test-suite type="Namespace" name="ZipFile" executed="true" result="Success" success="True" time="0.160" asserts="0" >
+          <results>
+              <test-suite type="Namespace" name="Tests" executed="true" result="Success" success="True" time="0.160" asserts="0" >
+                <results>
+                    <test-suite type="Fixture" name="TAESTests" executed="True" result="Success" success="True" time="0.056" >
+                      <results>
+                        <test-case name="Encrypt_Decrypt_RoundTrip" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                        <test-case name="BadPassword_RaisesEZipAESError" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                        <test-case name="TamperedCiphertext_RaisesHmacError" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                        <test-case name="MissingPasswordOnRead_RaisesEZipAESError" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TCoreTests" executed="True" result="Success" success="True" time="0.004" >
+                      <results>
+                        <test-case name="CreateEmpty_FileExistsAndIsEOCDOnly" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="Append_TwoEntries_FileCountIsTwo" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="Append_RoundTripBinaryPayload" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="FileExists_ReportsCorrectly" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="ReopenAfterClose_PreservesEntries" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="DeleteFile_RemovesEntry" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TFluentTests" executed="True" result="Success" success="True" time="0.018" >
+                      <results>
+                        <test-case name="NewArchive_AppendStream_RoundTrip" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="NewArchive_WithAES_RoundTrip" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                        <test-case name="OpenArchive_CountAndHasEntry" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TFluentInlineTests" executed="True" result="Success" success="True" time="0.016" >
+                      <results>
+                        <test-case name="WithUtf8_ReturnsSameInstance" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="WithAES_SetsUseAESAndPassword" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="ChainInline_AllPropertiesApplied" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="ChainInline_RoundTrip_EquivalentToLegacy" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                        <test-case name="WithFileName_AndOpen_Shortcut" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TLZMATests" executed="True" result="Success" success="True" time="0.004" >
+                      <results>
+                        <test-case name="LZMA_RoundTrip_RepeatedPattern" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="LZMA_CompressionRatio_BetterThanStore" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                        <test-case name="LZMA_PlusAES_RaisesExplicit" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TProgressTests" executed="True" result="Success" success="True" time="0.003" >
+                      <results>
+                        <test-case name="OnProgress_Fires_DuringAppendStream" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="OnProgress_Cancel_RaisesEZipFileCancelled" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TStreamingTests" executed="True" result="Success" success="True" time="0.050" >
+                      <results>
+                        <test-case name="GetEntryStream_StoredEntry_MatchesGetFileStream" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="GetEntryStream_StoredEntry_SeekRandomAccess" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="GetEntryStream_AESEntry_DecryptsOnTheFly" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                        <test-case name="GetEntryStream_AESEntry_BadPasswordRaises" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                        <test-case name="GetEntryStream_StoredEntry_LargeBuffer4MB" executed="True" result="Success" success="True" time="0.017" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TTarTests" executed="True" result="Success" success="True" time="0.002" >
+                      <results>
+                        <test-case name="Tar_RoundTrip_SingleEntry" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="Tar_RoundTrip_MultipleEntries" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="Tar_AppendString_ReadAsString" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="Gzip_CompressDecompress_BufferRoundTrip" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="Archive_DetectFormat_ZipMagic" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="Archive_DetectFormat_GzipMagic" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="Archive_DetectFormat_TarUstar" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TUTF8Tests" executed="True" result="Success" success="True" time="0.002" >
+                      <results>
+                        <test-case name="NonAscii_Filename_RoundTrip" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="AsciiOnly_Filename_DoesNotSetBit11" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                        <test-case name="ReadEntry_DecodesUtf8Filename" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TZip64Tests" executed="True" result="Success" success="True" time="0.002" >
+                      <results>
+                        <test-case name="ForgedZip64Archive_IsParsed" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="ForgedZip64Archive_RoundTripPayload" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                      </results>
+                    </test-suite>
+                    <test-suite type="Fixture" name="TZip64WriteTests" executed="True" result="Success" success="True" time="0.002" >
+                      <results>
+                        <test-case name="ForceZip64_EmitsLocatorAndRecord" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                        <test-case name="ForceZip64_RoundTrip" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                        <test-case name="ForceZip64_TwoEntries_ReadsAll" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      </results>
+                    </test-suite>
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,0 +1,18 @@
+/*  csetjmp
+
+    Standard C++ header file wrapper for setjmp.h
+*/
+
+/*
+ *      C/C++ Run Time Library - Version 37.0
+ *
+ *      Copyright (c) 1997, 2026 by Embarcadero Technologies, Inc.
+ *      All Rights Reserved.
+ *
+ */
+
+/* $Revision: 38185 $ */
+
+#define  __USING_CNAME__
+#include <setjmp.h>
+#undef   __USING_CNAME__

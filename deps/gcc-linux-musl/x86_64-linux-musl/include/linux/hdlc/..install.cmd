@@ -1,0 +1,1 @@
+cmd_/mingw64-64/x86_64-linux-musl//include/linux/hdlc/.install := /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/hdlc ./include/uapi/linux/hdlc ioctl.h; /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/hdlc ./include/generated/uapi/linux/hdlc ; touch /mingw64-64/x86_64-linux-musl//include/linux/hdlc/.install

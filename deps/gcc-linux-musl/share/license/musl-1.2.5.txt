@@ -1,0 +1,262 @@
+COPYRIGHT: Public domain MIT License
+  [Copyright: resulting in confusion over whether it / 2017-2018 Arm Limited / 2011 Valentin Ochs and is licensed under an MIT-style license. / 2008 The Android Open Source Project and is licensed under a two-clause BSD / 2008 Stephen L. Moshier or / 2005-2020 Rich Felker, et al. / 2003-2011 David Schultz or / 2003-2009 Steven G. Kargl or / 2003-2009 Bruce D. Evans or / 2001-2008 Ville Laurikari and licensed / 1999-2019 Arm Limited. / 1994 David Burren. It is licensed under a BSD license. / 1993, 2004 Sun Microsystems or]
+src/complex/__cexp.c: BSD 2-Clause License
+  [Copyright: 2011 David Schultz <das@FreeBSD.ORG>]
+src/complex/__cexpf.c: BSD 2-Clause License
+  [Copyright: 2011 David Schultz <das@FreeBSD.ORG>]
+src/complex/catan.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/complex/catanf.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/complex/catanl.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/complex/ccosh.c: UNKNOWN
+  [Copyright: 2005 Bruce D. Evans and Steven G. Kargl]
+src/complex/ccoshf.c: UNKNOWN
+  [Copyright: 2005 Bruce D. Evans and Steven G. Kargl]
+src/complex/cexp.c: BSD 2-Clause License
+  [Copyright: 2011 David Schultz <das@FreeBSD.ORG>]
+src/complex/cexpf.c: BSD 2-Clause License
+  [Copyright: 2011 David Schultz <das@FreeBSD.ORG>]
+src/complex/csinh.c: UNKNOWN
+  [Copyright: 2005 Bruce D. Evans and Steven G. Kargl]
+src/complex/csinhf.c: UNKNOWN
+  [Copyright: 2005 Bruce D. Evans and Steven G. Kargl]
+src/complex/csqrt.c: BSD 2-Clause License
+  [Copyright: 2007 David Schultz <das@FreeBSD.ORG>]
+src/complex/csqrtf.c: BSD 2-Clause License
+  [Copyright: 2007 David Schultz <das@FreeBSD.ORG>]
+src/complex/ctanh.c: UNKNOWN
+  [Copyright: 2011 David Schultz]
+src/complex/ctanhf.c: UNKNOWN
+  [Copyright: 2011 David Schultz]
+src/crypt/crypt_blowfish.c: Public domain
+  [Copyright: 1998-2014 Solar Designer and it is hereby released to the]
+src/crypt/crypt_des.c: BSD 3-Clause License
+  [Copyright: 2000, 2002, 2010, 2012 Solar Designer / 1994 David Burren]
+src/crypt/crypt_md5.c: BSD 2-Clause License
+  [Copyright: 2003 Poul-Henning Kamp]
+src/math/__cos.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__cosdf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__cosl.c: UNKNOWN
+  [Copyright: 2008 Steven G. Kargl, David Schultz, Bruce D. Evans. / 1993 Sun Microsystems, Inc.]
+src/math/__polevll.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/__rem_pio2.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__rem_pio2_large.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__rem_pio2f.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__rem_pio2l.c: UNKNOWN
+  [Copyright: 2008 Steven G. Kargl, David Schultz, Bruce D. Evans. / 1993 Sun Microsystems, Inc.]
+src/math/__sin.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__sindf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/__sinl.c: UNKNOWN
+  [Copyright: 2008 Steven G. Kargl, David Schultz, Bruce D. Evans. / 1993 Sun Microsystems, Inc.]
+src/math/__tan.c: UNKNOWN
+  [Copyright: 2004 Sun Microsystems, Inc.]
+src/math/__tandf.c: UNKNOWN
+  [Copyright: 2004 Sun Microsystems, Inc.]
+src/math/__tanl.c: UNKNOWN
+  [Copyright: 2008 Steven G. Kargl, David Schultz, Bruce D. Evans. / 2004 Sun Microsystems, Inc.]
+src/math/acos.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/acosf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/acosl.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/asin.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/asinf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/asinl.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/atan.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/atan2.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/atan2f.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/atan2l.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/atanf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/atanl.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/cbrt.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/cbrtf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/cbrtl.c: UNKNOWN
+  [Copyright: 2009-2011 Bruce D. Evans, Steven G. Kargl, David Schultz. / 1993 Sun Microsystems, Inc.]
+src/math/cos.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/cosf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/erf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/erff.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/erfl.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net> / 1993 Sun Microsystems, Inc.]
+src/math/exp.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/exp2.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/exp2f.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/exp2f_data.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/exp2f_data.h: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/exp2l.c: BSD 2-Clause License
+  [Copyright: 2005-2008 David Schultz <das@FreeBSD.ORG>]
+src/math/exp_data.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/exp_data.h: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/expf.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/expl.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/expm1.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/expm1f.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/expm1l.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/fmaf.c: BSD 2-Clause License
+  [Copyright: 2005-2011 David Schultz <das@FreeBSD.ORG>]
+src/math/fmal.c: BSD 2-Clause License
+  [Copyright: 2005-2011 David Schultz <das@FreeBSD.ORG>]
+src/math/j0.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/j0f.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/j1.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/j1f.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/jn.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/jnf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/lgamma_r.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/lgammaf_r.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/lgammal.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net> / 1993 Sun Microsystems, Inc.]
+src/math/log.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/log10.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/log10f.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/log10l.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/log1p.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/log1pf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/log1pl.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/log2.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/log2_data.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/log2_data.h: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/log2f.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/log2f_data.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/log2f_data.h: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/log2l.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/log_data.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/log_data.h: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/logf.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/logf_data.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/logf_data.h: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/logl.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/pow.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/pow_data.c: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/pow_data.h: MIT License
+  [Copyright: 2018 Arm Limited.]
+src/math/powf.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/powf_data.c: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/powf_data.h: MIT License
+  [Copyright: 2017-2018 Arm Limited.]
+src/math/powl.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/math/scalb.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/scalbf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/sin.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/sincos.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/sincosf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/sinf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/tan.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/tanf.c: UNKNOWN
+  [Copyright: 1993 Sun Microsystems, Inc.]
+src/math/tgammal.c: ISC License
+  [Copyright: 2008 Stephen L. Moshier <steve@moshier.net>]
+src/multibyte/mbrtowc.c: UNKNOWN
+  [Copyright: goto ilseq;]
+src/regex/regcomp.c: BSD 2-Clause License
+  [Copyright: 2001-2009 Ville Laurikari <vl@iki.fi>]
+src/regex/regexec.c: BSD 2-Clause License
+  [Copyright: 2001-2009 Ville Laurikari <vl@iki.fi>]
+src/regex/tre-mem.c: BSD 2-Clause License
+  [Copyright: 2001-2009 Ville Laurikari <vl@iki.fi>]
+src/regex/tre.h: BSD 2-Clause License
+  [Copyright: 2001-2009 Ville Laurikari <vl@iki.fi>]
+src/stdio/vfwscanf.c: UNKNOWN
+  [Copyright: <128U ? *--(f)->rpos : ungetwc((c),(f)))]
+src/stdlib/qsort.c: MIT License
+  [Copyright: 2011 Valentin Ochs]
+src/setjmp/x32/longjmp.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/setjmp/x32/setjmp.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/setjmp/x86_64/longjmp.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/setjmp/x86_64/setjmp.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/string/aarch64/memcpy.S: MIT License
+  [Copyright: 2012-2020 Arm Limited.]
+src/string/aarch64/memset.S: MIT License
+  [Copyright: 2012-2020 Arm Limited.]
+src/string/arm/memcpy.S: BSD 2-Clause License
+  [Copyright: 2008 The Android Open Source Project]
+src/thread/x32/__set_thread_area.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/thread/x32/__unmapself.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/thread/x86_64/__set_thread_area.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]
+src/thread/x86_64/__unmapself.s: UNKNOWN
+  [Copyright: 2011-2012 Nicholas J. Kain, licensed under standard MIT license]

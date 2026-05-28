@@ -1,0 +1,94 @@
+package ZipFileORMD27;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS OFF}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$IMPLICITBUILD OFF}
+{$DESCRIPTION 'ZipFileORM v4.0.0 library (runtime) for Delphi 10.4 Sydney'}
+{$RUNONLY}
+
+requires
+  rtl,
+  vcl;
+
+contains
+  // ?????? Commons (cross-format utilities) ??????
+  // Commons.Compression.ZLib.Bridge is FPC-only (uses zbase) and NOT in Delphi build.
+  Commons.Consts in '..\src\Commons.Consts.pas',
+  Commons.Types in '..\src\Commons.Types.pas',
+  Commons.Exceptions in '..\src\Commons.Exceptions.pas',
+  Commons.Progress in '..\src\Commons.Progress.pas',
+  Commons.Compression.Consts in '..\src\Commons.Compression.Consts.pas',
+  Commons.Compression.Base in '..\src\Commons.Compression.Base.pas',
+  Commons.Compression.None in '..\src\Commons.Compression.None.pas',
+  Commons.Compression.ZLib in '..\src\Commons.Compression.ZLib.pas',
+  Commons.Compression.LZMA in '..\src\Commons.Compression.LZMA.pas',
+  Commons.Encryption.AES in '..\src\Commons.Encryption.AES.pas',
+
+  // ?????? ZipfileORM facade ??????
+  ZipfileORM.Events in '..\src\ZipfileORM.Events.pas',
+  ZipfileORM.Compression in '..\src\ZipfileORM.Compression.pas',
+  ZipfileORM.Interfaces in '..\src\ZipfileORM.Interfaces.pas',
+  ZipfileORM in '..\src\ZipfileORM.pas',
+
+  // ?????? Format detection ??????
+  Archive.Open in '..\src\Archive.Open.pas',
+
+  // ?????? ZIP module (TZipFile + sub-modules ZIP-only) ??????
+  ZipFile.ZIP64 in '..\src\ZipFile.ZIP64.pas',
+  ZipFile.UTF8 in '..\src\ZipFile.UTF8.pas',
+  ZipFile.Streaming in '..\src\ZipFile.Streaming.pas',
+  ZipFile.Fluent in '..\src\ZipFile.Fluent.pas',
+  ZipFile in '..\src\ZipFile.pas',
+
+  // ?????? TAR family ??????
+  TarFile.GzipStream in '..\src\TarFile.GzipStream.pas',
+  Tar.Fluent in '..\src\Tar.Fluent.pas',
+  TarFile in '..\src\TarFile.pas',
+  TarGzFile in '..\src\TarGzFile.pas',
+
+  // ?????? Gzip (single-file) ??????
+  GzipFile in '..\src\GzipFile.pas',
+
+  // ?????? CAB ??????
+  Cab.Fluent in '..\src\Cab.Fluent.pas',
+  CabFile in '..\src\CabFile.pas',
+
+  // ?????? 7z ??????
+  SevenZ.Fluent in '..\src\SevenZ.Fluent.pas',
+  SevenZFile in '..\src\SevenZFile.pas',
+
+  // ?????? Read-only formats ??????
+  ArjFile in '..\src\ArjFile.pas',
+  IsoFile in '..\src\IsoFile.pas',
+  LhaFile in '..\src\LhaFile.pas',
+  RarFile in '..\src\RarFile.pas',
+
+  // ?????? Helper streams ??????
+  Bzip2.Stream in '..\src\Bzip2.Stream.pas',
+  Bzip2.Fluent in '..\src\Bzip2.Fluent.pas',
+  UUE.Stream in '..\src\UUE.Stream.pas',
+  UUE.Fluent in '..\src\UUE.Fluent.pas',
+  ZCompress.LzwStream in '..\src\ZCompress.LzwStream.pas',
+  ZCompress.Fluent in '..\src\ZCompress.Fluent.pas';
+
+end.

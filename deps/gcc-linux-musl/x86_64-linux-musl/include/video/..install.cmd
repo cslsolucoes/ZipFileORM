@@ -1,0 +1,1 @@
+cmd_/mingw64-64/x86_64-linux-musl//include/video/.install := /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/video ./include/uapi/video edid.h sisfb.h uvesafb.h; /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/video ./include/generated/uapi/video ; touch /mingw64-64/x86_64-linux-musl//include/video/.install

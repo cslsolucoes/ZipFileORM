@@ -1,0 +1,1 @@
+cmd_/mingw64-64/x86_64-linux-musl//include/linux/mmc/.install := /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/mmc ./include/uapi/linux/mmc ioctl.h; /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/mmc ./include/generated/uapi/linux/mmc ; touch /mingw64-64/x86_64-linux-musl//include/linux/mmc/.install

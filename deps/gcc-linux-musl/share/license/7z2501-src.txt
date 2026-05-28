@@ -1,0 +1,25 @@
+C/7zVersion.h: UNKNOWN
+  [Copyright: 1999-2025 Igor Pavlov"]
+C/Bra86.c: UNKNOWN
+  [Copyright: to reduce register pressure]
+C/Ppmd7.c: UNKNOWN
+  [Copyright: is real record MAX Order Context here, / is real record Context here,]
+C/Xxh64.c: BSD 2-Clause License
+  [Copyright: Yann Collet.]
+C/ZstdDec.c: BSD 3-Clause License
+  [Copyright: Facebook, Inc.]
+DOC/7zC.txt: *No copyright* Public domain
+DOC/License.txt: BSD 3-Clause License BSD 2-Clause License GNU Lesser General Public License v2.1 or later
+  [Copyright: Facebook, Inc. / 2023-2025 Igor Pavlov. / 2023-2025 Igor Pavlov. / 2015-2016 Apple Inc. / 2012-2021 Yann Collet. / 1999-2025 Igor Pavlov.]
+DOC/copying.txt: GNU Lesser General Public License, Version 2.1
+  [Copyright: 1991, 1999 Free Software Foundation, Inc.]
+DOC/readme.txt: Public domain GNU Lesser General Public License
+  [Copyright: 1999-2025 Igor Pavlov.]
+CPP/Common/UTFConvert.cpp: UNKNOWN
+  [Copyright: similar to WSL scheme for low symbols / UTF_REPLACEMENT_CHAR)]
+C/Util/7zipUninstall/7zipUninstall.c: UNKNOWN
+  [Copyright: 0x20 : (c)))]
+C/Util/SfxSetup/SfxSetup.c: UNKNOWN
+  [Copyright: 0x20 : (c)))]
+CPP/7zip/Compress/LzfseDecoder.cpp: BSD 3-Clause License
+  [Copyright: 2015-2016 Apple Inc.]

@@ -1,0 +1,215 @@
+extract.o extract.o: ../../lha-1.14i-ac20050924-src/src/extract.c \
+  ../../lha-1.14i-ac20050924-src/src/lha.h ../config.h \
+  g:/mingw/3.3.1/include/stdio.h g:/mingw/3.3.1/include/_mingw.h \
+  g:/mingw/3.3.1/include/stddef.h \
+  g:/mingw/3.3.1/lib/gcc-lib/mingw32/3.3.1/include/stddef.h \
+  g:/glibc/include/winx/stddefx.h g:/mingw/3.3.1/include/stdarg.h \
+  g:/mingw/3.3.1/lib/gcc-lib/mingw32/3.3.1/include/stdarg.h \
+  g:/glibc/include/winx/stdargx.h g:/glibc/include/winx/stdiox.h \
+  g:/glibc/include/features.h g:/glibc/include/sys/cdefs.h \
+  g:/glibc/include/gnu/stubs.h g:/mingw/3.3.1/include/errno.h \
+  g:/glibc/include/winx/errnox.h g:/mingw/3.3.1/include/sys/types.h \
+  g:/glibc/include/winx/sys/typesx.h g:/glibc/include/bits/types.h \
+  g:/glibc/include/bits/wordsize.h g:/glibc/include/bits/typesizes.h \
+  g:/glibc/include/sys/sysmacros.h g:/glibc/include/stdio_ext.h \
+  g:/glibc/include/winx/pathx.h g:/mingw/3.3.1/include/ctype.h \
+  g:/glibc/include/winx/ctypex.h g:/glibc/include/endian.h \
+  g:/glibc/include/bits/endian.h g:/mingw/3.3.1/include/sys/file.h \
+  g:/mingw/3.3.1/include/fcntl.h g:/mingw/3.3.1/include/io.h \
+  g:/mingw/3.3.1/include/stdint.h g:/glibc/include/winx/stdintx.h \
+  g:/glibc/include/winx/iox.h g:/mingw/3.3.1/include/stdlib.h \
+  g:/glibc/include/winx/stdlibx.h g:/mingw/3.3.1/include/getopt.h \
+  g:/glibc/include/winx/getoptx.h g:/glibc/include/winx/fcntlx.h \
+  g:/glibc/include/bits/fcntl.h g:/glibc/include/sys/file.h \
+  g:/mingw/3.3.1/include/sys/stat.h g:/glibc/include/winx/sys/statx.h \
+  g:/mingw/3.3.1/include/time.h g:/glibc/include/winx/timex.h \
+  g:/glibc/include/bits/time.h g:/glibc/include/winx/bits/timex.h \
+  g:/glibc/include/winx/windowsx.h g:/glibc/include/bits/stat.h \
+  g:/mingw/3.3.1/include/sys/param.h g:/mingw/3.3.1/include/limits.h \
+  g:/glibc/include/winx/limitsx.h g:/glibc/include/bits/posix1_lim.h \
+  g:/glibc/include/bits/local_lim.h g:/glibc/include/bits/posix2_lim.h \
+  g:/glibc/include/bits/xopen_lim.h g:/glibc/include/bits/stdio_lim.h \
+  g:/glibc/include/winx/sys/paramx.h \
+  g:/glibc/include/winx/sys/syslimits.h g:/mingw/3.3.1/include/signal.h \
+  g:/glibc/include/winx/signalx.h g:/glibc/include/winx/sys/signalx.h \
+  g:/glibc/include/bits/sigset.h g:/mingw/3.3.1/include/inttypes.h \
+  g:/mingw/3.3.1/include/string.h g:/glibc/include/winx/stringx.h \
+  g:/mingw/3.3.1/include/unistd.h g:/mingw/3.3.1/include/process.h \
+  g:/glibc/include/winx/unistdx.h g:/glibc/include/bits/confname.h \
+  g:/glibc/include/pwd.h g:/glibc/include/grp.h \
+  g:/mingw/3.3.1/include/sys/time.h g:/glibc/include/winx/sys/timex.h \
+  g:/mingw/3.3.1/include/utime.h g:/mingw/3.3.1/include/sys/utime.h \
+  g:/mingw/3.3.1/include/dirent.h g:/glibc/include/dirstream.h \
+  g:/glibc/include/bits/libc-lock.h g:/glibc/include/winx/direntx.h \
+  g:/glibc/include/bits/dirent.h \
+  ../../lha-1.14i-ac20050924-src/src/fnmatch.h \
+  ../../lha-1.14i-ac20050924-src/src/lha_macro.h \
+  ../../lha-1.14i-ac20050924-src/src/prototypes.h
+
+../../lha-1.14i-ac20050924-src/src/lha.h:
+
+../config.h:
+
+g:/mingw/3.3.1/include/stdio.h:
+
+g:/mingw/3.3.1/include/_mingw.h:
+
+g:/mingw/3.3.1/include/stddef.h:
+
+g:/mingw/3.3.1/lib/gcc-lib/mingw32/3.3.1/include/stddef.h:
+
+g:/glibc/include/winx/stddefx.h:
+
+g:/mingw/3.3.1/include/stdarg.h:
+
+g:/mingw/3.3.1/lib/gcc-lib/mingw32/3.3.1/include/stdarg.h:
+
+g:/glibc/include/winx/stdargx.h:
+
+g:/glibc/include/winx/stdiox.h:
+
+g:/glibc/include/features.h:
+
+g:/glibc/include/sys/cdefs.h:
+
+g:/glibc/include/gnu/stubs.h:
+
+g:/mingw/3.3.1/include/errno.h:
+
+g:/glibc/include/winx/errnox.h:
+
+g:/mingw/3.3.1/include/sys/types.h:
+
+g:/glibc/include/winx/sys/typesx.h:
+
+g:/glibc/include/bits/types.h:
+
+g:/glibc/include/bits/wordsize.h:
+
+g:/glibc/include/bits/typesizes.h:
+
+g:/glibc/include/sys/sysmacros.h:
+
+g:/glibc/include/stdio_ext.h:
+
+g:/glibc/include/winx/pathx.h:
+
+g:/mingw/3.3.1/include/ctype.h:
+
+g:/glibc/include/winx/ctypex.h:
+
+g:/glibc/include/endian.h:
+
+g:/glibc/include/bits/endian.h:
+
+g:/mingw/3.3.1/include/sys/file.h:
+
+g:/mingw/3.3.1/include/fcntl.h:
+
+g:/mingw/3.3.1/include/io.h:
+
+g:/mingw/3.3.1/include/stdint.h:
+
+g:/glibc/include/winx/stdintx.h:
+
+g:/glibc/include/winx/iox.h:
+
+g:/mingw/3.3.1/include/stdlib.h:
+
+g:/glibc/include/winx/stdlibx.h:
+
+g:/mingw/3.3.1/include/getopt.h:
+
+g:/glibc/include/winx/getoptx.h:
+
+g:/glibc/include/winx/fcntlx.h:
+
+g:/glibc/include/bits/fcntl.h:
+
+g:/glibc/include/sys/file.h:
+
+g:/mingw/3.3.1/include/sys/stat.h:
+
+g:/glibc/include/winx/sys/statx.h:
+
+g:/mingw/3.3.1/include/time.h:
+
+g:/glibc/include/winx/timex.h:
+
+g:/glibc/include/bits/time.h:
+
+g:/glibc/include/winx/bits/timex.h:
+
+g:/glibc/include/winx/windowsx.h:
+
+g:/glibc/include/bits/stat.h:
+
+g:/mingw/3.3.1/include/sys/param.h:
+
+g:/mingw/3.3.1/include/limits.h:
+
+g:/glibc/include/winx/limitsx.h:
+
+g:/glibc/include/bits/posix1_lim.h:
+
+g:/glibc/include/bits/local_lim.h:
+
+g:/glibc/include/bits/posix2_lim.h:
+
+g:/glibc/include/bits/xopen_lim.h:
+
+g:/glibc/include/bits/stdio_lim.h:
+
+g:/glibc/include/winx/sys/paramx.h:
+
+g:/glibc/include/winx/sys/syslimits.h:
+
+g:/mingw/3.3.1/include/signal.h:
+
+g:/glibc/include/winx/signalx.h:
+
+g:/glibc/include/winx/sys/signalx.h:
+
+g:/glibc/include/bits/sigset.h:
+
+g:/mingw/3.3.1/include/inttypes.h:
+
+g:/mingw/3.3.1/include/string.h:
+
+g:/glibc/include/winx/stringx.h:
+
+g:/mingw/3.3.1/include/unistd.h:
+
+g:/mingw/3.3.1/include/process.h:
+
+g:/glibc/include/winx/unistdx.h:
+
+g:/glibc/include/bits/confname.h:
+
+g:/glibc/include/pwd.h:
+
+g:/glibc/include/grp.h:
+
+g:/mingw/3.3.1/include/sys/time.h:
+
+g:/glibc/include/winx/sys/timex.h:
+
+g:/mingw/3.3.1/include/utime.h:
+
+g:/mingw/3.3.1/include/sys/utime.h:
+
+g:/mingw/3.3.1/include/dirent.h:
+
+g:/glibc/include/dirstream.h:
+
+g:/glibc/include/bits/libc-lock.h:
+
+g:/glibc/include/winx/direntx.h:
+
+g:/glibc/include/bits/dirent.h:
+
+../../lha-1.14i-ac20050924-src/src/fnmatch.h:
+
+../../lha-1.14i-ac20050924-src/src/lha_macro.h:
+
+../../lha-1.14i-ac20050924-src/src/prototypes.h:

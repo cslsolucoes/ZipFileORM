@@ -1,0 +1,28 @@
+export DEFSPLUS= -D__GETOPT_H__ -D__UNISTD_GETOPT__ 
+export INCLUDESPLUS=
+export CFLAGSPLUS=
+export LDFLAGSPLUS=
+export LIBSPLUS= 
+export DLLFLAG=
+sedfiles=Makefile libtool config.h
+#BUILDDIR=$(shell pwd.sh)
+BUILDDIR=$(shell pwd.sh | sed -e "s/\([0-9]\+\)-[a-z]*$$/\1/I")
+SRCDIR=../$(shell basename $(BUILDDIR)-src)
+
+.PHONY: all 
+all: CONF MFSED
+CONF:
+#	if [ -e Makefile.in.sed ]; then \
+#		find.exe $(SRCDIR) -iname Makefile.in -exec sed -i -f Makefile.in.sed '{}' ';' ; \
+#	fi
+	$(SRCDIR)/configure --prefix=c:/progra~1/Lha --srcdir="$(SRCDIR)" \
+		  --enable-text-conv  --enable-indicator  --enable-multibyte-filename \
+		  --enable-user-name-header --enable-backup-archive \
+		  --with-tmp-file=lhXXXXXX
+	
+-include $(DVLDIR)/makefile.chg
+
+#	make all
+#	make check
+#	make install prefix=c:/temp/sed
+                                 

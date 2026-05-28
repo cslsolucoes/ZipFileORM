@@ -1,0 +1,40 @@
+# Build outputs
+/Lib/
+*.dcu
+*.dcp
+*.bpl
+*.dcr.lock
+*.identcache
+*.local
+*.~*
+*.bak
+
+# Delphi project local state
+*.dproj.local
+*.identcache
+*.tvsconfig
+
+# FPC output
+*.ppu
+*.o
+*.a
+*.compiled
+
+# Editor / IDE temp
+*.tmp
+~$*
+.idea/
+.vscode/
+
+# Test artifacts
+tests/*.exe
+tests/Output/
+tests/fixtures/*.tmp
+
+# Workspace state
+/.workspace/build-reports/
+/.workspace/snapshots/
+
+# OS
+Thumbs.db
+.DS_Store

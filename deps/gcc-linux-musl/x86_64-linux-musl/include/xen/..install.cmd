@@ -1,0 +1,1 @@
+cmd_/mingw64-64/x86_64-linux-musl//include/xen/.install := /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/xen ./include/uapi/xen evtchn.h gntalloc.h gntdev.h privcmd.h; /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/xen ./include/generated/uapi/xen ; touch /mingw64-64/x86_64-linux-musl//include/xen/.install

@@ -1,0 +1,1 @@
+cmd_/mingw64-64/x86_64-linux-musl//include/linux/iio/.install := /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/iio ./include/uapi/linux/iio events.h types.h; /bin/bash scripts/headers_install.sh /mingw64-64/x86_64-linux-musl//include/linux/iio ./include/generated/uapi/linux/iio ; touch /mingw64-64/x86_64-linux-musl//include/linux/iio/.install

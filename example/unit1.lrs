@@ -1,0 +1,71 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TMainForm','FORMDATA',[
+  'TPF0'#9'TMainForm'#8'MainForm'#4'Left'#3#249#0#6'Height'#3#0#2#3'Top'#3#29#1
+  +#5'Width'#3'm'#2#18'HorzScrollBar.Page'#3'l'#2#18'VertScrollBar.Page'#3#255#1
+  +#13'ActiveControl'#7#16'FileExistsButton'#7'Caption'#6#8'MainForm'#12'Client'
+  +'Height'#3#0#2#11'ClientWidth'#3'm'#2#8'OnCreate'#7#10'FormCreate'#8'Positio'
+  +'n'#7#14'poScreenCenter'#0#12'TPageControl'#11'PageControl'#6'Height'#3#219#1
+  +#3'Top'#2'%'#5'Width'#3'm'#2#10'ActivePage'#7#17'ShowFilesTabSheet'#5'Align'
+  +#7#8'alClient'#8'TabIndex'#2#0#8'TabOrder'#2#0#0#9'TTabSheet'#17'ShowFilesTa'
+  +'bSheet'#7'Caption'#6#10'Show files'#12'ClientHeight'#3#193#1#11'ClientWidth'
+  +#3'e'#2#0#7'TButton'#16'FileExistsButton'#24'AnchorSideBottom.Control'#7#17
+  +'ShowFilesTabSheet'#21'AnchorSideBottom.Side'#7#9'asrBottom'#4'Left'#2#6#6'H'
+  +'eight'#2#25#3'Top'#3#162#1#5'Width'#2'p'#7'Anchors'#11#6'akLeft'#8'akBottom'
+  +#0#8'AutoSize'#9#20'BorderSpacing.Around'#2#6#25'BorderSpacing.InnerBorder'#2
+  +#4#7'Caption'#6#20'Check if file exists'#7'OnClick'#7#21'FileExistsButtonCli'
+  +'ck'#8'TabOrder'#2#0#0#0#5'TEdit'#12'FileNameEdit'#22'AnchorSideLeft.Control'
+  +#7#16'FileExistsButton'#19'AnchorSideLeft.Side'#7#9'asrBottom'#21'AnchorSide'
+  +'Top.Control'#7#16'FileExistsButton'#23'AnchorSideRight.Control'#7#17'ShowFi'
+  +'lesTabSheet'#20'AnchorSideRight.Side'#7#9'asrBottom'#24'AnchorSideBottom.Co'
+  +'ntrol'#7#17'ShowFilesTabSheet'#21'AnchorSideBottom.Side'#7#9'asrBottom'#4'L'
+  +'eft'#2'|'#6'Height'#2#25#3'Top'#3#162#1#5'Width'#3#227#1#7'Anchors'#11#5'ak'
+  +'Top'#6'akLeft'#7'akRight'#8'akBottom'#0#18'BorderSpacing.Left'#2#6#19'Borde'
+  +'rSpacing.Right'#2#6#20'BorderSpacing.Bottom'#2#6#8'TabOrder'#2#1#4'Text'#6
+  +#16'somefilename.txt'#0#0#9'TListView'#12'FileListView'#22'AnchorSideLeft.Co'
+  +'ntrol'#7#17'ShowFilesTabSheet'#21'AnchorSideTop.Control'#7#17'ShowFilesTabS'
+  +'heet'#23'AnchorSideRight.Control'#7#17'ShowFilesTabSheet'#20'AnchorSideRigh'
+  +'t.Side'#7#9'asrBottom'#24'AnchorSideBottom.Control'#7#16'FileExistsButton'#4
+  +'Left'#2#6#6'Height'#3#150#1#3'Top'#2#6#5'Width'#3'Y'#2#7'Anchors'#11#5'akTo'
+  +'p'#6'akLeft'#7'akRight'#8'akBottom'#0#20'BorderSpacing.Around'#2#6#7'Column'
+  +'s'#14#1#8'AutoSize'#9#7'Caption'#6#5'Files'#5'Width'#3#200#0#0#1#8'AutoSize'
+  +#9#7'Caption'#6#4'Size'#0#1#7'Caption'#6#9'File date'#5'Width'#2'd'#0#1#7'Ca'
+  +'ption'#6#11'Compression'#5'Width'#2'P'#0#0#9'PopupMenu'#7#10'PopupMenu1'#8
+  +'ReadOnly'#9#9'RowSelect'#9#8'TabOrder'#2#2#9'ViewStyle'#7#8'vsReport'#10'On'
+  +'DblClick'#7#17'ViewMenuItemClick'#12'OnSelectItem'#7#22'FileListViewSelectI'
+  +'tem'#0#0#0#9'TTabSheet'#14'ReportTabSheet'#7'Caption'#6#10'ZIP report'#12'C'
+  +'lientHeight'#3#193#1#11'ClientWidth'#3'e'#2#0#5'TMemo'#13'ZIPReportMemo'#22
+  +'AnchorSideLeft.Control'#7#14'ReportTabSheet'#21'AnchorSideTop.Control'#7#15
+  +'GetReportButton'#18'AnchorSideTop.Side'#7#9'asrBottom'#23'AnchorSideRight.C'
+  +'ontrol'#7#14'ReportTabSheet'#24'AnchorSideBottom.Control'#7#14'ReportTabShe'
+  +'et'#4'Left'#2#6#6'Height'#3#8#1#3'Top'#2'%'#5'Width'#3'Y'#2#5'Align'#7#8'al'
+  +'Bottom'#7'Anchors'#11#5'akTop'#6'akLeft'#7'akRight'#8'akBottom'#0#20'Border'
+  +'Spacing.Around'#2#6#12'Font.CharSet'#7#12'ANSI_CHARSET'#10'Font.Color'#7#7
+  +'clBlack'#11'Font.Height'#2#245#9'Font.Name'#6#11'Courier New'#10'Font.Pitch'
+  +#7#7'fpFixed'#8'ReadOnly'#9#10'ScrollBars'#7#10'ssAutoBoth'#8'TabOrder'#2#0#8
+  +'WordWrap'#8#0#0#7'TButton'#15'GetReportButton'#22'AnchorSideLeft.Control'#7
+  +#14'ReportTabSheet'#21'AnchorSideTop.Control'#7#14'ReportTabSheet'#4'Left'#2
+  +#6#6'Height'#2#25#3'Top'#2#6#5'Width'#2'K'#8'AutoSize'#9#20'BorderSpacing.Ar'
+  +'ound'#2#6#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#10'Get report'#7'O'
+  +'nClick'#7#20'GetReportButtonClick'#8'TabOrder'#2#1#0#0#7'TButton'#16'SaveRe'
+  +'portButton'#22'AnchorSideLeft.Control'#7#15'GetReportButton'#19'AnchorSideL'
+  +'eft.Side'#7#9'asrBottom'#21'AnchorSideTop.Control'#7#14'ReportTabSheet'#4'L'
+  +'eft'#2'W'#6'Height'#2#25#3'Top'#2#6#5'Width'#2'S'#8'AutoSize'#9#20'BorderSp'
+  +'acing.Around'#2#6#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#11'Save re'
+  +'port'#7'OnClick'#7#21'SaveReportButtonClick'#8'TabOrder'#2#2#0#0#0#0#6'TPan'
+  +'el'#6'Panel1'#6'Height'#2'%'#5'Width'#3'm'#2#5'Align'#7#5'alTop'#8'AutoSize'
+  +#9#10'BevelOuter'#7#6'bvNone'#12'ClientHeight'#2'%'#11'ClientWidth'#3'm'#2#8
+  +'TabOrder'#2#1#0#7'TButton'#17'OpenZipFileButton'#22'AnchorSideLeft.Control'
+  +#7#6'Panel1'#21'AnchorSideTop.Control'#7#6'Panel1'#4'Left'#2#6#6'Height'#2#25
+  +#3'Top'#2#6#5'Width'#2'V'#8'AutoSize'#9#20'BorderSpacing.Around'#2#6#25'Bord'
+  +'erSpacing.InnerBorder'#2#4#7'Caption'#6#13'Open zip file'#7'OnClick'#7#22'O'
+  +'penZipFileButtonClick'#8'TabOrder'#2#0#0#0#0#8'TZipFile'#8'ZipFile1'#8'File'
+  +'Name'#6#11'ziptest.zip'#13'OnFileChanged'#7#19'ZipFile1FileChanged'#4'left'
+  +#3#216#0#3'top'#2#16#0#0#11'TOpenDialog'#11'OpenDialog1'#5'Title'#6#18'Open '
+  +'existing file'#11'FilterIndex'#2#0#4'left'#3#216#0#3'top'#2'0'#0#0#10'TPopu'
+  +'pMenu'#10'PopupMenu1'#4'left'#3#216#0#3'top'#2'Q'#0#9'TMenuItem'#12'ViewMen'
+  +'uItem'#7'Caption'#6#9'Edit file'#7'OnClick'#7#17'ViewMenuItemClick'#0#0#9'T'
+  ,'MenuItem'#14'AppendMenuItem'#7'Caption'#6#16'Append from disk'#7'OnClick'#7
+  +#19'AppendMenuItemClick'#0#0#9'TMenuItem'#14'DeleteMenuItem'#7'Caption'#6#11
+  +'Remove file'#7'OnClick'#7#19'DeleteMenuItemClick'#0#0#0#0
+]);

@@ -1,0 +1,2434 @@
+testing exec_lha
+$ lha --version
+LHa for UNIX version 1.14i-ac20050924 (i386-pc-mingw32)
+testing to create/list/extract lha archive.
+$ lha c test-1.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test1 #1 ... ok at line 14
+lha-test1 #2 ... ok at line 16
+$ lha l test-1.lzh
+PERMISSION  UID  GID      SIZE  RATIO     STAMP           NAME
+---------- ----------- ------- ------ ------------ --------------------
+-rw-rw-rw-  kzlg/0         400   4.0% Oct 30 11:26 test-a
+---------- ----------- ------- ------ ------------ --------------------
+ Total         1 file      400   4.0% Oct 30 11:26
+lha-test1 #3 ... ok at line 19
+$ lha x test-1.lzh
+
+test-a	- Melting  :  .
+test-a	- Melting  :  o
+test-a	- Melted  
+
+test-b	- Melting  :  .
+test-b	- Melting  :  o
+test-b	- Melted  
+
+test-c	- Melting  :  .
+test-c	- Melting  :  o
+test-c	- Melted  
+lha-test1 #4 ... ok at line 24
+lha-test1 #5 ... ok at line 26
+lha-test1 #6 ... ok at line 28
+lha-test1 #7 ... ok at line 30
+lha-test1 #8 ... ok at line 41
+testing to lh0, lh1, lh5, lh6 and lh7 method archive.
+$ lha cz test-tmp-m0.lzh test-a test-b test-c
+
+test-a	- Frozen(100%)
+
+test-b	- Frozen(100%)
+
+test-c	- Frozen(100%)
+lha-test2 #1 ... ok at line 4
+$ lha co test-tmp-m1.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test2 #2 ... ok at line 6
+$ lha co5 test-tmp-m5.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test2 #3 ... ok at line 8
+$ lha co6 test-tmp-m6.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test2 #4 ... ok at line 10
+$ lha co7 test-tmp-m7.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test2 #5 ... ok at line 12
+$ lha v test-tmp-m0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-  kzlg/0         400     400 100.0% -lh0- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file      400     400 100.0%            Oct 30 11:26
+$ lha v test-tmp-m1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-     0/0          19     400   4.8% -lh1- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       19     400   4.8%            Oct 30 11:26
+$ lha v test-tmp-m5.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       16     400   4.0%            Oct 30 11:26
+$ lha v test-tmp-m6.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh6- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       16     400   4.0%            Oct 30 11:26
+$ lha v test-tmp-m7.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh7- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       16     400   4.0%            Oct 30 11:26
+lha-test2 #6 ... ok at line 18
+$ lha v test-tmp-m0.lzh
+-rw-rw-rw-  kzlg/0         400     400 100.0% -lh0- 6e5b Oct 30 11:26 test-a
+lha-test2 #7 ... ok at line 20
+$ lha v test-tmp-m1.lzh
+-rw-rw-rw-     0/0          19     400   4.8% -lh1- 6e5b Oct 30 11:26 test-a
+lha-test2 #8 ... ok at line 22
+$ lha v test-tmp-m5.lzh
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b Oct 30 11:26 test-a
+lha-test2 #9 ... ok at line 24
+$ lha v test-tmp-m6.lzh
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh6- 6e5b Oct 30 11:26 test-a
+lha-test2 #10 ... ok at line 26
+$ lha v test-tmp-m7.lzh
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh7- 6e5b Oct 30 11:26 test-a
+lha-test2 #11 ... ok at line 28
+$ lha xw=test-tmp-m0 test-tmp-m0.lzh
+
+test-tmp-m0/test-a	- Melting  :  .
+test-tmp-m0/test-a	- Melting  :  o
+test-tmp-m0/test-a	- Melted  
+
+test-tmp-m0/test-b	- Melting  :  .
+test-tmp-m0/test-b	- Melting  :  o
+test-tmp-m0/test-b	- Melted  
+
+test-tmp-m0/test-c	- Melting  :  .
+test-tmp-m0/test-c	- Melting  :  o
+test-tmp-m0/test-c	- Melted  
+lha-test2 #12 ... ok at line 30
+$ lha xw=test-tmp-m1 test-tmp-m1.lzh
+
+test-tmp-m1/test-a	- Melting  :  .
+test-tmp-m1/test-a	- Melting  :  o
+test-tmp-m1/test-a	- Melted  
+
+test-tmp-m1/test-b	- Melting  :  .
+test-tmp-m1/test-b	- Melting  :  o
+test-tmp-m1/test-b	- Melted  
+
+test-tmp-m1/test-c	- Melting  :  .
+test-tmp-m1/test-c	- Melting  :  o
+test-tmp-m1/test-c	- Melted  
+lha-test2 #13 ... ok at line 32
+$ lha xw=test-tmp-m5 test-tmp-m5.lzh
+
+test-tmp-m5/test-a	- Melting  :  .
+test-tmp-m5/test-a	- Melting  :  o
+test-tmp-m5/test-a	- Melted  
+
+test-tmp-m5/test-b	- Melting  :  .
+test-tmp-m5/test-b	- Melting  :  o
+test-tmp-m5/test-b	- Melted  
+
+test-tmp-m5/test-c	- Melting  :  .
+test-tmp-m5/test-c	- Melting  :  o
+test-tmp-m5/test-c	- Melted  
+lha-test2 #14 ... ok at line 34
+$ lha xw=test-tmp-m6 test-tmp-m6.lzh
+
+test-tmp-m6/test-a	- Melting  :  .
+test-tmp-m6/test-a	- Melting  :  o
+test-tmp-m6/test-a	- Melted  
+
+test-tmp-m6/test-b	- Melting  :  .
+test-tmp-m6/test-b	- Melting  :  o
+test-tmp-m6/test-b	- Melted  
+
+test-tmp-m6/test-c	- Melting  :  .
+test-tmp-m6/test-c	- Melting  :  o
+test-tmp-m6/test-c	- Melted  
+lha-test2 #15 ... ok at line 36
+$ lha xw=test-tmp-m7 test-tmp-m7.lzh
+
+test-tmp-m7/test-a	- Melting  :  .
+test-tmp-m7/test-a	- Melting  :  o
+test-tmp-m7/test-a	- Melted  
+
+test-tmp-m7/test-b	- Melting  :  .
+test-tmp-m7/test-b	- Melting  :  o
+test-tmp-m7/test-b	- Melted  
+
+test-tmp-m7/test-c	- Melting  :  .
+test-tmp-m7/test-c	- Melting  :  o
+test-tmp-m7/test-c	- Melted  
+lha-test2 #16 ... ok at line 38
+lha-test2 #17 ... ok at line 41
+lha-test2 #18 ... ok at line 43
+lha-test2 #19 ... ok at line 45
+lha-test2 #20 ... ok at line 47
+lha-test2 #21 ... ok at line 49
+$ lha pq test-tmp-m0.lzh test-a
+lha-test2 #22 ... ok at line 52
+$ lha pq test-tmp-m1.lzh test-a
+lha-test2 #23 ... ok at line 54
+$ lha pq test-tmp-m5.lzh test-a
+lha-test2 #24 ... ok at line 56
+$ lha pq test-tmp-m6.lzh test-a
+lha-test2 #25 ... ok at line 58
+$ lha pq test-tmp-m7.lzh test-a
+lha-test2 #26 ... ok at line 60
+$ lha pq test-tmp-m0.lzh
+lha-test2 #27 ... ok at line 64
+$ lha pq test-tmp-m1.lzh
+lha-test2 #28 ... ok at line 66
+$ lha pq test-tmp-m5.lzh
+lha-test2 #29 ... ok at line 68
+$ lha pq test-tmp-m6.lzh
+lha-test2 #30 ... ok at line 70
+$ lha pq test-tmp-m7.lzh
+lha-test2 #31 ... ok at line 72
+lha-test2 #32 ... ok at line 75
+$ lha c test-tmp-0byte.lzh test-tmp-0byte
+
+test-tmp-0byte	- Frozen(0%)
+lha-test2 #33 ... ok at line 77
+$ lha v test-tmp-0byte.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-  kzlg/0           0       0 ****** -lh0- 0000 Oct 30 11:26 test-tmp-0byte
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file        0       0 ******            Oct 30 11:26
+lha-test2 #34 ... ok at line 79
+$ lha v test-tmp-0byte.lzh
+-rw-rw-rw-  kzlg/0           0       0 ****** -lh0- 0000 Oct 30 11:26 test-tmp-0byte
+lha-test2 #35 ... ok at line 81
+lha-test2 #36 ... ok at line 84
+$ lha c test-tmp-small.lzh test-tmp-small
+
+test-tmp-small	- Freezing :  .
+test-tmp-small	- Freezing :  o
+test-tmp-small	- Frozen(100%)
+lha-test2 #37 ... ok at line 86
+$ lha v test-tmp-small.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+-rw-rw-rw-  kzlg/0           7       7 100.0% -lh0- 9131 Oct 30 11:26 test-tmp-small
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file        7       7 100.0%            Oct 30 11:26
+lha-test2 #38 ... ok at line 88
+$ lha v test-tmp-small.lzh
+-rw-rw-rw-  kzlg/0           7       7 100.0% -lh0- 9131 Oct 30 11:26 test-tmp-small
+lha-test2 #39 ... ok at line 90
+testing to generic format archive.
+$ lha czg test-tmp-m0g.lzh test-a test-b test-c
+
+test-a	- Frozen(100%)
+
+test-b	- Frozen(100%)
+
+test-c	- Frozen(100%)
+lha-test3 #1 ... ok at line 4
+$ lha cgo test-tmp-m1g.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test3 #2 ... ok at line 6
+$ lha co5g test-tmp-m5g.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test3 #3 ... ok at line 8
+$ lha co6g test-tmp-m6g.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test3 #4 ... ok at line 10
+$ lha co7g test-tmp-m7g.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test3 #5 ... ok at line 12
+$ lha v test-tmp-m0g.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+[generic]                  400     400 100.0% -lh0- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file      400     400 100.0%            Oct 30 11:26
+$ lha v test-tmp-m1g.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+[generic]                   19     400   4.8% -lh1- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       19     400   4.8%            Oct 30 11:26
+$ lha v test-tmp-m5g.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+[generic]                   16     400   4.0% -lh5- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       16     400   4.0%            Oct 30 11:26
+$ lha v test-tmp-m6g.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+[generic]                   16     400   4.0% -lh6- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       16     400   4.0%            Oct 30 11:26
+$ lha v test-tmp-m7g.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP     NAME
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+[generic]                   16     400   4.0% -lh7- 6e5b Oct 30 11:26 test-a
+---------- ----------- ------- ------- ------ ---------- ------------ ----------
+ Total         1 file       16     400   4.0%            Oct 30 11:26
+lha-test3 #6 ... ok at line 18
+$ lha v test-tmp-m0g.lzh
+[generic]                  400     400 100.0% -lh0- 6e5b Oct 30 11:26 test-a
+lha-test3 #7 ... ok at line 20
+$ lha v test-tmp-m1g.lzh
+[generic]                   19     400   4.8% -lh1- 6e5b Oct 30 11:26 test-a
+lha-test3 #8 ... ok at line 22
+$ lha v test-tmp-m5g.lzh
+[generic]                   16     400   4.0% -lh5- 6e5b Oct 30 11:26 test-a
+lha-test3 #9 ... ok at line 24
+$ lha v test-tmp-m6g.lzh
+[generic]                   16     400   4.0% -lh6- 6e5b Oct 30 11:26 test-a
+lha-test3 #10 ... ok at line 26
+$ lha v test-tmp-m7g.lzh
+[generic]                   16     400   4.0% -lh7- 6e5b Oct 30 11:26 test-a
+lha-test3 #11 ... ok at line 28
+$ lha xw=test-tmp-m0g test-tmp-m0g.lzh
+
+test-tmp-m0g/test-a	- Melting  :  .
+test-tmp-m0g/test-a	- Melting  :  o
+test-tmp-m0g/test-a	- Melted  
+
+test-tmp-m0g/test-b	- Melting  :  .
+test-tmp-m0g/test-b	- Melting  :  o
+test-tmp-m0g/test-b	- Melted  
+
+test-tmp-m0g/test-c	- Melting  :  .
+test-tmp-m0g/test-c	- Melting  :  o
+test-tmp-m0g/test-c	- Melted  
+lha-test3 #12 ... ok at line 31
+$ lha xw=test-tmp-m1g test-tmp-m1g.lzh
+
+test-tmp-m1g/test-a	- Melting  :  .
+test-tmp-m1g/test-a	- Melting  :  o
+test-tmp-m1g/test-a	- Melted  
+
+test-tmp-m1g/test-b	- Melting  :  .
+test-tmp-m1g/test-b	- Melting  :  o
+test-tmp-m1g/test-b	- Melted  
+
+test-tmp-m1g/test-c	- Melting  :  .
+test-tmp-m1g/test-c	- Melting  :  o
+test-tmp-m1g/test-c	- Melted  
+lha-test3 #13 ... ok at line 33
+$ lha xw=test-tmp-m5g test-tmp-m5g.lzh
+
+test-tmp-m5g/test-a	- Melting  :  .
+test-tmp-m5g/test-a	- Melting  :  o
+test-tmp-m5g/test-a	- Melted  
+
+test-tmp-m5g/test-b	- Melting  :  .
+test-tmp-m5g/test-b	- Melting  :  o
+test-tmp-m5g/test-b	- Melted  
+
+test-tmp-m5g/test-c	- Melting  :  .
+test-tmp-m5g/test-c	- Melting  :  o
+test-tmp-m5g/test-c	- Melted  
+lha-test3 #14 ... ok at line 35
+$ lha xw=test-tmp-m6g test-tmp-m6g.lzh
+
+test-tmp-m6g/test-a	- Melting  :  .
+test-tmp-m6g/test-a	- Melting  :  o
+test-tmp-m6g/test-a	- Melted  
+
+test-tmp-m6g/test-b	- Melting  :  .
+test-tmp-m6g/test-b	- Melting  :  o
+test-tmp-m6g/test-b	- Melted  
+
+test-tmp-m6g/test-c	- Melting  :  .
+test-tmp-m6g/test-c	- Melting  :  o
+test-tmp-m6g/test-c	- Melted  
+lha-test3 #15 ... ok at line 37
+$ lha xw=test-tmp-m7g test-tmp-m7g.lzh
+
+test-tmp-m7g/test-a	- Melting  :  .
+test-tmp-m7g/test-a	- Melting  :  o
+test-tmp-m7g/test-a	- Melted  
+
+test-tmp-m7g/test-b	- Melting  :  .
+test-tmp-m7g/test-b	- Melting  :  o
+test-tmp-m7g/test-b	- Melted  
+
+test-tmp-m7g/test-c	- Melting  :  .
+test-tmp-m7g/test-c	- Melting  :  o
+test-tmp-m7g/test-c	- Melted  
+lha-test3 #16 ... ok at line 39
+lha-test3 #17 ... ok at line 42
+lha-test3 #18 ... ok at line 44
+lha-test3 #19 ... ok at line 46
+lha-test3 #20 ... ok at line 48
+lha-test3 #21 ... ok at line 50
+$ lha pq test-tmp-m0g.lzh test-a
+lha-test3 #22 ... ok at line 53
+$ lha pq test-tmp-m1g.lzh test-a
+lha-test3 #23 ... ok at line 55
+$ lha pq test-tmp-m5g.lzh test-a
+lha-test3 #24 ... ok at line 57
+$ lha pq test-tmp-m6g.lzh test-a
+lha-test3 #25 ... ok at line 59
+$ lha pq test-tmp-m7g.lzh test-a
+lha-test3 #26 ... ok at line 61
+$ lha pq test-tmp-m0g.lzh
+lha-test3 #27 ... ok at line 65
+$ lha pq test-tmp-m1g.lzh
+lha-test3 #28 ... ok at line 67
+$ lha pq test-tmp-m5g.lzh
+lha-test3 #29 ... ok at line 69
+$ lha pq test-tmp-m6g.lzh
+lha-test3 #30 ... ok at line 71
+$ lha pq test-tmp-m7g.lzh
+lha-test3 #31 ... ok at line 73
+testing to delete files from archive.
+$ lha d test-tmp.lzh
+lha-test4 #1 ... ok at line 8
+lha-test4 #2 ... ok at line 10
+$ lha d test-tmp.lzh test-a
+lha-test4 #3 ... ok at line 12
+lha-test4 #4 ... ok at line 14
+$ lha xw=test-tmp test-tmp.lzh
+lha-test4 #5 ... failed at line 19
+lha-test4 #6 ... ok at line 21
+$ lha d test-tmp.lzh test-b
+lha-test4 #7 ... failed at line 23
+lha-test4 #8 ... ok at line 25
+$ lha xw=test-tmp test-tmp.lzh
+lha-test4 #9 ... failed at line 30
+lha-test4 #10 ... ok at line 32
+$ lha d test-tmp.lzh test-c
+lha-test4 #11 ... failed at line 34
+lha-test4 #12 ... ok at line 36
+lha-test4 #13 ... ok at line 38
+testing to treat stdin/stdout as archive file.
+$ lha c - test-a test-b test-c
+lha-test5 #1 ... ok at line 5
+$ lha xw=test-tmp -
+
+test-tmp/test-a	- Melting  :  .
+test-tmp/test-a	- Melting  :  o
+test-tmp/test-a	- Melted  
+
+test-tmp/test-b	- Melting  :  .
+test-tmp/test-b	- Melting  :  o
+test-tmp/test-b	- Melted  
+
+test-tmp/test-c	- Melting  :  .
+test-tmp/test-c	- Melting  :  o
+test-tmp/test-c	- Melted  
+lha-test5 #2 ... ok at line 7
+lha-test5 #3 ... ok at line 9
+$ lha c - test-a test-b test-c
+$ lha xw=test-tmp2 -
+
+test-tmp2/test-a	- Melting  :  .
+test-tmp2/test-a	- Melting  :  o
+test-tmp2/test-a	- Melted  
+
+test-tmp2/test-b	- Melting  :  .
+test-tmp2/test-b	- Melting  :  o
+test-tmp2/test-b	- Melted  
+
+test-tmp2/test-c	- Melting  :  .
+test-tmp2/test-c	- Melting  :  o
+test-tmp2/test-c	- Melted  
+lha-test5 #4 ... ok at line 12
+lha-test5 #5 ... ok at line 14
+lha-test5 #6 ... ok at line 17
+$ lha xw=test-tmp -
+
+test-tmp/test-b	- Melting  :  .
+test-tmp/test-b	- Melting  :  o
+test-tmp/test-b	- Melted  
+lha-test5 #7 ... ok at line 19
+lha-test5 #8 ... ok at line 21
+lha-test5 #9 ... ok at line 24
+testing to add/update files to archive.
+$ lha a test-tmp.lzh test-c
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test7 #1 ... ok at line 4
+$ lha a test-tmp.lzh test-b
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+lha-test7 #2 ... ok at line 6
+$ lha u test-tmp.lzh test-a
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+lha-test7 #3 ... ok at line 8
+$ lha xw=test-tmp test-tmp.lzh
+
+test-tmp/test-a	- Melting  :  .
+test-tmp/test-a	- Melting  :  o
+test-tmp/test-a	- Melted  
+
+test-tmp/test-b	- Melting  :  .
+test-tmp/test-b	- Melting  :  o
+test-tmp/test-b	- Melted  
+
+test-tmp/test-c	- Melting  :  .
+test-tmp/test-c	- Melting  :  o
+test-tmp/test-c	- Melted  
+lha-test7 #4 ... ok at line 10
+lha-test7 #5 ... ok at line 12
+$ lha u ../test-tmp.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(100%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(100%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(100%)
+lha-test7 #6 ... ok at line 23
+$ lha vv test-1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:37
+lha-test7 #7 ... ok at line 28
+$ lha vv test-tmp.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-  kzlg/0           4       4 100.0% -lh0- 6283 2005-10-30 11:26:44 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        4       4 100.0%            2005-10-30 11:26:44
+lha-test7 #8 ... ok at line 30
+$ lha xw=test-tmp2 test-tmp.lzh
+
+test-tmp2/test-a	- Melting  :  .
+test-tmp2/test-a	- Melting  :  o
+test-tmp2/test-a	- Melted  
+
+test-tmp2/test-b	- Melting  :  .
+test-tmp2/test-b	- Melting  :  o
+test-tmp2/test-b	- Melted  
+
+test-tmp2/test-c	- Melting  :  .
+test-tmp2/test-c	- Melting  :  o
+test-tmp2/test-c	- Melted  
+lha-test7 #9 ... ok at line 33
+lha-test7 #10 ... ok at line 35
+$ lha u test-tmp.lzh test-a test-b test-c
+$ lha xw=test-tmp3 test-tmp.lzh
+
+test-tmp3/test-a	- Melting  :  .
+test-tmp3/test-a	- Melting  :  o
+test-tmp3/test-a	- Melted  
+
+test-tmp3/test-b	- Melting  :  .
+test-tmp3/test-b	- Melting  :  o
+test-tmp3/test-b	- Melted  
+
+test-tmp3/test-c	- Melting  :  .
+test-tmp3/test-c	- Melting  :  o
+test-tmp3/test-c	- Melted  
+lha-test7 #11 ... ok at line 40
+lha-test7 #12 ... ok at line 42
+$ lha a test-tmp.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+$ lha xw=test-tmp4 test-tmp.lzh
+
+test-tmp4/test-a	- Melting  :  .
+test-tmp4/test-a	- Melting  :  o
+test-tmp4/test-a	- Melted  
+
+test-tmp4/test-b	- Melting  :  .
+test-tmp4/test-b	- Melting  :  o
+test-tmp4/test-b	- Melted  
+
+test-tmp4/test-c	- Melting  :  .
+test-tmp4/test-c	- Melting  :  o
+test-tmp4/test-c	- Melted  
+lha-test7 #13 ... ok at line 47
+lha-test7 #14 ... ok at line 49
+$ lha a ../test-tmp.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(100%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(100%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(100%)
+$ lha xw=test-tmp5 test-tmp.lzh
+
+test-tmp5/test-a	- Melting  :  .
+test-tmp5/test-a	- Melting  :  o
+test-tmp5/test-a	- Melted  
+
+test-tmp5/test-b	- Melting  :  .
+test-tmp5/test-b	- Melting  :  o
+test-tmp5/test-b	- Melted  
+
+test-tmp5/test-c	- Melting  :  .
+test-tmp5/test-c	- Melting  :  o
+test-tmp5/test-c	- Melted  
+lha-test7 #15 ... ok at line 56
+lha-test7 #16 ... ok at line 58
+testing timestamp
+$ lha c0 test-tmp-h0.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test8 #1 ... ok at line 5
+$ lha vv test-tmp-h0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-     0/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:44
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-a
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-b
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-c
+$ lha xw=test-tmp-h0 test-tmp-h0.lzh
+
+test-tmp-h0/test-a	- Melting  :  .
+test-tmp-h0/test-a	- Melting  :  o
+test-tmp-h0/test-a	- Melted  
+
+test-tmp-h0/test-b	- Melting  :  .
+test-tmp-h0/test-b	- Melting  :  o
+test-tmp-h0/test-b	- Melted  
+
+test-tmp-h0/test-c	- Melting  :  .
+test-tmp-h0/test-c	- Melting  :  o
+test-tmp-h0/test-c	- Melted  
+lha-test8 #2 ... ok at line 11
+lha-test8 #3 ... ok at line 13
+lha-test8 #4 ... ok at line 21
+$ lha c1 test-tmp-h1.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test8 #5 ... ok at line 25
+$ lha vv test-tmp-h1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:44
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-a
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-b
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-c
+$ lha xw=test-tmp-h1 test-tmp-h1.lzh
+
+test-tmp-h1/test-a	- Melting  :  .
+test-tmp-h1/test-a	- Melting  :  o
+test-tmp-h1/test-a	- Melted  
+
+test-tmp-h1/test-b	- Melting  :  .
+test-tmp-h1/test-b	- Melting  :  o
+test-tmp-h1/test-b	- Melted  
+
+test-tmp-h1/test-c	- Melting  :  .
+test-tmp-h1/test-c	- Melting  :  o
+test-tmp-h1/test-c	- Melted  
+lha-test8 #6 ... ok at line 31
+lha-test8 #7 ... ok at line 33
+lha-test8 #8 ... ok at line 41
+$ lha c1 test-tmp-h2.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test8 #9 ... ok at line 45
+$ lha vv test-tmp-h2.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:45
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-a
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-b
+-rwxrwxrwx  1 kzlg mkpasswd 400 Oct 30 11:26 test-c
+$ lha xw=test-tmp-h2 test-tmp-h2.lzh
+
+test-tmp-h2/test-a	- Melting  :  .
+test-tmp-h2/test-a	- Melting  :  o
+test-tmp-h2/test-a	- Melted  
+
+test-tmp-h2/test-b	- Melting  :  .
+test-tmp-h2/test-b	- Melting  :  o
+test-tmp-h2/test-b	- Melted  
+
+test-tmp-h2/test-c	- Melting  :  .
+test-tmp-h2/test-c	- Melting  :  o
+test-tmp-h2/test-c	- Melted  
+lha-test8 #10 ... ok at line 51
+lha-test8 #11 ... ok at line 53
+lha-test8 #12 ... ok at line 61
+lha-test8 #13 ... ok at line 73
+$ lha cg0 test-tmp-hg0.lzh test-tmp-a test-tmp-b test-tmp-c
+
+test-tmp-a	- Freezing :  .
+test-tmp-a	- Freezing :  o
+test-tmp-a	- Frozen(4%)
+
+test-tmp-b	- Freezing :  .
+test-tmp-b	- Freezing :  o
+test-tmp-b	- Frozen(4%)
+
+test-tmp-c	- Freezing :  .
+test-tmp-c	- Freezing :  o
+test-tmp-c	- Frozen(4%)
+lha-test8 #14 ... ok at line 77
+$ lha vv test-tmp-hg0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-a
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-01-02 03:04:02 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:45
+-rwxrwxrwx  1 kzlg mkpasswd 400 Jan  2  2005 test-tmp-a
+-rwxrwxrwx  1 kzlg mkpasswd 400 Jan  2  2005 test-tmp-b
+-rwxrwxrwx  1 kzlg mkpasswd 400 Jan  2  2005 test-tmp-c
+$ lha xw=test-tmp-hg0 test-tmp-hg0.lzh
+
+test-tmp-hg0/test-tmp-a	- Melting  :  .
+test-tmp-hg0/test-tmp-a	- Melting  :  o
+test-tmp-hg0/test-tmp-a	- Melted  
+
+test-tmp-hg0/test-tmp-b	- Melting  :  .
+test-tmp-hg0/test-tmp-b	- Melting  :  o
+test-tmp-hg0/test-tmp-b	- Melted  
+
+test-tmp-hg0/test-tmp-c	- Melting  :  .
+test-tmp-hg0/test-tmp-c	- Melting  :  o
+test-tmp-hg0/test-tmp-c	- Melted  
+lha-test8 #15 ... ok at line 83
+lha-test8 #16 ... ok at line 87
+lha-test8 #17 ... ok at line 95
+$ lha cg1 test-tmp-hg1.lzh test-tmp-a test-tmp-b test-tmp-c
+
+test-tmp-a	- Freezing :  .
+test-tmp-a	- Freezing :  o
+test-tmp-a	- Frozen(4%)
+
+test-tmp-b	- Freezing :  .
+test-tmp-b	- Freezing :  o
+test-tmp-b	- Frozen(4%)
+
+test-tmp-c	- Freezing :  .
+test-tmp-c	- Freezing :  o
+test-tmp-c	- Frozen(4%)
+lha-test8 #18 ... ok at line 99
+$ lha vv test-tmp-hg1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-a
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-01-02 03:04:02 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:45
+-rwxrwxrwx  1 kzlg mkpasswd 400 Jan  2  2005 test-tmp-a
+-rwxrwxrwx  1 kzlg mkpasswd 400 Jan  2  2005 test-tmp-b
+-rwxrwxrwx  1 kzlg mkpasswd 400 Jan  2  2005 test-tmp-c
+$ lha xw=test-tmp-hg1 test-tmp-hg1.lzh
+
+test-tmp-hg1/test-tmp-a	- Melting  :  .
+test-tmp-hg1/test-tmp-a	- Melting  :  o
+test-tmp-hg1/test-tmp-a	- Melted  
+
+test-tmp-hg1/test-tmp-b	- Melting  :  .
+test-tmp-hg1/test-tmp-b	- Melting  :  o
+test-tmp-hg1/test-tmp-b	- Melted  
+
+test-tmp-hg1/test-tmp-c	- Melting  :  .
+test-tmp-hg1/test-tmp-c	- Melting  :  o
+test-tmp-hg1/test-tmp-c	- Melted  
+lha-test8 #19 ... ok at line 105
+lha-test8 #20 ... ok at line 109
+lha-test8 #21 ... ok at line 117
+testing header level 0, 1, 2 and each generic headers
+$ lha c0 test-tmp-h0.lzh test-1
+
+test-1/	- Frozen(0%)
+
+test-1/test-a	- Freezing :  .
+test-1/test-a	- Freezing :  o
+test-1/test-a	- Frozen(4%)
+
+test-1/test-b	- Freezing :  .
+test-1/test-b	- Freezing :  o
+test-1/test-b	- Frozen(4%)
+
+test-1/test-c	- Freezing :  .
+test-1/test-c	- Freezing :  o
+test-1/test-c	- Frozen(4%)
+lha-test10 #1 ... ok at line 4
+$ lha c1 test-tmp-h1.lzh test-1
+
+test-1/	- Frozen(0%)
+
+test-1/test-a	- Freezing :  .
+test-1/test-a	- Freezing :  o
+test-1/test-a	- Frozen(4%)
+
+test-1/test-b	- Freezing :  .
+test-1/test-b	- Freezing :  o
+test-1/test-b	- Frozen(4%)
+
+test-1/test-c	- Freezing :  .
+test-1/test-c	- Freezing :  o
+test-1/test-c	- Frozen(4%)
+lha-test10 #2 ... ok at line 6
+$ lha c2 test-tmp-h2.lzh test-1
+
+test-1/	- Frozen(0%)
+
+test-1/test-a	- Freezing :  .
+test-1/test-a	- Freezing :  o
+test-1/test-a	- Frozen(4%)
+
+test-1/test-b	- Freezing :  .
+test-1/test-b	- Freezing :  o
+test-1/test-b	- Frozen(4%)
+
+test-1/test-c	- Freezing :  .
+test-1/test-c	- Freezing :  o
+test-1/test-c	- Frozen(4%)
+lha-test10 #3 ... ok at line 8
+$ lha xw=test-tmp-h0 test-tmp-h0.lzh
+
+test-tmp-h0/test-1/test-a	- Melting  :  .
+test-tmp-h0/test-1/test-a	- Melting  :  o
+test-tmp-h0/test-1/test-a	- Melted  
+
+test-tmp-h0/test-1/test-b	- Melting  :  .
+test-tmp-h0/test-1/test-b	- Melting  :  o
+test-tmp-h0/test-1/test-b	- Melted  
+
+test-tmp-h0/test-1/test-c	- Melting  :  .
+test-tmp-h0/test-1/test-c	- Melting  :  o
+test-tmp-h0/test-1/test-c	- Melted  
+lha-test10 #4 ... ok at line 10
+$ lha xw=test-tmp-h1 test-tmp-h1.lzh
+
+test-tmp-h1/test-1/test-a	- Melting  :  .
+test-tmp-h1/test-1/test-a	- Melting  :  o
+test-tmp-h1/test-1/test-a	- Melted  
+
+test-tmp-h1/test-1/test-b	- Melting  :  .
+test-tmp-h1/test-1/test-b	- Melting  :  o
+test-tmp-h1/test-1/test-b	- Melted  
+
+test-tmp-h1/test-1/test-c	- Melting  :  .
+test-tmp-h1/test-1/test-c	- Melting  :  o
+test-tmp-h1/test-1/test-c	- Melted  
+lha-test10 #5 ... ok at line 12
+$ lha xw=test-tmp-h2 test-tmp-h2.lzh
+
+test-tmp-h2/test-1/test-a	- Melting  :  .
+test-tmp-h2/test-1/test-a	- Melting  :  o
+test-tmp-h2/test-1/test-a	- Melted  
+
+test-tmp-h2/test-1/test-b	- Melting  :  .
+test-tmp-h2/test-1/test-b	- Melting  :  o
+test-tmp-h2/test-1/test-b	- Melted  
+
+test-tmp-h2/test-1/test-c	- Melting  :  .
+test-tmp-h2/test-1/test-c	- Melting  :  o
+test-tmp-h2/test-1/test-c	- Melted  
+lha-test10 #6 ... ok at line 14
+$ lha vv test-tmp-h0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-1/
+drw-rw-rw-     0/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:38 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:45
+lha-test10 #7 ... ok at line 16
+$ lha vv test-tmp-h1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-1/
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:38 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:45
+lha-test10 #8 ... ok at line 18
+$ lha vv test-tmp-h2.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-1/
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:38 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:45
+lha-test10 #9 ... ok at line 20
+$ lha vv test-tmp-h0.lzh
+drw-rw-rw-     0/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:38 [0]
+lha-test10 #10 ... ok at line 22
+$ lha vv test-tmp-h1.lzh
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:38 [1]
+lha-test10 #11 ... ok at line 24
+$ lha vv test-tmp-h2.lzh
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:38 [2]
+lha-test10 #12 ... ok at line 26
+lha-test10 #13 ... ok at line 28
+lha-test10 #14 ... ok at line 30
+lha-test10 #15 ... ok at line 32
+lha-test10 #16 ... ok at line 40
+$ lha c0 test-tmp2-h0.lzh test-tmp-d1
+
+test-tmp-d1/	- Frozen(0%)
+
+test-tmp-d1/d2/	- Frozen(0%)
+
+test-tmp-d1/d2/d3/	- Frozen(0%)
+
+test-tmp-d1/d2/d3/test-c	- Freezing :  .
+test-tmp-d1/d2/d3/test-c	- Freezing :  o
+test-tmp-d1/d2/d3/test-c	- Frozen(4%)
+
+test-tmp-d1/d2/test-b	- Freezing :  .
+test-tmp-d1/d2/test-b	- Freezing :  o
+test-tmp-d1/d2/test-b	- Frozen(4%)
+
+test-tmp-d1/test-a	- Freezing :  .
+test-tmp-d1/test-a	- Freezing :  o
+test-tmp-d1/test-a	- Frozen(4%)
+lha-test10 #17 ... ok at line 42
+$ lha c1 test-tmp2-h1.lzh test-tmp-d1
+
+test-tmp-d1/	- Frozen(0%)
+
+test-tmp-d1/d2/	- Frozen(0%)
+
+test-tmp-d1/d2/d3/	- Frozen(0%)
+
+test-tmp-d1/d2/d3/test-c	- Freezing :  .
+test-tmp-d1/d2/d3/test-c	- Freezing :  o
+test-tmp-d1/d2/d3/test-c	- Frozen(4%)
+
+test-tmp-d1/d2/test-b	- Freezing :  .
+test-tmp-d1/d2/test-b	- Freezing :  o
+test-tmp-d1/d2/test-b	- Frozen(4%)
+
+test-tmp-d1/test-a	- Freezing :  .
+test-tmp-d1/test-a	- Freezing :  o
+test-tmp-d1/test-a	- Frozen(4%)
+lha-test10 #18 ... ok at line 44
+$ lha c2 test-tmp2-h2.lzh test-tmp-d1
+
+test-tmp-d1/	- Frozen(0%)
+
+test-tmp-d1/d2/	- Frozen(0%)
+
+test-tmp-d1/d2/d3/	- Frozen(0%)
+
+test-tmp-d1/d2/d3/test-c	- Freezing :  .
+test-tmp-d1/d2/d3/test-c	- Freezing :  o
+test-tmp-d1/d2/d3/test-c	- Frozen(4%)
+
+test-tmp-d1/d2/test-b	- Freezing :  .
+test-tmp-d1/d2/test-b	- Freezing :  o
+test-tmp-d1/d2/test-b	- Frozen(4%)
+
+test-tmp-d1/test-a	- Freezing :  .
+test-tmp-d1/test-a	- Freezing :  o
+test-tmp-d1/test-a	- Frozen(4%)
+lha-test10 #19 ... ok at line 46
+$ lha xw=test-tmp2-h0 test-tmp2-h0.lzh
+
+test-tmp2-h0/test-tmp-d1/d2/d3/test-c	- Melting  :  .
+test-tmp2-h0/test-tmp-d1/d2/d3/test-c	- Melting  :  o
+test-tmp2-h0/test-tmp-d1/d2/d3/test-c	- Melted  
+
+test-tmp2-h0/test-tmp-d1/d2/test-b	- Melting  :  .
+test-tmp2-h0/test-tmp-d1/d2/test-b	- Melting  :  o
+test-tmp2-h0/test-tmp-d1/d2/test-b	- Melted  
+
+test-tmp2-h0/test-tmp-d1/test-a	- Melting  :  .
+test-tmp2-h0/test-tmp-d1/test-a	- Melting  :  o
+test-tmp2-h0/test-tmp-d1/test-a	- Melted  
+lha-test10 #20 ... ok at line 48
+$ lha xw=test-tmp2-h1 test-tmp2-h1.lzh
+
+test-tmp2-h1/test-tmp-d1/d2/d3/test-c	- Melting  :  .
+test-tmp2-h1/test-tmp-d1/d2/d3/test-c	- Melting  :  o
+test-tmp2-h1/test-tmp-d1/d2/d3/test-c	- Melted  
+
+test-tmp2-h1/test-tmp-d1/d2/test-b	- Melting  :  .
+test-tmp2-h1/test-tmp-d1/d2/test-b	- Melting  :  o
+test-tmp2-h1/test-tmp-d1/d2/test-b	- Melted  
+
+test-tmp2-h1/test-tmp-d1/test-a	- Melting  :  .
+test-tmp2-h1/test-tmp-d1/test-a	- Melting  :  o
+test-tmp2-h1/test-tmp-d1/test-a	- Melted  
+lha-test10 #21 ... ok at line 50
+$ lha xw=test-tmp2-h2 test-tmp2-h2.lzh
+
+test-tmp2-h2/test-tmp-d1/d2/d3/test-c	- Melting  :  .
+test-tmp2-h2/test-tmp-d1/d2/d3/test-c	- Melting  :  o
+test-tmp2-h2/test-tmp-d1/d2/d3/test-c	- Melted  
+
+test-tmp2-h2/test-tmp-d1/d2/test-b	- Melting  :  .
+test-tmp2-h2/test-tmp-d1/d2/test-b	- Melting  :  o
+test-tmp2-h2/test-tmp-d1/d2/test-b	- Melted  
+
+test-tmp2-h2/test-tmp-d1/test-a	- Melting  :  .
+test-tmp2-h2/test-tmp-d1/test-a	- Melting  :  o
+test-tmp2-h2/test-tmp-d1/test-a	- Melted  
+lha-test10 #22 ... ok at line 52
+$ lha vv test-tmp2-h0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-d1/
+drw-rw-rw-     0/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:46 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:46
+lha-test10 #23 ... ok at line 54
+$ lha vv test-tmp2-h1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-d1/
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:46 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:46
+lha-test10 #24 ... ok at line 56
+$ lha vv test-tmp2-h2.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-d1/
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:46 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:46
+lha-test10 #25 ... ok at line 58
+$ lha vv test-tmp2-h0.lzh
+drw-rw-rw-     0/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:46 [0]
+lha-test10 #26 ... ok at line 60
+$ lha vv test-tmp2-h1.lzh
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:46 [1]
+lha-test10 #27 ... ok at line 62
+$ lha vv test-tmp2-h2.lzh
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:46 [2]
+lha-test10 #28 ... ok at line 64
+lha-test10 #29 ... ok at line 66
+lha-test10 #30 ... ok at line 68
+lha-test10 #31 ... ok at line 70
+lha-test10 #32 ... ok at line 72
+lha-test10 #33 ... ok at line 74
+lha-test10 #34 ... ok at line 76
+lha-test10 #35 ... ok at line 78
+lha-test10 #36 ... ok at line 80
+lha-test10 #37 ... ok at line 82
+$ lha cg0 test-tmp-hg0.lzh test-1
+
+test-1/test-a	- Freezing :  .
+test-1/test-a	- Freezing :  o
+test-1/test-a	- Frozen(4%)
+
+test-1/test-b	- Freezing :  .
+test-1/test-b	- Freezing :  o
+test-1/test-b	- Frozen(4%)
+
+test-1/test-c	- Freezing :  .
+test-1/test-c	- Freezing :  o
+test-1/test-c	- Frozen(4%)
+lha-test10 #38 ... ok at line 87
+$ lha cg1 test-tmp-hg1.lzh test-1
+
+test-1/test-a	- Freezing :  .
+test-1/test-a	- Freezing :  o
+test-1/test-a	- Frozen(4%)
+
+test-1/test-b	- Freezing :  .
+test-1/test-b	- Freezing :  o
+test-1/test-b	- Frozen(4%)
+
+test-1/test-c	- Freezing :  .
+test-1/test-c	- Freezing :  o
+test-1/test-c	- Frozen(4%)
+lha-test10 #39 ... ok at line 89
+$ lha cg2 test-tmp-hg2.lzh test-1
+
+test-1/test-a	- Freezing :  .
+test-1/test-a	- Freezing :  o
+test-1/test-a	- Frozen(4%)
+
+test-1/test-b	- Freezing :  .
+test-1/test-b	- Freezing :  o
+test-1/test-b	- Frozen(4%)
+
+test-1/test-c	- Freezing :  .
+test-1/test-c	- Freezing :  o
+test-1/test-c	- Frozen(4%)
+lha-test10 #40 ... ok at line 91
+$ lha xw=test-tmp-hg0 test-tmp-hg0.lzh
+
+test-tmp-hg0/test-1/test-a	- Melting  :  .
+test-tmp-hg0/test-1/test-a	- Melting  :  o
+test-tmp-hg0/test-1/test-a	- Melted  
+
+test-tmp-hg0/test-1/test-b	- Melting  :  .
+test-tmp-hg0/test-1/test-b	- Melting  :  o
+test-tmp-hg0/test-1/test-b	- Melted  
+
+test-tmp-hg0/test-1/test-c	- Melting  :  .
+test-tmp-hg0/test-1/test-c	- Melting  :  o
+test-tmp-hg0/test-1/test-c	- Melted  
+lha-test10 #41 ... ok at line 93
+$ lha xw=test-tmp-hg1 test-tmp-hg1.lzh
+
+test-tmp-hg1/test-1/test-a	- Melting  :  .
+test-tmp-hg1/test-1/test-a	- Melting  :  o
+test-tmp-hg1/test-1/test-a	- Melted  
+
+test-tmp-hg1/test-1/test-b	- Melting  :  .
+test-tmp-hg1/test-1/test-b	- Melting  :  o
+test-tmp-hg1/test-1/test-b	- Melted  
+
+test-tmp-hg1/test-1/test-c	- Melting  :  .
+test-tmp-hg1/test-1/test-c	- Melting  :  o
+test-tmp-hg1/test-1/test-c	- Melted  
+lha-test10 #42 ... ok at line 95
+$ lha xw=test-tmp-hg2 test-tmp-hg2.lzh
+
+test-tmp-hg2/test-1/test-a	- Melting  :  .
+test-tmp-hg2/test-1/test-a	- Melting  :  o
+test-tmp-hg2/test-1/test-a	- Melted  
+
+test-tmp-hg2/test-1/test-b	- Melting  :  .
+test-tmp-hg2/test-1/test-b	- Melting  :  o
+test-tmp-hg2/test-1/test-b	- Melted  
+
+test-tmp-hg2/test-1/test-c	- Melting  :  .
+test-tmp-hg2/test-1/test-c	- Melting  :  o
+test-tmp-hg2/test-1/test-c	- Melted  
+lha-test10 #43 ... ok at line 97
+$ lha vv test-tmp-hg0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-1/test-a
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:36 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:47
+lha-test10 #44 ... ok at line 99
+$ lha vv test-tmp-hg1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-1/test-a
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:36 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:47
+lha-test10 #45 ... ok at line 101
+$ lha vv test-tmp-hg2.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-1/test-a
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:47
+lha-test10 #46 ... ok at line 103
+$ lha vv test-tmp-hg0.lzh
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:36 [0]
+lha-test10 #47 ... ok at line 105
+$ lha vv test-tmp-hg1.lzh
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:36 [1]
+lha-test10 #48 ... ok at line 107
+$ lha vv test-tmp-hg2.lzh
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [2]
+lha-test10 #49 ... ok at line 109
+lha-test10 #50 ... ok at line 111
+lha-test10 #51 ... ok at line 113
+lha-test10 #52 ... ok at line 115
+lha-test10 #53 ... ok at line 123
+$ lha cg0 test-tmp2-hg0.lzh test-tmp-gd1
+
+test-tmp-gd1/d2/d3/test-c	- Freezing :  .
+test-tmp-gd1/d2/d3/test-c	- Freezing :  o
+test-tmp-gd1/d2/d3/test-c	- Frozen(4%)
+
+test-tmp-gd1/d2/test-b	- Freezing :  .
+test-tmp-gd1/d2/test-b	- Freezing :  o
+test-tmp-gd1/d2/test-b	- Frozen(4%)
+
+test-tmp-gd1/test-a	- Freezing :  .
+test-tmp-gd1/test-a	- Freezing :  o
+test-tmp-gd1/test-a	- Frozen(4%)
+lha-test10 #54 ... ok at line 126
+$ lha cg1 test-tmp2-hg1.lzh test-tmp-gd1
+
+test-tmp-gd1/d2/d3/test-c	- Freezing :  .
+test-tmp-gd1/d2/d3/test-c	- Freezing :  o
+test-tmp-gd1/d2/d3/test-c	- Frozen(4%)
+
+test-tmp-gd1/d2/test-b	- Freezing :  .
+test-tmp-gd1/d2/test-b	- Freezing :  o
+test-tmp-gd1/d2/test-b	- Frozen(4%)
+
+test-tmp-gd1/test-a	- Freezing :  .
+test-tmp-gd1/test-a	- Freezing :  o
+test-tmp-gd1/test-a	- Frozen(4%)
+lha-test10 #55 ... ok at line 128
+$ lha cg2 test-tmp2-hg2.lzh test-tmp-gd1
+
+test-tmp-gd1/d2/d3/test-c	- Freezing :  .
+test-tmp-gd1/d2/d3/test-c	- Freezing :  o
+test-tmp-gd1/d2/d3/test-c	- Frozen(4%)
+
+test-tmp-gd1/d2/test-b	- Freezing :  .
+test-tmp-gd1/d2/test-b	- Freezing :  o
+test-tmp-gd1/d2/test-b	- Frozen(4%)
+
+test-tmp-gd1/test-a	- Freezing :  .
+test-tmp-gd1/test-a	- Freezing :  o
+test-tmp-gd1/test-a	- Frozen(4%)
+lha-test10 #56 ... ok at line 130
+$ lha xw=test-tmp2-hg0 test-tmp2-hg0.lzh
+
+test-tmp2-hg0/test-tmp-gd1/d2/d3/test-c	- Melting  :  .
+test-tmp2-hg0/test-tmp-gd1/d2/d3/test-c	- Melting  :  o
+test-tmp2-hg0/test-tmp-gd1/d2/d3/test-c	- Melted  
+
+test-tmp2-hg0/test-tmp-gd1/d2/test-b	- Melting  :  .
+test-tmp2-hg0/test-tmp-gd1/d2/test-b	- Melting  :  o
+test-tmp2-hg0/test-tmp-gd1/d2/test-b	- Melted  
+
+test-tmp2-hg0/test-tmp-gd1/test-a	- Melting  :  .
+test-tmp2-hg0/test-tmp-gd1/test-a	- Melting  :  o
+test-tmp2-hg0/test-tmp-gd1/test-a	- Melted  
+lha-test10 #57 ... ok at line 132
+$ lha xw=test-tmp2-hg1 test-tmp2-hg1.lzh
+
+test-tmp2-hg1/test-tmp-gd1/d2/d3/test-c	- Melting  :  .
+test-tmp2-hg1/test-tmp-gd1/d2/d3/test-c	- Melting  :  o
+test-tmp2-hg1/test-tmp-gd1/d2/d3/test-c	- Melted  
+
+test-tmp2-hg1/test-tmp-gd1/d2/test-b	- Melting  :  .
+test-tmp2-hg1/test-tmp-gd1/d2/test-b	- Melting  :  o
+test-tmp2-hg1/test-tmp-gd1/d2/test-b	- Melted  
+
+test-tmp2-hg1/test-tmp-gd1/test-a	- Melting  :  .
+test-tmp2-hg1/test-tmp-gd1/test-a	- Melting  :  o
+test-tmp2-hg1/test-tmp-gd1/test-a	- Melted  
+lha-test10 #58 ... ok at line 134
+$ lha xw=test-tmp2-hg2 test-tmp2-hg2.lzh
+
+test-tmp2-hg2/test-tmp-gd1/d2/d3/test-c	- Melting  :  .
+test-tmp2-hg2/test-tmp-gd1/d2/d3/test-c	- Melting  :  o
+test-tmp2-hg2/test-tmp-gd1/d2/d3/test-c	- Melted  
+
+test-tmp2-hg2/test-tmp-gd1/d2/test-b	- Melting  :  .
+test-tmp2-hg2/test-tmp-gd1/d2/test-b	- Melting  :  o
+test-tmp2-hg2/test-tmp-gd1/d2/test-b	- Melted  
+
+test-tmp2-hg2/test-tmp-gd1/test-a	- Melting  :  .
+test-tmp2-hg2/test-tmp-gd1/test-a	- Melting  :  o
+test-tmp2-hg2/test-tmp-gd1/test-a	- Melted  
+lha-test10 #59 ... ok at line 136
+$ lha vv test-tmp2-hg0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-gd1/d2/d3/test-c
+[generic]                   17     400   4.3% -lh5- 0861 2005-10-30 11:26:46 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       17     400   4.3%            2005-10-30 11:26:47
+lha-test10 #60 ... ok at line 138
+$ lha vv test-tmp2-hg1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-gd1/d2/d3/test-c
+[generic]                   17     400   4.3% -lh5- 0861 2005-10-30 11:26:46 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       17     400   4.3%            2005-10-30 11:26:48
+lha-test10 #61 ... ok at line 140
+$ lha vv test-tmp2-hg2.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp-gd1/d2/d3/test-c
+[generic]                   17     400   4.3% -lh5- 0861 2005-10-30 11:26:47 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       17     400   4.3%            2005-10-30 11:26:48
+lha-test10 #62 ... ok at line 142
+$ lha vv test-tmp2-hg0.lzh
+[generic]                   17     400   4.3% -lh5- 0861 2005-10-30 11:26:46 [0]
+lha-test10 #63 ... ok at line 144
+$ lha vv test-tmp2-hg1.lzh
+[generic]                   17     400   4.3% -lh5- 0861 2005-10-30 11:26:46 [1]
+lha-test10 #64 ... ok at line 146
+$ lha vv test-tmp2-hg2.lzh
+[generic]                   17     400   4.3% -lh5- 0861 2005-10-30 11:26:47 [2]
+lha-test10 #65 ... ok at line 148
+lha-test10 #66 ... ok at line 150
+lha-test10 #67 ... ok at line 152
+lha-test10 #68 ... ok at line 154
+lha-test10 #69 ... ok at line 156
+lha-test10 #70 ... ok at line 158
+lha-test10 #71 ... ok at line 160
+lha-test10 #72 ... ok at line 162
+lha-test10 #73 ... ok at line 164
+lha-test10 #74 ... ok at line 166
+testing the long filename support
+lha-test11 #1 ... failed at line 21
+$ lha cg test-tmp1-hg.lzh test-tmp1
+lha-test11 #2 ... ok at line 23
+lha-test11 #3 ... ok at line 30
+$ lha c0 test-tmp1-h0.lzh test-tmp1
+
+test-tmp1/	- Frozen(0%)
+lha-test11 #4 ... ok at line 32
+lha-test11 #5 ... ok at line 39
+$ lha c1 test-tmp1-h1.lzh test-tmp1
+
+test-tmp1/	- Frozen(0%)
+lha-test11 #6 ... ok at line 41
+$ lha c2 test-tmp1-h2.lzh test-tmp1
+
+test-tmp1/	- Frozen(0%)
+lha-test11 #7 ... ok at line 43
+$ lha xw=test-tmp1-hg test-tmp1-hg.lzh
+lha-test11 #8 ... ok at line 45
+$ lha xw=test-tmp1-h0 test-tmp1-h0.lzh
+lha-test11 #9 ... ok at line 47
+$ lha xw=test-tmp1-h1 test-tmp1-h1.lzh
+lha-test11 #10 ... ok at line 49
+$ lha xw=test-tmp1-h2 test-tmp1-h2.lzh
+lha-test11 #11 ... ok at line 51
+$ lha vv test-tmp1-hg.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         0 files       0       0 ******            2005-10-30 11:26:48
+lha-test11 #12 ... ok at line 54
+$ lha vv test-tmp1-h0.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp1/
+drw-rw-rw-     0/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:48 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:49
+lha-test11 #13 ... ok at line 56
+$ lha vv test-tmp1-h1.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp1/
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:48 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:49
+lha-test11 #14 ... ok at line 58
+$ lha vv test-tmp1-h2.lzh
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-tmp1/
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:48 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file        0       0 ******            2005-10-30 11:26:49
+lha-test11 #15 ... ok at line 60
+$ lha vv test-tmp1-hg.lzh
+lha-test11 #16 ... failed at line 62
+$ lha vv test-tmp1-h0.lzh
+drw-rw-rw-     0/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:48 [0]
+lha-test11 #17 ... ok at line 64
+$ lha vv test-tmp1-h1.lzh
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:48 [1]
+lha-test11 #18 ... ok at line 66
+$ lha vv test-tmp1-h2.lzh
+drw-rw-rw-  kzlg/0           0       0 ****** -lhd- 0000 2005-10-30 11:26:48 [2]
+lha-test11 #19 ... ok at line 68
+lha-test11 #20 ... failed at line 70
+lha-test11 #21 ... failed at line 72
+lha-test11 #22 ... failed at line 74
+lha-test11 #23 ... failed at line 76
+lha-test11 #24 ... failed at line 80
+$ lha c2 test-tmp4-h2.lzh test-tmp9012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+lha-test11 #25 ... ok at line 82
+$ lha vv test-tmp4-h2.lzh
+lha-test11 #26 ... failed at line 84
+$ lha vv test-tmp4-h2.lzh
+lha-test11 #27 ... failed at line 86
+$ lha xw=test-tmp4 test-tmp4-h2.lzh
+lha-test11 #28 ... failed at line 88
+$ lha vvvq test-tmp4-h2.lzh
+lha-test11 #29 ... failed at line 90
+lha-test11 #30 ... failed at line 92
+testing the end of line conversion.
+$ lha ct test-tmp-crnl.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(3%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(3%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(3%)
+lha-test12 #1 ... ok at line 6
+$ lha xw=test-tmp-crnl test-tmp-crnl.lzh
+
+test-tmp-crnl/test-a	- Melting  :  .
+test-tmp-crnl/test-a	- Melting  :  o
+test-tmp-crnl/test-a	- Melted  
+
+test-tmp-crnl/test-b	- Melting  :  .
+test-tmp-crnl/test-b	- Melting  :  o
+test-tmp-crnl/test-b	- Melted  
+
+test-tmp-crnl/test-c	- Melting  :  .
+test-tmp-crnl/test-c	- Melting  :  o
+test-tmp-crnl/test-c	- Melted  
+lha-test12 #2 ... ok at line 9
+diff -r test-1/test-a test-tmp-crnl/test-a
+1,100c1,100
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+< foo
+---
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+> foo
+diff -r test-1/test-b test-tmp-crnl/test-b
+1,100c1,100
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+< bar
+---
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+> bar
+diff -r test-1/test-c test-tmp-crnl/test-c
+1,100c1,100
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+< baz
+---
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+> baz
+lha-test12 #3 ... ok at line 12
+lha-test12 #4 ... ok at line 14
+lha-test12 #5 ... ok at line 16
+lha-test12 #6 ... ok at line 18
+$ lha xtw=test-tmp-nl test-tmp-crnl.lzh
+
+test-tmp-nl/test-a	- Melting  :  .
+test-tmp-nl/test-a	- Melting  :  o
+test-tmp-nl/test-a	- Melted  
+
+test-tmp-nl/test-b	- Melting  :  .
+test-tmp-nl/test-b	- Melting  :  o
+test-tmp-nl/test-b	- Melted  
+
+test-tmp-nl/test-c	- Melting  :  .
+test-tmp-nl/test-c	- Melting  :  o
+test-tmp-nl/test-c	- Melted  
+lha-test12 #7 ... ok at line 21
+lha-test12 #8 ... ok at line 23
+$ lha c test-tmp-nl.lzh test-a test-b test-c
+
+test-a	- Freezing :  .
+test-a	- Freezing :  o
+test-a	- Frozen(4%)
+
+test-b	- Freezing :  .
+test-b	- Freezing :  o
+test-b	- Frozen(4%)
+
+test-c	- Freezing :  .
+test-c	- Freezing :  o
+test-c	- Frozen(4%)
+lha-test12 #9 ... ok at line 26
+$ lha xtw=test-tmp-nl2 test-tmp-nl.lzh
+
+test-tmp-nl2/test-a	- Melting  :  .
+test-tmp-nl2/test-a	- Melting  :  o
+test-tmp-nl2/test-a	- Melted  
+
+test-tmp-nl2/test-b	- Melting  :  .
+test-tmp-nl2/test-b	- Melting  :  o
+test-tmp-nl2/test-b	- Melted  
+
+test-tmp-nl2/test-c	- Melting  :  .
+test-tmp-nl2/test-c	- Melting  :  o
+test-tmp-nl2/test-c	- Melted  
+lha-test12 #10 ... ok at line 29
+lha-test12 #11 ... ok at line 31
+testing the kanji code conversion.
+lha-test13 #1 ... ok at line 6
+lha-test13 #2 ... ok at line 9
+$ lha c test-tmp-euc.lzh test-tmp-euc
+
+test-tmp-euc	- Freezing :  .
+test-tmp-euc	- Freezing :  o
+test-tmp-euc	- Frozen(100%)
+lha-test13 #3 ... ok at line 12
+$ lha v test-tmp-euc.lzh
+-rw-rw-rw-  kzlg/0           5       5 100.0% -lh0- 643f Oct 30 11:26 test-tmp-euc
+lha-test13 #4 ... ok at line 15
+$ lha xw=test-tmp-euc-d test-tmp-euc.lzh
+
+test-tmp-euc-d/test-tmp-euc	- Melting  :  .
+test-tmp-euc-d/test-tmp-euc	- Melting  :  o
+test-tmp-euc-d/test-tmp-euc	- Melted  
+lha-test13 #5 ... ok at line 18
+lha-test13 #6 ... ok at line 20
+$ lha xew=test-tmp-unknown-d test-tmp-euc.lzh
+
+test-tmp-unknown-d/test-tmp-euc	- Melting  :  .
+test-tmp-unknown-d/test-tmp-euc	- Melting  :  o
+test-tmp-unknown-d/test-tmp-euc	- Melted  
+lha-test13 #7 ... ok at line 23
+1c1
+< 戳机
+---
+> 幋幜幓撾
+\ Geen witregel na einde bestand
+lha-test13 #8 ... ok at line 26
+1c1
+< 娍帤
+---
+> 幋幜幓撾
+\ Geen witregel na einde bestand
+lha-test13 #9 ... ok at line 29
+$ lha ce test-tmp-sjis.lzh test-tmp-euc
+
+test-tmp-euc	- Freezing :  .
+test-tmp-euc	- Freezing :  o
+test-tmp-euc	- Frozen(100%)
+lha-test13 #10 ... ok at line 33
+$ lha v test-tmp-euc.lzh
+-rw-rw-rw-  kzlg/0           5       5 100.0% -lh0- 643f Oct 30 11:26 test-tmp-euc
+lha-test13 #11 ... ok at line 36
+$ lha xtw=test-tmp-sjis-d test-tmp-sjis.lzh
+
+test-tmp-sjis-d/test-tmp-euc	- Melting  :  .
+test-tmp-sjis-d/test-tmp-euc	- Melting  :  o
+test-tmp-sjis-d/test-tmp-euc	- Melted  
+lha-test13 #12 ... ok at line 39
+lha-test13 #13 ... ok at line 41
+$ lha xew=test-tmp-euc-d2 test-tmp-sjis.lzh
+
+test-tmp-euc-d2/test-tmp-euc	- Melting  :  .
+test-tmp-euc-d2/test-tmp-euc	- Melting  :  o
+test-tmp-euc-d2/test-tmp-euc	- Melted  
+lha-test13 #14 ... ok at line 44
+lha-test13 #15 ... ok at line 46
+$ lha c test-tmp-euc2.lzh test-tmp-euc2
+
+test-tmp-euc2	- Freezing :  .
+test-tmp-euc2	- Freezing :  o
+test-tmp-euc2	- Frozen(34%)
+lha-test13 #16 ... ok at line 64
+$ lha v test-tmp-euc2.lzh
+-rw-rw-rw-  kzlg/0          17      50  34.0% -lh5- ce3b Oct 30 11:26 test-tmp-euc2
+lha-test13 #17 ... ok at line 66
+$ lha xw=test-tmp-euc2-d test-tmp-euc2.lzh
+
+test-tmp-euc2-d/test-tmp-euc2	- Melting  :  .
+test-tmp-euc2-d/test-tmp-euc2	- Melting  :  o
+test-tmp-euc2-d/test-tmp-euc2	- Melted  
+lha-test13 #18 ... ok at line 69
+lha-test13 #19 ... ok at line 71
+$ lha xew=test-tmp-unknown2-d test-tmp-euc2.lzh
+
+test-tmp-unknown2-d/test-tmp-euc2	- Melting  :  .
+test-tmp-unknown2-d/test-tmp-euc2	- Melting  :  o
+test-tmp-unknown2-d/test-tmp-euc2	- Melted  
+lha-test13 #20 ... ok at line 74
+1,10c1
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+< 戳机
+---
+> 幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾
+\ Geen witregel na einde bestand
+lha-test13 #21 ... ok at line 77
+1,10c1
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+< 娍帤
+---
+> 幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾幋幜幓撾
+\ Geen witregel na einde bestand
+lha-test13 #22 ... ok at line 80
+$ lha ce test-tmp-sjis2.lzh test-tmp-euc2
+
+test-tmp-euc2	- Freezing :  .
+test-tmp-euc2	- Freezing :  o
+test-tmp-euc2	- Frozen(31%)
+lha-test13 #23 ... ok at line 84
+$ lha v test-tmp-euc2.lzh
+-rw-rw-rw-  kzlg/0          17      50  34.0% -lh5- ce3b Oct 30 11:26 test-tmp-euc2
+lha-test13 #24 ... ok at line 86
+$ lha xtw=test-tmp-sjis2-d test-tmp-sjis2.lzh
+
+test-tmp-sjis2-d/test-tmp-euc2	- Melting  :  .
+test-tmp-sjis2-d/test-tmp-euc2	- Melting  :  o
+test-tmp-sjis2-d/test-tmp-euc2	- Melted  
+lha-test13 #25 ... ok at line 89
+lha-test13 #26 ... ok at line 91
+$ lha xew=test-tmp-euc2-d2 test-tmp-sjis2.lzh
+
+test-tmp-euc2-d2/test-tmp-euc2	- Melting  :  .
+test-tmp-euc2-d2/test-tmp-euc2	- Melting  :  o
+test-tmp-euc2-d2/test-tmp-euc2	- Melted  
+lha-test13 #27 ... ok at line 94
+lha-test13 #28 ... ok at line 96
+$ lha --version
+testing to handle symbolic links ... skip
+testing to self extracting archive
+lha-test15 #1 ... ok at line 11
+lha-test15 #2 ... ok at line 15
+$ lha cg - test-a test-b test-c
+lha-test15 #3 ... ok at line 18
+$ lha vv test-tmp-hg.exe
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+[generic]                   16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:36 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:52
+lha-test15 #4 ... ok at line 20
+$ lha xw=test-tmp-hg test-tmp-hg.exe
+
+test-tmp-hg/test-a	- Melting  :  .
+test-tmp-hg/test-a	- Melting  :  o
+test-tmp-hg/test-a	- Melted  
+
+test-tmp-hg/test-b	- Melting  :  .
+test-tmp-hg/test-b	- Melting  :  o
+test-tmp-hg/test-b	- Melted  
+
+test-tmp-hg/test-c	- Melting  :  .
+test-tmp-hg/test-c	- Melting  :  o
+test-tmp-hg/test-c	- Melted  
+lha-test15 #5 ... ok at line 22
+lha-test15 #6 ... ok at line 24
+$ lha c0 - test-a test-b test-c
+lha-test15 #7 ... ok at line 28
+$ lha vv test-tmp-h0.exe
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-     0/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [0]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:52
+lha-test15 #8 ... ok at line 30
+$ lha xw=test-tmp-h0 test-tmp-h0.exe
+
+test-tmp-h0/test-a	- Melting  :  .
+test-tmp-h0/test-a	- Melting  :  o
+test-tmp-h0/test-a	- Melted  
+
+test-tmp-h0/test-b	- Melting  :  .
+test-tmp-h0/test-b	- Melting  :  o
+test-tmp-h0/test-b	- Melted  
+
+test-tmp-h0/test-c	- Melting  :  .
+test-tmp-h0/test-c	- Melting  :  o
+test-tmp-h0/test-c	- Melted  
+lha-test15 #9 ... ok at line 32
+lha-test15 #10 ... ok at line 34
+$ lha c1 - test-a test-b test-c
+lha-test15 #11 ... ok at line 38
+$ lha vv test-tmp-h1.exe
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [1]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:52
+lha-test15 #12 ... ok at line 40
+$ lha xw=test-tmp-h1 test-tmp-h1.exe
+
+test-tmp-h1/test-a	- Melting  :  .
+test-tmp-h1/test-a	- Melting  :  o
+test-tmp-h1/test-a	- Melted  
+
+test-tmp-h1/test-b	- Melting  :  .
+test-tmp-h1/test-b	- Melting  :  o
+test-tmp-h1/test-b	- Melted  
+
+test-tmp-h1/test-c	- Melting  :  .
+test-tmp-h1/test-c	- Melting  :  o
+test-tmp-h1/test-c	- Melted  
+lha-test15 #13 ... ok at line 42
+lha-test15 #14 ... ok at line 44
+$ lha c2 - test-a test-b test-c
+lha-test15 #15 ... ok at line 48
+$ lha vv test-tmp-h2.exe
+PERMISSION  UID  GID    PACKED    SIZE  RATIO METHOD CRC     STAMP            LV
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+test-a
+-rw-rw-rw-  kzlg/0          16     400   4.0% -lh5- 6e5b 2005-10-30 11:26:37 [2]
+---------- ----------- ------- ------- ------ ---------- ------------------- ---
+ Total         1 file       16     400   4.0%            2005-10-30 11:26:52
+lha-test15 #16 ... ok at line 50
+$ lha xw=test-tmp-h2 test-tmp-h2.exe
+
+test-tmp-h2/test-a	- Melting  :  .
+test-tmp-h2/test-a	- Melting  :  o
+test-tmp-h2/test-a	- Melted  
+
+test-tmp-h2/test-b	- Melting  :  .
+test-tmp-h2/test-b	- Melting  :  o
+test-tmp-h2/test-b	- Melted  
+
+test-tmp-h2/test-c	- Melting  :  .
+test-tmp-h2/test-c	- Melting  :  o
+test-tmp-h2/test-c	- Melted  
+lha-test15 #17 ... ok at line 52
+lha-test15 #18 ... ok at line 54
+16 tests failed!
+test number: lha-test4 #5 lha-test4 #7 lha-test4 #9 lha-test4 #11 lha-test11 #1 lha-test11 #16 lha-test11 #20 lha-test11 #21 lha-test11 #22 lha-test11 #23 lha-test11 #24 lha-test11 #26 lha-test11 #27 lha-test11 #28 lha-test11 #29 lha-test11 #30

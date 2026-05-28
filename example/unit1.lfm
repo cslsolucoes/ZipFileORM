@@ -1,0 +1,209 @@
+object MainForm: TMainForm
+  Left = 249
+  Height = 512
+  Top = 285
+  Width = 621
+  HorzScrollBar.Page = 620
+  VertScrollBar.Page = 511
+  ActiveControl = FileExistsButton
+  Caption = 'MainForm'
+  ClientHeight = 512
+  ClientWidth = 621
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  object PageControl: TPageControl
+    Height = 475
+    Top = 37
+    Width = 621
+    ActivePage = ShowFilesTabSheet
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object ShowFilesTabSheet: TTabSheet
+      Caption = 'Show files'
+      ClientHeight = 449
+      ClientWidth = 613
+      object FileExistsButton: TButton
+        AnchorSideBottom.Control = ShowFilesTabSheet
+        AnchorSideBottom.Side = asrBottom
+        Left = 6
+        Height = 25
+        Top = 418
+        Width = 112
+        Anchors = [akLeft, akBottom]
+        AutoSize = True
+        BorderSpacing.Around = 6
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Check if file exists'
+        OnClick = FileExistsButtonClick
+        TabOrder = 0
+      end
+      object FileNameEdit: TEdit
+        AnchorSideLeft.Control = FileExistsButton
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = FileExistsButton
+        AnchorSideRight.Control = ShowFilesTabSheet
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = ShowFilesTabSheet
+        AnchorSideBottom.Side = asrBottom
+        Left = 124
+        Height = 25
+        Top = 418
+        Width = 483
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Left = 6
+        BorderSpacing.Right = 6
+        BorderSpacing.Bottom = 6
+        TabOrder = 1
+        Text = 'somefilename.txt'
+      end
+      object FileListView: TListView
+        AnchorSideLeft.Control = ShowFilesTabSheet
+        AnchorSideTop.Control = ShowFilesTabSheet
+        AnchorSideRight.Control = ShowFilesTabSheet
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = FileExistsButton
+        Left = 6
+        Height = 406
+        Top = 6
+        Width = 601
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Around = 6
+        Columns = <        
+          item
+            AutoSize = True
+            Caption = 'Files'
+            Width = 200
+          end        
+          item
+            AutoSize = True
+            Caption = 'Size'
+          end        
+          item
+            Caption = 'File date'
+            Width = 100
+          end        
+          item
+            Caption = 'Compression'
+            Width = 80
+          end>
+        PopupMenu = PopupMenu1
+        ReadOnly = True
+        RowSelect = True
+        TabOrder = 2
+        ViewStyle = vsReport
+        OnDblClick = ViewMenuItemClick
+        OnSelectItem = FileListViewSelectItem
+      end
+    end
+    object ReportTabSheet: TTabSheet
+      Caption = 'ZIP report'
+      ClientHeight = 449
+      ClientWidth = 613
+      object ZIPReportMemo: TMemo
+        AnchorSideLeft.Control = ReportTabSheet
+        AnchorSideTop.Control = GetReportButton
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = ReportTabSheet
+        AnchorSideBottom.Control = ReportTabSheet
+        Left = 6
+        Height = 264
+        Top = 37
+        Width = 601
+        Align = alBottom
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Around = 6
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Pitch = fpFixed
+        ReadOnly = True
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+        WordWrap = False
+      end
+      object GetReportButton: TButton
+        AnchorSideLeft.Control = ReportTabSheet
+        AnchorSideTop.Control = ReportTabSheet
+        Left = 6
+        Height = 25
+        Top = 6
+        Width = 75
+        AutoSize = True
+        BorderSpacing.Around = 6
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Get report'
+        OnClick = GetReportButtonClick
+        TabOrder = 1
+      end
+      object SaveReportButton: TButton
+        AnchorSideLeft.Control = GetReportButton
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = ReportTabSheet
+        Left = 87
+        Height = 25
+        Top = 6
+        Width = 83
+        AutoSize = True
+        BorderSpacing.Around = 6
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Save report'
+        OnClick = SaveReportButtonClick
+        TabOrder = 2
+      end
+    end
+  end
+  object Panel1: TPanel
+    Height = 37
+    Width = 621
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 37
+    ClientWidth = 621
+    TabOrder = 1
+    object OpenZipFileButton: TButton
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = Panel1
+      Left = 6
+      Height = 25
+      Top = 6
+      Width = 86
+      AutoSize = True
+      BorderSpacing.Around = 6
+      BorderSpacing.InnerBorder = 4
+      Caption = 'Open zip file'
+      OnClick = OpenZipFileButtonClick
+      TabOrder = 0
+    end
+  end
+  object ZipFile1: TZipFile
+    FileName = 'ziptest.zip'
+    OnFileChanged = ZipFile1FileChanged
+    left = 216
+    top = 16
+  end
+  object OpenDialog1: TOpenDialog
+    Title = 'Open existing file'
+    FilterIndex = 0
+    left = 216
+    top = 48
+  end
+  object PopupMenu1: TPopupMenu
+    left = 216
+    top = 81
+    object ViewMenuItem: TMenuItem
+      Caption = 'Edit file'
+      OnClick = ViewMenuItemClick
+    end
+    object AppendMenuItem: TMenuItem
+      Caption = 'Append from disk'
+      OnClick = AppendMenuItemClick
+    end
+    object DeleteMenuItem: TMenuItem
+      Caption = 'Remove file'
+      OnClick = DeleteMenuItemClick
+    end
+  end
+end

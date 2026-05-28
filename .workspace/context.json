@@ -1,0 +1,38 @@
+{
+  "projectName": "ZipFileORM",
+  "projectId": "zipfileORM",
+  "projectVersion": "4.0.0",
+  "projectDate": "2026-05-28",
+  "projectType": "delphi-component-library",
+  "backendRoot": "src",
+  "packagesRoot": "packages",
+  "testsRoot": "tests",
+  "toolsRoot": "tools",
+  "documentationRoot": "Documentation",
+  "license": "LGPL-3.0",
+  "platforms": [
+    "Delphi-D24-Win32", "Delphi-D24-Win64",
+    "Delphi-D25-Win32", "Delphi-D25-Win64",
+    "Delphi-D26-Win32", "Delphi-D26-Win64",
+    "Delphi-D27-Win32", "Delphi-D27-Win64",
+    "Delphi-D28-Win32", "Delphi-D28-Win64",
+    "Delphi-D29-Win32", "Delphi-D29-Win64",
+    "Delphi-D37-Win32", "Delphi-D37-Win64",
+    "FPC-Win32", "FPC-Win64", "FPC-Linux-i386", "FPC-Linux-x86_64"
+  ],
+  "httpFrameworks": {
+    "primary": "none"
+  },
+  "_frameworks_overrides": {},
+  "namespaces": {
+    "facade": "ZipfileORM",
+    "commons": "Commons",
+    "formats": ["ZipFile", "TarFile", "TarGzFile", "GzipFile", "CabFile", "SevenZFile", "ArjFile", "IsoFile", "LhaFile", "RarFile"],
+    "streamHelpers": ["Bzip2.Stream", "UUE.Stream", "ZCompress.LzwStream"]
+  },
+  "_provenance": {
+    "migratedFrom": "c:\\Users\\Public\\Documents\\Embarcadero\\Studio\\Outros\\zipfile",
+    "migrationDate": "2026-05-28",
+    "migrationPlan": "vectorized-churning-hartmanis.md"
+  }
+}

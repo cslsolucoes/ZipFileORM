@@ -1,0 +1,70 @@
+diff -ipuwr --binary --strip-trailing-cr -x '*.bak' -x '*.orig' -x '*.rej' -x '*.new' -x '*~' -x debian -x '*.po' -x '*.pot' lha-1.14i-ac20050924-orig/src/Makefile.in lha-1.14i-ac20050924-src/src/Makefile.in
+--- lha-1.14i-ac20050924-orig/src/Makefile.in	2005-09-24 15:05:21.000000000 +0200
++++ lha-1.14i-ac20050924-src/src/Makefile.in	2005-10-30 11:45:35.046875000 +0100
+@@ -16,7 +16,8 @@
+ 
+ srcdir = @srcdir@
+ top_srcdir = @top_srcdir@
+-VPATH = @srcdir@
++resdir = @top_builddir@res
++VPATH = @srcdir@ $(resdir)
+ pkgdatadir = $(datadir)/@PACKAGE@
+ pkglibdir = $(libdir)/@PACKAGE@
+ pkgincludedir = $(includedir)/@PACKAGE@
+@@ -62,7 +63,7 @@ INSTALL_DATA = @INSTALL_DATA@
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+-LDFLAGS = @LDFLAGS@
++LDFLAGS = @LDFLAGS@ $(VERSADD)
+ LIBOBJS = @LIBOBJS@
+ LIBS = @LIBS@
+ LTLIBOBJS = @LTLIBOBJS@
+@@ -81,6 +82,9 @@ STRIP = @STRIP@
+ SUPPORT_LZHUFF_METHOD = @SUPPORT_LZHUFF_METHOD@
+ U = @U@
+ VERSION = @VERSION@
++MAJOR=$(shell echo $(VERSION) | sed -e "s/\..*$$//")
++MINOR=$(shell echo $(VERSION) | sed -e "s/^[^\.]*\.0*\([0-9]\+\).*$$/\1/")
++VERSADD = -Wl,--major-image-version=$(MAJOR) -Wl,--minor-image-version=$(MINOR) 
+ ac_ct_CC = @ac_ct_CC@
+ ac_ct_STRIP = @ac_ct_STRIP@
+ am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
+@@ -123,7 +127,7 @@ bin_PROGRAMS = lha
+ lha_SOURCES = append.c bitio.c crcio.c dhuf.c extract.c header.c huf.c \
+ 	indicator.c larc.c lha.h lha_macro.h prototypes.h lhadd.c lharc.c \
+ 	lhext.c lhlist.c maketbl.c maketree.c patmatch.c shuf.c slide.c \
+-	util.c getopt_long.c getopt_long.h
++	util.c getopt_long.c getopt_long.h lha-res.rc
+ 
+ lha_LDADD = @LIBOBJS@
+ EXTRA_DIST = lhdir.h fnmatch.h
+@@ -142,7 +146,7 @@ am_lha_OBJECTS = append.$(OBJEXT) bitio.
+ 	lharc.$(OBJEXT) lhext.$(OBJEXT) lhlist.$(OBJEXT) \
+ 	maketbl.$(OBJEXT) maketree.$(OBJEXT) patmatch.$(OBJEXT) \
+ 	shuf.$(OBJEXT) slide.$(OBJEXT) util.$(OBJEXT) \
+-	getopt_long.$(OBJEXT)
++	getopt_long.$(OBJEXT) lha-res.o
+ lha_OBJECTS = $(am_lha_OBJECTS)
+ lha_DEPENDENCIES = @LIBOBJS@
+ lha_LDFLAGS =
+@@ -174,7 +178,7 @@ SOURCES = $(lha_SOURCES)
+ all: all-am
+ 
+ .SUFFIXES:
+-.SUFFIXES: .c .o .obj
++.SUFFIXES: .c .o .obj .exe .rc
+ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+ 	cd $(top_srcdir) && \
+ 	  $(AUTOMAKE) --gnu  src/Makefile
+@@ -238,6 +242,10 @@ distclean-compile:
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/slide.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
+ 
++# Rule to make compiled resource (Windows)
++.rc.o:
++	windres --include-dir $(resdir) -i $< -o $@
++
+ .c.o:
+ @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
+ @am__fastdepCC_TRUE@	  -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<; \
