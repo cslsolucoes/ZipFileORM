@@ -1,27 +1,27 @@
-(* zipfileReg.pas
+﻿(* zipfileReg.pas
    Delphi-only design-time Register unit for the ZipFile package.
    Used by dclZipFileORM<DXX>.dpk only. Loads component glyph via $R ZipFile.dcr.
 
    Registers the full multi-format archive component family of ZipFile v3.x on
-   the Tool Palette page "ZipCompress":
+   the Tool Palette page "ZipFileORM":
 
      Zip family:
-       TZipFile      — Zip (AES-256, LZMA, ZIP64, UTF-8, Progress)
+       TZipFile      â€” Zip (AES-256, LZMA, ZIP64, UTF-8, Progress)
      Tar family (separados intencionalmente):
-       TTarFile      — Tar puro (POSIX ustar)
-       TTarGzFile    — Tar + Gzip combo (.tar.gz / .tgz)
+       TTarFile      â€” Tar puro (POSIX ustar)
+       TTarGzFile    â€” Tar + Gzip combo (.tar.gz / .tgz)
      Gzip puro:
-       TGzipFile     — single-file gzip (.log.gz, .sql.gz)
+       TGzipFile     â€” single-file gzip (.log.gz, .sql.gz)
      Microsoft Cabinet:
-       TCabFile      — .cab
+       TCabFile      â€” .cab
      Outros formatos (read-only ou read+write):
-       TSevenZFile   — 7zip (read-only Win32)
-       TArjFile      — ARJ
-       TIsoFile      — ISO 9660 / Joliet
-       TLhaFile      — LHA / LZH
-       TRarFile      — RAR (RAR4 + RAR5 detect)
+       TSevenZFile   â€” 7zip (read-only Win32)
+       TArjFile      â€” ARJ
+       TIsoFile      â€” ISO 9660 / Joliet
+       TLhaFile      â€” LHA / LZH
+       TRarFile      â€” RAR (RAR4 + RAR5 detect)
 
-   Plus property categories — Object Inspector agrupa por feature area. *)
+   Plus property categories â€” Object Inspector agrupa por feature area. *)
 unit zipfileReg;
 
 interface
@@ -45,29 +45,29 @@ uses
   LhaFile,
   RarFile;
 
-// Resource ZipFileORM.dcr é incluído pelo .dpk design-time (não duplicar aqui).
+// Resource ZipFileORM.dcr Ã© incluÃ­do pelo .dpk design-time (nÃ£o duplicar aqui).
 
 const
-  cPalettePage = 'ZipCompress';
+  cPalettePage = 'ZipFileORM';
 
 procedure RegisterTZipFileCategories;
 begin
-  // Encryption — AES-256 WinZip-AE-2 (v1.9+).
+  // Encryption â€” AES-256 WinZip-AE-2 (v1.9+).
   RegisterPropertyInCategory('Encryption', TZipFile, 'UseAES');
   RegisterPropertyInCategory('Encryption', TZipFile, 'Password');
 
-  // Compression — Deflate / Store / LZMA + recompression policy.
+  // Compression â€” Deflate / Store / LZMA + recompression policy.
   RegisterPropertyInCategory('Compression', TZipFile, 'Compression');
   RegisterPropertyInCategory('Compression', TZipFile, 'ReCompression');
   RegisterPropertyInCategory('Compression', TZipFile, 'UseLZMA');
 
-  // ZIP64 — large-archive support (>4 GiB or >65535 entries).
+  // ZIP64 â€” large-archive support (>4 GiB or >65535 entries).
   RegisterPropertyInCategory('ZIP64', TZipFile, 'ForceZip64');
 
-  // Encoding — UTF-8 filename flag (EFS bit 11).
+  // Encoding â€” UTF-8 filename flag (EFS bit 11).
   RegisterPropertyInCategory('Encoding', TZipFile, 'UseUtf8');
 
-  // File — archive path / open state / size.
+  // File â€” archive path / open state / size.
   RegisterPropertyInCategory('File', TZipFile, 'Active');
   RegisterPropertyInCategory('File', TZipFile, 'FileName');
   RegisterPropertyInCategory('File', TZipFile, 'FileSize');

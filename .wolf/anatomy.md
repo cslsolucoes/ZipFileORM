@@ -1,22 +1,22 @@
-# Anatomy — ZipFileORM v4.0.0
+﻿# Anatomy â€” ZipFileORM v4.0.0
 
 **Refactored:** 2026-05-28
 **Total ficheiros em `src/`:** 42 (39 .pas + 3 .inc)
-**Total packages:** 14 dpk (7 runtime + 7 design-time) — D24..D37 × W32+W64 = 23 BPL outputs
+**Total packages:** 14 dpk (7 runtime + 7 design-time) â€” D24..D37 Ã— W32+W64 = 23 BPL outputs
 **Total tests:** 1 DUnitX suite + 12 ZipFile.Tests.*.pas + 25 smoke DPRs + 7 smoke FPC.
 
 ## Source inventory (`src/` flat)
 
-### Facade pública (4 ficheiros) — `ZipfileORM.*`
-| Ficheiro | Descrição |
+### Facade pÃºblica (4 ficheiros) â€” `ZipfileORM.*`
+| Ficheiro | DescriÃ§Ã£o |
 | --- | --- |
-| `ZipfileORM.pas` | TArchive factory + uses agregado de todos os módulos. Re-exporta TArchiveFormat. |
-| `ZipfileORM.Interfaces.pas` | IArchive, IArchiveEntry, IArchiveBuilder — contratos read-only cross-format. |
-| `ZipfileORM.Compression.pas` | TCompressionMethod enum global + helpers string↔enum. |
+| `ZipfileORM.pas` | TArchive factory + uses agregado de todos os mÃ³dulos. Re-exporta TArchiveFormat. |
+| `ZipfileORM.Interfaces.pas` | IArchive, IArchiveEntry, IArchiveBuilder â€” contratos read-only cross-format. |
+| `ZipfileORM.Compression.pas` | TCompressionMethod enum global + helpers stringâ†”enum. |
 | `ZipfileORM.Events.pas` | 15 TArchive*Event types compartilhados. Era ZipFile.Events.pas. |
 
-### Commons (13 ficheiros) — `Commons.*` (cross-format)
-| Ficheiro | Descrição |
+### Commons (13 ficheiros) â€” `Commons.*` (cross-format)
+| Ficheiro | DescriÃ§Ã£o |
 | --- | --- |
 | `Commons.Consts.pas` | Resourcestrings globais (rsArchive*) |
 | `Commons.Types.pas` | TArchiveSearchRec, TArchiveProgressInfo, TArchiveCapability |
@@ -32,22 +32,22 @@
 | `Commons.FPC.inc` | {$IFDEF FPC} {$mode delphi}{$H+} block compartilhado |
 | `Commons.Compression.Defines.inc` | Diretivas de versionamento Delphi/FPC (era tiDefines.inc) |
 
-### Módulos format (10) — TComponent classes registradas na palheta
-| Componente | Ficheiro principal | Sub-módulos |
+### MÃ³dulos format (10) â€” TComponent classes registradas na palheta
+| Componente | Ficheiro principal | Sub-mÃ³dulos |
 | --- | --- | --- |
 | TZipFile    | ZipFile.pas (2035 L) | ZIP64, UTF8, Streaming, Fluent |
 | TTarFile    | TarFile.pas (738 L)  | GzipStream, Fluent (Tar.Fluent.pas) |
-| TTarGzFile  | TarGzFile.pas (384 L) | — |
-| TGzipFile   | GzipFile.pas (386 L)  | — |
+| TTarGzFile  | TarGzFile.pas (384 L) | â€” |
+| TGzipFile   | GzipFile.pas (386 L)  | â€” |
 | TCabFile    | CabFile.pas (1267 L)  | Fluent (Cab.Fluent.pas) |
 | TSevenZFile | SevenZFile.pas (1491 L) | Fluent (SevenZ.Fluent.pas) |
-| TArjFile    | ArjFile.pas (553 L) | — |
-| TIsoFile    | IsoFile.pas (581 L) | — |
-| TLhaFile    | LhaFile.pas (1048 L) | — |
-| TRarFile    | RarFile.pas (546 L) | — |
+| TArjFile    | ArjFile.pas (553 L) | â€” |
+| TIsoFile    | IsoFile.pas (581 L) | â€” |
+| TLhaFile    | LhaFile.pas (1048 L) | â€” |
+| TRarFile    | RarFile.pas (546 L) | â€” |
 
 ### Helper streams (3 + Fluent variantes)
-| Ficheiro | Descrição |
+| Ficheiro | DescriÃ§Ã£o |
 | --- | --- |
 | `Bzip2.Stream.pas` (384 L) | TBzip2DecompressStream / TBzip2CompressStream (era Bzip2.Bzip2Stream.pas) |
 | `Bzip2.Fluent.pas` (159 L) | Fluent builder Bzip2 |
@@ -57,7 +57,7 @@
 | `ZCompress.Fluent.pas` (142 L) | Fluent builder ZCompress |
 
 ### Auto-detect
-| Ficheiro | Descrição |
+| Ficheiro | DescriÃ§Ã£o |
 | --- | --- |
 | `Archive.Open.pas` (141 L) | TArchiveFormat + DetectArchiveFormat (magic bytes) |
 
@@ -70,33 +70,33 @@
 
 Total: 14 dpks, 23 BPL outputs.
 
-Apoio: `zipfileReg.pas` (RegisterComponents + RegisterPropertyInCategory), `ZipCompress.SplashReg.pas` (IOTA splash), `ZipFileORM.{rc,dcr,bmp}` (glyphs), `icons/`.
+Apoio: `zipfileReg.pas` (RegisterComponents + RegisterPropertyInCategory), `ZipFileORM.SplashReg.pas` (IOTA splash), `ZipFileORM.{rc,dcr,bmp}` (glyphs), `icons/`.
 
 ## Tests (`tests/`)
 
-- `ZipFileTestsD29.dpr` — DUnitX suite consolidada
-- 12 `ZipFile.Tests.*.pas` — Core/AES/LZMA/Tar/Streaming/UTF8/Zip64/Zip64Write/Fluent/FluentInline/Progress/Shared
+- `ZipFileTestsD29.dpr` â€” DUnitX suite consolidada
+- 12 `ZipFile.Tests.*.pas` â€” Core/AES/LZMA/Tar/Streaming/UTF8/Zip64/Zip64Write/Fluent/FluentInline/Progress/Shared
 - 25 smoke DPRs
 - 7 smoke FPC (.pas)
-- `fixtures/` — binary test fixtures
+- `fixtures/` â€” binary test fixtures
 
 ## Tools (`tools/`)
 
-- `Build-AllDelphis.ps1` — build dos 14 dpk × Delphis instalados
-- `Build-FPC-Smoke.ps1` — 4 FPC targets
-- `Build-{Lzma,Bzip2,Lha,Arj}Objs.ps1` — recompila OBJs C/C++
-- `Make-{Arj,Iso,Lha,Rar}Fixture.ps1` — gera fixtures binárias
-- `Generate-DelphiPackages.ps1` — template generator
+- `Build-AllDelphis.ps1` â€” build dos 14 dpk Ã— Delphis instalados
+- `Build-FPC-Smoke.ps1` â€” 4 FPC targets
+- `Build-{Lzma,Bzip2,Lha,Arj}Objs.ps1` â€” recompila OBJs C/C++
+- `Make-{Arj,Iso,Lha,Rar}Fixture.ps1` â€” gera fixtures binÃ¡rias
+- `Generate-DelphiPackages.ps1` â€” template generator
 
-## Status build (D29 Win32 — sanity baseline)
+## Status build (D29 Win32 â€” sanity baseline)
 
-- Commons standalone: ✅ (839 L)
-- ZipfileORM facade: ✅ (13151 L compiladas)
-- Packages D24..D29 + D37 W32+W64: ✅ (23/23)
-- Tests Delphi: ✅ (21/21 DPRs)
+- Commons standalone: âœ… (839 L)
+- ZipfileORM facade: âœ… (13151 L compiladas)
+- Packages D24..D29 + D37 W32+W64: âœ… (23/23)
+- Tests Delphi: âœ… (21/21 DPRs)
 
-## Próximas pastas a inventariar
+## PrÃ³ximas pastas a inventariar
 
-- `Documentation/` — Onda 7 pendente (geração via documentation-agent-*)
-- `Lib/` — outputs binários (gitignored)
-- `sdk/`, `deps/`, `dll/` — vendored (copiados bit-a-bit)
+- `Documentation/` â€” Onda 7 pendente (geraÃ§Ã£o via documentation-agent-*)
+- `Lib/` â€” outputs binÃ¡rios (gitignored)
+- `sdk/`, `deps/`, `dll/` â€” vendored (copiados bit-a-bit)

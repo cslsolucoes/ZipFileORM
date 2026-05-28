@@ -1,7 +1,7 @@
-(* ZipCompress.SplashReg.pas
+﻿(* ZipFileORM.SplashReg.pas
 
-   Registra ZipCompress na splash screen do RAD Studio e na pagina "Plugins"
-   do dialogo Help → About. Usa as variaveis globais SplashScreenServices e
+   Registra ZipFileORM na splash screen do RAD Studio e na pagina "Plugins"
+   do dialogo Help â†’ About. Usa as variaveis globais SplashScreenServices e
    BorlandIDEServices da unit ToolsAPI (pacote `designide`, ja em requires).
 
    CRITICAL (doc ToolsAPI):
@@ -10,13 +10,13 @@
       variable. When this interface is created, the BorlandIDEServices
       interface is unavailable since it has yet to be initialized."
 
-   Portanto a chamada de splash usa a global `SplashScreenServices` direto —
+   Portanto a chamada de splash usa a global `SplashScreenServices` direto â€”
    nao via Supports(BorlandIDEServices, ...). Para o About box (que roda
    depois de o IDE inicializar BorlandIDEServices) o caminho usual eh ok.
 
    Bitmap 24x24 com pixel TRANSPARENTE no LOWER-LEFT (canto inferior esquerdo,
-   coordenada (0, 23)) — convencao do splash conforme doc IOTA. *)
-unit ZipCompress.SplashReg;
+   coordenada (0, 23)) â€” convencao do splash conforme doc IOTA. *)
+unit ZipFileORM.SplashReg;
 
 interface
 
@@ -30,11 +30,11 @@ uses
   ToolsAPI;
 
 const
-  cProductName    = 'ZipCompress 3.1';
-  cProductTitle   = 'Gnostice ZipCompress';
-  cProductDesc    = 'Multi-format archive component family — Zip/Tar/Gzip/Cab/7z/Arj/Iso/Lha/Rar for Delphi and FPC/Lazarus.';
+  cProductName    = 'ZipFileORM 4.0.0';
+  cProductTitle   = 'Gnostice ZipFileORM';
+  cProductDesc    = 'Multi-format archive component family â€” Zip/Tar/Gzip/Cab/7z/Arj/Iso/Lha/Rar for Delphi and FPC/Lazarus.';
   cLicenseStatus  = 'Free / Open-source';
-  cSKU            = 'ZIPCOMPRESS-3.1';
+  cSKU            = 'ZIPFILEORM-4.0.0';
 
 var
   GSplashBmp:  TBitmap = nil;
@@ -43,14 +43,14 @@ var
 
 function MakeSplashBitmap: TBitmap;
 const
-  cMagenta = TColor($00FF00FF);   // BBGGRR — used as the transparent indicator
+  cMagenta = TColor($00FF00FF);   // BBGGRR â€” used as the transparent indicator
 begin
   Result := TBitmap.Create;
   Result.PixelFormat := pf24bit;
   Result.SetSize(24, 24);
 
-  // Fundo: red brand square — DPI-aware DrawString preserves crispness.
-  Result.Canvas.Brush.Color := $002030C8;          // BBGGRR — red
+  // Fundo: red brand square â€” DPI-aware DrawString preserves crispness.
+  Result.Canvas.Brush.Color := $002030C8;          // BBGGRR â€” red
   Result.Canvas.FillRect(Rect(0, 0, 24, 24));
 
   // Texto "ZIP" centralizado.
@@ -67,7 +67,7 @@ end;
 
 procedure TryRegisterSplash;
 begin
-  // Use a global SplashScreenServices — BorlandIDEServices ainda eh nil
+  // Use a global SplashScreenServices â€” BorlandIDEServices ainda eh nil
   // nesse ponto da inicializacao do IDE.
   if Assigned(SplashScreenServices) then
   begin
@@ -85,7 +85,7 @@ procedure TryRegisterAbout;
 var
   LAboutSvc: IOTAAboutBoxServices;
 begin
-  // About box pode ser registrado mais tarde — se BorlandIDEServices ainda
+  // About box pode ser registrado mais tarde â€” se BorlandIDEServices ainda
   // nao estiver pronto agora, tudo bem; nao tem fallback OnIdle aqui, mas
   // na pratica designide carrega BorlandIDEServices antes de chamar
   // initialization dos design packages.

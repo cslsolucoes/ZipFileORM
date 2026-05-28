@@ -35,6 +35,6 @@ requires
 
 contains
   zipfileReg in 'zipfileReg.pas',
-  ZipCompress.SplashReg in 'ZipCompress.SplashReg.pas';
+  ZipFileORM.SplashReg in 'ZipFileORM.SplashReg.pas';
 
 end.

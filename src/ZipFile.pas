@@ -409,7 +409,7 @@ uses
 procedure Register;
 begin
 {$IFDEF FPC}
-  RegisterComponents('ZipCompress',
+  RegisterComponents('ZipFileORM',
     [TZipFile,
      TTarFile,
      TTarGzFile,

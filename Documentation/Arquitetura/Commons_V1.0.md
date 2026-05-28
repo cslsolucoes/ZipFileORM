@@ -1,12 +1,12 @@
----
+﻿---
 internal_file_version: 1.0.0
 generated_by: documentation-agent-architecture
 date: 2026-05-28
 ---
 
-# ZipFileORM v4.0.0 — Commons: Utilitarios Cross-Format
+# ZipFileORM v4.0.0 â€” Commons: Utilitarios Cross-Format
 
-> Descricao de todos os 13 ficheiros `Commons.*` e `Archive.Open` — os utilitarios reutilizaveis
+> Descricao de todos os 13 ficheiros `Commons.*` e `Archive.Open` â€” os utilitarios reutilizaveis
 > que dao suporte a dois ou mais modulos format.
 > Ver [Overview_V1.0.md](Overview_V1.0.md) para o contexto de camadas e
 > [Modulos_V1.0.md](Modulos_V1.0.md) para os consumidores de cada unidade.
@@ -26,28 +26,28 @@ date: 2026-05-28
 ## Diagrama de dependencias Commons
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  Modulos Format (L2)                        │
-│  TZipFile  TCabFile  TTarFile  TGzipFile  TSevenZFile ...   │
-└───┬────────────┬────────────┬────────────┬──────────────────┘
-    │            │            │            │
-    ▼            ▼            ▼            ▼
-┌───────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐
-│Commons.   │ │Commons.  │ │Commons.  │ │ZipfileORM.Events │
-│Compression│ │Encryption│ │Progress  │ │(nao e Commons.*) │
-│.{Base,    │ │.AES      │ │          │ │                  │
-│None,ZLib, │ └──────────┘ └──────────┘ └──────────────────┘
-│ZLib.Bridge│
-│LZMA,Consts│
-└─────┬─────┘
-      │
-      ▼
-┌─────────────────────────────┐
-│ Commons.{Types,Consts,      │
-│         Exceptions}         │
-│ Commons.Compression.Defines │
-│ Commons.FPC.inc             │
-└─────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                  Modulos Format (L2)                        â”‚
+â”‚  TZipFile  TCabFile  TTarFile  TGzipFile  TSevenZFile ...   â”‚
+â””â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+    â”‚            â”‚            â”‚            â”‚
+    â–¼            â–¼            â–¼            â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚Commons.   â”‚ â”‚Commons.  â”‚ â”‚Commons.  â”‚ â”‚ZipfileORM.Events â”‚
+â”‚Compressionâ”‚ â”‚Encryptionâ”‚ â”‚Progress  â”‚ â”‚(nao e Commons.*) â”‚
+â”‚.{Base,    â”‚ â”‚.AES      â”‚ â”‚          â”‚ â”‚                  â”‚
+â”‚None,ZLib, â”‚ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+â”‚ZLib.Bridgeâ”‚
+â”‚LZMA,Constsâ”‚
+â””â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜
+      â”‚
+      â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ Commons.{Types,Consts,      â”‚
+â”‚         Exceptions}         â”‚
+â”‚ Commons.Compression.Defines â”‚
+â”‚ Commons.FPC.inc             â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -69,7 +69,7 @@ date: 2026-05-28
 | `TArchiveSearchRec` | Record | Entry descriptor: `Name`, `DateTime`, `UncompressedSize`, `CompressedSize`, `IsDirectory`, `IsEncrypted`, `Comment` |
 | `TArchiveProgressInfo` | Record | Progresso: `CurrentEntry`, `EntryIndex`, `TotalEntries`, `BytesProcessed`, `TotalBytes`, `PercentComplete` |
 
-> Nota: `TArchiveFormat` (enum dos 10 formatos) vive em `Archive.Open.pas` — essa e a fonte canonica.
+> Nota: `TArchiveFormat` (enum dos 10 formatos) vive em `Archive.Open.pas` â€” essa e a fonte canonica.
 
 ### Quem consome
 
@@ -94,7 +94,7 @@ Constantes de versao (`ZipFileORM_VERSION = '4.0.0'`) e strings literais partilh
 
 ### Quem consome
 
-Facade `ZipfileORM.pas` e rotinas de splash/about em `packages/ZipCompress.SplashReg.pas`.
+Facade `ZipfileORM.pas` e rotinas de splash/about em `packages/ZipFileORM.SplashReg.pas`.
 
 ---
 
@@ -110,17 +110,17 @@ Facade `ZipfileORM.pas` e rotinas de splash/about em `packages/ZipCompress.Splas
 
 ```
 EArchive  (Exception base de toda a biblioteca)
-  ├─ EArchiveNotFound
-  ├─ EArchiveInvalidFormat
-  ├─ EArchiveCorrupt
-  ├─ EArchiveAlreadyOpen
-  ├─ EArchiveNotOpen
-  ├─ EArchiveEntryNotFound
-  ├─ EArchiveWriteNotSupported
-  ├─ EArchivePlatformNotSupported
-  └─ EArchiveEncryption
-       ├─ EArchivePasswordRequired
-       └─ EArchivePasswordIncorrect
+  â”œâ”€ EArchiveNotFound
+  â”œâ”€ EArchiveInvalidFormat
+  â”œâ”€ EArchiveCorrupt
+  â”œâ”€ EArchiveAlreadyOpen
+  â”œâ”€ EArchiveNotOpen
+  â”œâ”€ EArchiveEntryNotFound
+  â”œâ”€ EArchiveWriteNotSupported
+  â”œâ”€ EArchivePlatformNotSupported
+  â””â”€ EArchiveEncryption
+       â”œâ”€ EArchivePasswordRequired
+       â””â”€ EArchivePasswordIncorrect
 ```
 
 ### Convencao de excecoes por modulo
@@ -194,8 +194,8 @@ Era `tiCompress.pas` do MCL (MODELbuilder Component Library). Renomeado para nam
 
 | Classe | Papel |
 |---|---|
-| `TtiCompressAbs` | Classe base abstrata — define contrato de 8 metodos (CompressStream, DecompressStream, CompressBuffer, DecompressBuffer, CompressString, DecompressString, CompressFile, DecompressFile) |
-| `TtiCompressClass` | `class of TtiCompressAbs` — referencia de classe para o factory |
+| `TtiCompressAbs` | Classe base abstrata â€” define contrato de 8 metodos (CompressStream, DecompressStream, CompressBuffer, DecompressBuffer, CompressString, DecompressString, CompressFile, DecompressFile) |
+| `TtiCompressClass` | `class of TtiCompressAbs` â€” referencia de classe para o factory |
 | `TtiCompressClassMapping` | Associa nome string a uma `TtiCompressClass` |
 | `TtiCompressFactory` | Factory: registra classes, cria instancias por nome, lista tipos |
 
@@ -218,7 +218,7 @@ O factory e um singleton lazy-initialized. Cada implementacao (ZLib, None) chama
 
 ### Quem consome
 
-Primariamente `TZipFile.pas` — para deflate (ZLib) e store (None) de entries. Os outros modulos format nao consomem o factory diretamente (usam suas proprias libs C via OBJ link).
+Primariamente `TZipFile.pas` â€” para deflate (ZLib) e store (None) de entries. Os outros modulos format nao consomem o factory diretamente (usam suas proprias libs C via OBJ link).
 
 ---
 
@@ -227,12 +227,12 @@ Primariamente `TZipFile.pas` — para deflate (ZLib) e store (None) de entries. 
 | Atributo | Valor |
 |---|---|
 | Ficheiro | `src/Commons.Compression.None.pas` |
-| Proposito | Implementacao passthrough — Store sem compressao |
+| Proposito | Implementacao passthrough â€” Store sem compressao |
 | Dependencias | `Commons.Compression.Base`, `Commons.Compression.Consts` |
 
 ### Classe exportada
 
-`TtiCompressNone : TtiCompressAbs` — todas as operacoes copiam bytes sem transformacao.
+`TtiCompressNone : TtiCompressAbs` â€” todas as operacoes copiam bytes sem transformacao.
 
 Registra-se no factory com a chave `cgsCompressNone = 'No compression'`.
 
@@ -257,7 +257,7 @@ Era `tiCompressZLib.pas` do MCL. Renomeado v4.0.0.
 
 ### Classe exportada
 
-`TtiCompressZLib : TtiCompressAbs` — implementa todos os 8 metodos abstratos via ZLib.
+`TtiCompressZLib : TtiCompressAbs` â€” implementa todos os 8 metodos abstratos via ZLib.
 
 Registra-se no factory com a chave `cgsCompressZLib = 'ZLib compression'`.
 
@@ -278,7 +278,7 @@ Registra-se no factory com a chave `cgsCompressZLib = 'ZLib compression'`.
 
 ### Historico
 
-Era `dzlib.pas` do MCL — renomeado v4.0.0.
+Era `dzlib.pas` do MCL â€” renomeado v4.0.0.
 
 ### Responsabilidade
 
@@ -286,7 +286,7 @@ Em FPC, a unit `zstream` nao oferece a mesma API que `System.ZLib` do Delphi. Es
 
 ### Quem consome
 
-Apenas `Commons.Compression.ZLib` — relacao direta e unica.
+Apenas `Commons.Compression.ZLib` â€” relacao direta e unica.
 
 ---
 
@@ -307,7 +307,7 @@ Apenas `Commons.Compression.ZLib` — relacao direta e unica.
 
 ### Historico
 
-Era `tiConstants.pas` do MCL — renomeado v4.0.0.
+Era `tiConstants.pas` do MCL â€” renomeado v4.0.0.
 
 ### Quem consome
 
@@ -320,7 +320,7 @@ Era `tiConstants.pas` do MCL — renomeado v4.0.0.
 | Atributo | Valor |
 |---|---|
 | Ficheiro | `src/Commons.Compression.LZMA.pas` |
-| Proposito | LZMA (method 14 PKWARE) para entries ZIP — Win32+Win64 |
+| Proposito | LZMA (method 14 PKWARE) para entries ZIP â€” Win32+Win64 |
 | Dependencias | `SysUtils` |
 | Link estatico | `Lib/lzma_obj_win32/` (OMF) e `Lib/lzma_obj_win64/` (ELF) |
 
@@ -363,7 +363,7 @@ procedure LzmaDecompressBuffer(
 
 ### Quem consome
 
-Apenas `TZipFile` — para leitura e escrita de entries com method=14 (LZMA PKWARE).
+Apenas `TZipFile` â€” para leitura e escrita de entries com method=14 (LZMA PKWARE).
 
 ---
 
@@ -374,7 +374,7 @@ Apenas `TZipFile` — para leitura e escrita de entries com method=14 (LZMA PKWA
 | Ficheiro | `src/Commons.Encryption.AES.pas` |
 | Proposito | WinZip AE-2 AES-256 para entries ZIP |
 | Dependencias | `SysUtils` |
-| Implementacao | Pure Pascal — sem lookup tables (compacto e auditavel) |
+| Implementacao | Pure Pascal â€” sem lookup tables (compacto e auditavel) |
 
 ### Primitivas implementadas
 
@@ -382,8 +382,8 @@ Apenas `TZipFile` — para leitura e escrita de entries com method=14 (LZMA PKWA
 |---|---|
 | SHA-1 | FIPS 180-4 |
 | HMAC-SHA-1 | RFC 2104 |
-| PBKDF2-HMAC-SHA-1 | RFC 8018 / PKCS#5 — 1000 iteracoes |
-| AES-256 block cipher | FIPS 197 — pure pascal sem T-boxes |
+| PBKDF2-HMAC-SHA-1 | RFC 8018 / PKCS#5 â€” 1000 iteracoes |
+| AES-256 block cipher | FIPS 197 â€” pure pascal sem T-boxes |
 | AES-256-CTR stream | Counter LE little-endian, iniciando em 1 |
 | WinZip AE-2 framing | `salt(16) | pwd_verify(2) | ciphertext | hmac10(10)` |
 
@@ -422,7 +422,7 @@ Apenas `TZipFile` — para leitura e escrita de entries com method=14 (LZMA PKWA
 
 ### Quem consome
 
-Apenas `TZipFile` — para entries com `Method=WINZIP_AES_METHOD` (criptografia AES-256).
+Apenas `TZipFile` â€” para entries com `Method=WINZIP_AES_METHOD` (criptografia AES-256).
 
 ---
 
@@ -463,8 +463,8 @@ Incluido via `{$I Commons.FPC.inc}` no topo de qualquer unit que precisa ser cro
 
 | Include | Escopo |
 |---|---|
-| `Commons.FPC.inc` | Global — qualquer unit do ZipFileORM |
-| `Commons.Compression.Defines.inc` | Especifico — apenas units `Commons.Compression.*` |
+| `Commons.FPC.inc` | Global â€” qualquer unit do ZipFileORM |
+| `Commons.Compression.Defines.inc` | Especifico â€” apenas units `Commons.Compression.*` |
 
 ### Quem consome
 
@@ -480,13 +480,13 @@ Incluido via `{$I Commons.FPC.inc}` no topo de qualquer unit que precisa ser cro
 | Proposito | Auto-deteccao de formato por magic bytes |
 | Dependencias | `SysUtils`, `Classes` |
 
-> Embora nao tenha o prefixo `Commons.`, este ficheiro e tratado como utilitario cross-format — e a unica fonte de verdade do enum `TArchiveFormat` e das funcoes de deteccao.
+> Embora nao tenha o prefixo `Commons.`, este ficheiro e tratado como utilitario cross-format â€” e a unica fonte de verdade do enum `TArchiveFormat` e das funcoes de deteccao.
 
-### TArchiveFormat (enum canônico)
+### TArchiveFormat (enum canÃ´nico)
 
 | Valor | Descricao | Magic bytes |
 |---|---|---|
-| `afUnknown` | Formato nao reconhecido | — |
+| `afUnknown` | Formato nao reconhecido | â€” |
 | `afZip` | ZIP | `PK\x03\x04`, `PK\x05\x06`, `PK\x07\x08` |
 | `afGzip` | Gzip single-file | `\x1F\x8B` |
 | `afTar` | TAR POSIX ustar | `ustar\x00` em offset 257 |
@@ -508,7 +508,7 @@ Incluido via `{$I Commons.FPC.inc}` no topo de qualquer unit que precisa ser cro
 
 ### Quem consome
 
-`ZipfileORM.pas` — re-exporta `TArchiveFormat` e `EArchiveDetectError` e delega `TArchive.DetectFormat(...)` para as funcoes deste modulo.
+`ZipfileORM.pas` â€” re-exporta `TArchiveFormat` e `EArchiveDetectError` e delega `TArchive.DetectFormat(...)` para as funcoes deste modulo.
 
 ---
 
@@ -546,13 +546,13 @@ Incluido via `{$I Commons.FPC.inc}` no topo de qualquer unit que precisa ser cro
 
 ## Ver tambem
 
-- [Overview_V1.0.md](Overview_V1.0.md) — visao de camadas e principios arquiteturais
-- [Modulos_V1.0.md](Modulos_V1.0.md) — os modulos format que consomem estes Commons
-- [Camadas_V1.0.md](Camadas_V1.0.md) — regras de importacao entre camadas
-- [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) — diagrama Mermaid de dependencias
+- [Overview_V1.0.md](Overview_V1.0.md) â€” visao de camadas e principios arquiteturais
+- [Modulos_V1.0.md](Modulos_V1.0.md) â€” os modulos format que consomem estes Commons
+- [Camadas_V1.0.md](Camadas_V1.0.md) â€” regras de importacao entre camadas
+- [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) â€” diagrama Mermaid de dependencias
 
 ---
 
 ## Changelog (este arquivo)
 
-- 1.0.0 (2026-05-28): Criacao inicial — 13 ficheiros Commons.* + Archive.Open documentados a partir de inspecao real de `src/`.
+- 1.0.0 (2026-05-28): Criacao inicial â€” 13 ficheiros Commons.* + Archive.Open documentados a partir de inspecao real de `src/`.
