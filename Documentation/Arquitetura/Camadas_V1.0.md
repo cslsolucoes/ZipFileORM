@@ -1,10 +1,10 @@
-﻿---
+---
 internal_file_version: 1.0.0
 generated_by: documentation-agent-architecture
 date: 2026-05-28
 ---
 
-# ZipFileORM v4.0.0 â€” Modelo de Camadas
+# ZipFileORM v4.0.0 — Modelo de Camadas
 
 > Define as 4 camadas de responsabilidade, as regras de importacao e os contratos de fronteira.
 > Ver [Overview_V1.0.md](Overview_V1.0.md) para o diagrama de camadas resumido e
@@ -25,53 +25,53 @@ date: 2026-05-28
 ## Visao geral do modelo de camadas
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  L1 â€” FACADE PUBLICA                                                â”‚
-â”‚  ZipFileORM.*                                                       â”‚
-â”‚  ZipFileORM.pas Â· ZipFileORM.Interfaces Â· ZipFileORM.Compression   â”‚
-â”‚  ZipFileORM.Events                                                  â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-                              â”‚  importa
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  L2 â€” MODULOS FORMAT (10 TComponent)                                â”‚
-â”‚  ZipFile Â· TarFile Â· TarGzFile Â· GzipFile Â· CabFile Â· SevenZFile   â”‚
-â”‚  ArjFile Â· IsoFile Â· LhaFile Â· RarFile                              â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-             â”‚ importa                          â”‚ importa
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  L3 â€” SUB-MODULOS          â”‚     â”‚  L3 â€” HELPER STREAMS           â”‚
-â”‚  FORMAT-ONLY               â”‚     â”‚  TarFile.GzipStream            â”‚
-â”‚  ZipFile.ZIP64             â”‚     â”‚  Bzip2.Stream                  â”‚
-â”‚  ZipFile.UTF8              â”‚     â”‚  UUE.Stream Â· UUE.Fluent       â”‚
-â”‚  ZipFile.Streaming         â”‚     â”‚  ZCompress.LzwStream           â”‚
-â”‚  ZipFile.Fluent            â”‚     â”‚  ZCompress.Fluent              â”‚
-â”‚  Tar.Fluent                â”‚     â”‚                                â”‚
-â”‚  Cab.Fluent                â”‚     â”‚                                â”‚
-â”‚  SevenZ.Fluent             â”‚     â”‚                                â”‚
-â”‚  Bzip2.Fluent              â”‚     â”‚                                â”‚
-â”‚  Archive.Open              â”‚     â”‚                                â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-             â”‚ importa                          â”‚ importa
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  L4 â€” COMMONS (utilitarios cross-format)                          â”‚
-â”‚  Commons.Types Â· Commons.Consts Â· Commons.Exceptions              â”‚
-â”‚  Commons.Progress                                                 â”‚
-â”‚  Commons.Compression.{Base,None,ZLib,ZLib.Bridge,LZMA,Consts}    â”‚
-â”‚  Commons.Encryption.AES                                           â”‚
-â”‚  Commons.FPC.inc Â· Commons.Compression.Defines.inc               â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌─────────────────────────────────────────────────────────────────────┐
+│  L1 — FACADE PUBLICA                                                │
+│  ZipFileORM.*                                                       │
+│  ZipFileORM.pas · ZipFileORM.Interfaces · ZipFileORM.Compression   │
+│  ZipFileORM.Events                                                  │
+└─────────────────────────────┬───────────────────────────────────────┘
+                              │  importa
+┌─────────────────────────────▼───────────────────────────────────────┐
+│  L2 — MODULOS FORMAT (10 TComponent)                                │
+│  ZipFile · TarFile · TarGzFile · GzipFile · CabFile · SevenZFile   │
+│  ArjFile · IsoFile · LhaFile · RarFile                              │
+└────────────┬──────────────────────────────────┬─────────────────────┘
+             │ importa                          │ importa
+┌────────────▼──────────────┐     ┌─────────────▼──────────────────┐
+│  L3 — SUB-MODULOS          │     │  L3 — HELPER STREAMS           │
+│  FORMAT-ONLY               │     │  TarFile.GzipStream            │
+│  ZipFile.ZIP64             │     │  Bzip2.Stream                  │
+│  ZipFile.UTF8              │     │  UUE.Stream · UUE.Fluent       │
+│  ZipFile.Streaming         │     │  ZCompress.LzwStream           │
+│  ZipFile.Fluent            │     │  ZCompress.Fluent              │
+│  Tar.Fluent                │     │                                │
+│  Cab.Fluent                │     │                                │
+│  SevenZ.Fluent             │     │                                │
+│  Bzip2.Fluent              │     │                                │
+│  Archive.Open              │     │                                │
+└────────────┬──────────────┘     └─────────────┬──────────────────┘
+             │ importa                          │ importa
+┌────────────▼──────────────────────────────────▼──────────────────┐
+│  L4 — COMMONS (utilitarios cross-format)                          │
+│  Commons.Types · Commons.Consts · Commons.Exceptions              │
+│  Commons.Progress                                                 │
+│  Commons.Compression.{Base,None,ZLib,ZLib.Bridge,LZMA,Consts}    │
+│  Commons.Encryption.AES                                           │
+│  Commons.FPC.inc · Commons.Compression.Defines.inc               │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## L1 â€” Facade Publica (`ZipFileORM.*`)
+## L1 — Facade Publica (`ZipFileORM.*`)
 
 ### Membros
 
 | Ficheiro | Responsabilidade |
 |---|---|
 | `ZipFileORM.pas` | Re-exporta todos os 10 T<Format>File; define `TArchive` (class factory + DetectFormat); constante `ZipFileORM_VERSION` |
-| `ZipFileORM.Interfaces` | `IArchive`, `IArchiveEntry`, `IArchiveBuilder` â€” contratos read-only uniformes |
+| `ZipFileORM.Interfaces` | `IArchive`, `IArchiveEntry`, `IArchiveBuilder` — contratos read-only uniformes |
 | `ZipFileORM.Compression` | `TCompressionMethod` enum cross-format + helpers `CompressionMethodToString` |
 | `ZipFileORM.Events` | 15+ tipos de evento (`TArchiveLifecycleEvent`, `TArchiveEntryFoundEvent`, etc.) compartilhados por todos os modulos |
 
@@ -88,9 +88,9 @@ date: 2026-05-28
 
 | Proibido | Motivo |
 |---|---|
-| Sub-modulos format-only (ZipFile.ZIP64, etc.) | Detalhes internos â€” nao devem vazar na facade publica |
-| Commons.Compression.* | Detalhes de algoritmo â€” nao sao contratos publicos |
-| Commons.Encryption.AES | Idem â€” detalhes internos de ZIP |
+| Sub-modulos format-only (ZipFile.ZIP64, etc.) | Detalhes internos — nao devem vazar na facade publica |
+| Commons.Compression.* | Detalhes de algoritmo — nao sao contratos publicos |
+| Commons.Encryption.AES | Idem — detalhes internos de ZIP |
 
 ### Contrato de fronteira (uso pelo consumidor)
 
@@ -116,7 +116,7 @@ var Arc: IArchive;
 
 ---
 
-## L2 â€” Modulos Format (10 TComponent)
+## L2 — Modulos Format (10 TComponent)
 
 ### Membros
 
@@ -147,11 +147,11 @@ var Arc: IArchive;
 
 | Proibido | Motivo |
 |---|---|
-| Outro modulo format L2 | Excecao: TTarGzFile importa TTarFile (wrapper legÃ­timo) â€” todos os outros pares sao proibidos |
-| ZipFileORM.pas (facade) | Dependencia circular â€” L1 importa L2, nao o contrario |
+| Outro modulo format L2 | Excecao: TTarGzFile importa TTarFile (wrapper legítimo) — todos os outros pares sao proibidos |
+| ZipFileORM.pas (facade) | Dependencia circular — L1 importa L2, nao o contrario |
 | ZipFileORM.Interfaces | Excecao: pode importar para implementar `IArchive` se necessario |
 
-> Excecao documentada: `TTarGzFile` importa `TTarFile` (camada L2 â†’ L2) porque e um wrapper deliberado que delega toda a logica TAR ao `FInner: TTarFile`. Esta relacao e unica e permitida.
+> Excecao documentada: `TTarGzFile` importa `TTarFile` (camada L2 → L2) porque e um wrapper deliberado que delega toda a logica TAR ao `FInner: TTarFile`. Esta relacao e unica e permitida.
 
 ### Contrato de fronteira (API publica padrao)
 
@@ -172,18 +172,18 @@ Todos os modulos format devem expor ao menos:
 
 ---
 
-## L3 â€” Sub-modulos Format-Only + Helper Streams
+## L3 — Sub-modulos Format-Only + Helper Streams
 
 L3 e dividido em dois grupos com naturezas distintas.
 
-### L3A â€” Sub-modulos Format-Only
+### L3A — Sub-modulos Format-Only
 
 Ficam no mesmo namespace do formato pai e implementam features exclusivas da spec daquele formato.
 
 | Ficheiro | Formato pai | Feature implementada |
 |---|---|---|
 | `ZipFile.ZIP64.pas` | ZIP | Suporte a entries >4 GB (extensao ZIP64) |
-| `ZipFile.UTF8.pas` | ZIP | GP flag bit 11 â€” filenames UTF-8 per APPNOTE |
+| `ZipFile.UTF8.pas` | ZIP | GP flag bit 11 — filenames UTF-8 per APPNOTE |
 | `ZipFile.Streaming.pas` | ZIP | Modo streaming (sem seekable stream) |
 | `ZipFile.Fluent.pas` | ZIP | Builder fluent |
 | `Tar.Fluent.pas` | TAR | Builder fluent |
@@ -198,7 +198,7 @@ Ficam no mesmo namespace do formato pai e implementam features exclusivas da spe
 
 | Pode importar | Justificativa |
 |---|---|
-| L4 Commons.* | Raro â€” apenas se a feature precisar de algoritmo cross-format |
+| L4 Commons.* | Raro — apenas se a feature precisar de algoritmo cross-format |
 | RTL (`SysUtils`, `Classes`, `ZLib`) | Sempre permitido |
 
 ### O que L3A nao pode importar
@@ -208,7 +208,7 @@ Ficam no mesmo namespace do formato pai e implementam features exclusivas da spe
 | L2 (outro modulo format) | Sub-modulo nao deve criar dependencias cruzadas entre formatos |
 | L1 (facade) | Dependencia circular |
 
-### L3B â€” Helper Streams
+### L3B — Helper Streams
 
 Streams reutilizaveis que nao sao TComponent e podem ser consumidos por mais de um modulo.
 
@@ -230,13 +230,13 @@ Streams reutilizaveis que nao sao TComponent e podem ser consumidos por mais de 
 
 | Proibido | Motivo |
 |---|---|
-| L2 (qualquer TComponent format) | Stream nao pode depender de componente â€” viola separacao |
+| L2 (qualquer TComponent format) | Stream nao pode depender de componente — viola separacao |
 | L1 (facade) | Dependencia circular |
-| Sub-modulos L3A de outros formatos | MantÃ©m isolamento |
+| Sub-modulos L3A de outros formatos | Mantém isolamento |
 
 ---
 
-## L4 â€” Commons (Cross-Format)
+## L4 — Commons (Cross-Format)
 
 ### Membros
 
@@ -262,7 +262,7 @@ Streams reutilizaveis que nao sao TComponent e podem ser consumidos por mais de 
 |---|---|
 | RTL (`SysUtils`, `Classes`, `ZLib`, `zbase`) | Sempre permitido |
 | Outros ficheiros L4 | Commons.Compression.ZLib importa Commons.Compression.Base + Consts |
-| OBJs estaticos externos (LZMA SDK, bzip2) | Dependencias C compiladas â€” nao sao Pascal units |
+| OBJs estaticos externos (LZMA SDK, bzip2) | Dependencias C compiladas — nao sao Pascal units |
 
 ### O que L4 nao pode importar
 
@@ -276,45 +276,45 @@ Streams reutilizaveis que nao sao TComponent e podem ser consumidos por mais de 
 
 ---
 
-## Regras de importacao â€” tabela consolidada
+## Regras de importacao — tabela consolidada
 
 | Camada | Pode importar | Nao pode importar |
 |---|---|---|
 | **L1 Facade** | L2 format, L3 Archive.Open, L4 Commons.Exceptions + Commons.Types | L3 sub-modulos format-only, Commons.Compression.*, Commons.Encryption |
-| **L2 Format** | L3 proprios sub-modulos + helper streams, L4 Commons.*, L1 Events + Compression | L1 ZipFileORM.pas, outros L2 (exceto TTarGzFileâ†’TTarFile) |
+| **L2 Format** | L3 proprios sub-modulos + helper streams, L4 Commons.*, L1 Events + Compression | L1 ZipFileORM.pas, outros L2 (exceto TTarGzFile→TTarFile) |
 | **L3A Sub-modulo format-only** | L4 Commons.* (raro), RTL | L2 outros formatos, L1, outro L3A |
 | **L3B Helper stream** | L4 Commons.* (se necessario), RTL | L2 qualquer TComponent, L1, outro L3A |
 | **L4 Commons** | Outros L4, RTL, OBJs externos | L1, L2, L3 |
 
 ---
 
-## Fluxo de chamada â€” caso de uso: leitura de entry ZIP com AES
+## Fluxo de chamada — caso de uso: leitura de entry ZIP com AES
 
 ```
 Consumer
-  â””â”€ uses ZipFileORM                           [L1: facade]
-       â””â”€ TArchive.CreateZip(...)              [L1: factory]
-            â””â”€ TZipFile.Create + .Open         [L2: ZipFile]
-                 â”œâ”€ ZipFile.UTF8 (detect bit11)[L3A: sub-modulo]
-                 â”œâ”€ ZipFile.ZIP64 (large file) [L3A: sub-modulo]
-                 â””â”€ TZipFile.ReadAsBytes(...)
-                      â”œâ”€ Commons.Compression.ZLib.DecompressBuffer [L4]
-                      â””â”€ Commons.Encryption.AES.AesCtrEncrypt      [L4]
+  └─ uses ZipFileORM                           [L1: facade]
+       └─ TArchive.CreateZip(...)              [L1: factory]
+            └─ TZipFile.Create + .Open         [L2: ZipFile]
+                 ├─ ZipFile.UTF8 (detect bit11)[L3A: sub-modulo]
+                 ├─ ZipFile.ZIP64 (large file) [L3A: sub-modulo]
+                 └─ TZipFile.ReadAsBytes(...)
+                      ├─ Commons.Compression.ZLib.DecompressBuffer [L4]
+                      └─ Commons.Encryption.AES.AesCtrEncrypt      [L4]
 ```
 
 ---
 
-## Fluxo de chamada â€” caso de uso: leitura de .tar.gz
+## Fluxo de chamada — caso de uso: leitura de .tar.gz
 
 ```
 Consumer
-  â””â”€ uses ZipFileORM                            [L1: facade]
-       â””â”€ TArchive.CreateTarGz(...)             [L1: factory]
-            â””â”€ TTarGzFile.Open                  [L2: TarGzFile]
-                 â”œâ”€ TGzipReadStream (decompress)[L3B: helper stream]
-                 â”‚    â””â”€ System.ZLib / zstream  [RTL]
-                 â””â”€ TTarFile.Open(FTempBuffer)  [L2: TarFile â€” excecao permitida]
-                      â””â”€ TTarFile.ReadAsBytes   [L2]
+  └─ uses ZipFileORM                            [L1: facade]
+       └─ TArchive.CreateTarGz(...)             [L1: factory]
+            └─ TTarGzFile.Open                  [L2: TarGzFile]
+                 ├─ TGzipReadStream (decompress)[L3B: helper stream]
+                 │    └─ System.ZLib / zstream  [RTL]
+                 └─ TTarFile.Open(FTempBuffer)  [L2: TarFile — excecao permitida]
+                      └─ TTarFile.ReadAsBytes   [L2]
 ```
 
 ---
@@ -327,8 +327,8 @@ Consumer
 | bzip2 1.1.0-dev OBJs | OBJ estatico C | L3B Bzip2.Stream | `Library/bzip2/` |
 | FDI (Wine Cabinet) OBJ | OBJ estatico C | L2 CabFile | `sdk/cabnet/` |
 | LZMA SDK (SevenZWrapper) OBJ | OBJ estatico C | L2 SevenZFile | `Lib/lzma_obj_win{32,64}/` |
-| UnRAR DLL | DLL proprietaria | L2 RarFile | `dll/unrar.dll` â€” binario RarLabs |
-| System.ZLib (Delphi RTL) | RTL unit | L3B TarFile.GzipStream, L4 Commons.Compression.ZLib | Nao e uma dep externa â€” esta na RTL |
+| UnRAR DLL | DLL proprietaria | L2 RarFile | `dll/unrar.dll` — binario RarLabs |
+| System.ZLib (Delphi RTL) | RTL unit | L3B TarFile.GzipStream, L4 Commons.Compression.ZLib | Nao e uma dep externa — esta na RTL |
 
 ---
 
@@ -346,13 +346,13 @@ Consumer
 
 ## Ver tambem
 
-- [Overview_V1.0.md](Overview_V1.0.md) â€” diagrama resumido de camadas e principios
-- [Modulos_V1.0.md](Modulos_V1.0.md) â€” decomposicao detalhada dos 13 modulos
-- [Commons_V1.0.md](Commons_V1.0.md) â€” utilitarios cross-format (L4)
-- [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) â€” grafico Mermaid de todas as dependencias
+- [Overview_V1.0.md](Overview_V1.0.md) — diagrama resumido de camadas e principios
+- [Modulos_V1.0.md](Modulos_V1.0.md) — decomposicao detalhada dos 13 modulos
+- [Commons_V1.0.md](Commons_V1.0.md) — utilitarios cross-format (L4)
+- [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) — grafico Mermaid de todas as dependencias
 
 ---
 
 ## Changelog (este arquivo)
 
-- 1.0.0 (2026-05-28): Criacao inicial â€” 4 camadas L1..L4 definidas com regras de importacao, diagramas ASCII, fluxos de chamada e matriz consolidada.
+- 1.0.0 (2026-05-28): Criacao inicial — 4 camadas L1..L4 definidas com regras de importacao, diagramas ASCII, fluxos de chamada e matriz consolidada.

@@ -1,10 +1,10 @@
-﻿---
+---
 internal_file_version: 1.0.0
 generated_by: documentation-agent-architecture
 date: 2026-05-28
 ---
 
-# ZipFileORM v4.0.0 â€” Decomposicao de Modulos
+# ZipFileORM v4.0.0 — Decomposicao de Modulos
 
 > Descricao detalhada de cada um dos 13 modulos: 10 componentes format e 3 helper streams.
 > Ver [Overview_V1.0.md](Overview_V1.0.md) para a visao de camadas e [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) para o diagrama de dependencias.
@@ -15,14 +15,14 @@ date: 2026-05-28
 
 | O que entra | O que fica fora |
 |---|---|
-| Classes TComponent de cada formato | Implementacao interna de algoritmos (ZIP64, AES â€” ver Commons_V1.0.md) |
+| Classes TComponent de cada formato | Implementacao interna de algoritmos (ZIP64, AES — ver Commons_V1.0.md) |
 | Sub-modulos format-only | Facade ZipFileORM.* (ver Camadas_V1.0.md) |
-| Helper streams (Bzip2, UUE, ZCompress) | Packages de instalacao (DPK/LPK â€” ver SPEC) |
+| Helper streams (Bzip2, UUE, ZCompress) | Packages de instalacao (DPK/LPK — ver SPEC) |
 | Metodos publicos expostos | Regras de negocio ou roadmap |
 
 ---
 
-## 1. Modulo ZIP â€” TZipFile
+## 1. Modulo ZIP — TZipFile
 
 ### 1.1 Identificacao
 
@@ -60,18 +60,18 @@ date: 2026-05-28
 
 | Metodo | Retorno | Descricao |
 |---|---|---|
-| `Open` | â€” | Abre o arquivo ZIP para leitura (le central directory) |
-| `Close` | â€” | Fecha o arquivo e libera recursos |
+| `Open` | — | Abre o arquivo ZIP para leitura (le central directory) |
+| `Close` | — | Fecha o arquivo e libera recursos |
 | `GetEntryCount` | `Integer` | Numero de entries no central directory |
 | `FileExists(AName)` | `Boolean` | Verifica se entry existe (case-insensitive) |
 | `GetEntryStream(AName)` | `TStream` | Stream inflado da entry (caller faz Free) |
 | `ReadAsBytes(AName)` | `TBytes` | Conteudo descomprimido como array de bytes |
 | `ReadAsString(AName)` | `string` | Conteudo descomprimido como string UTF-8 |
-| `AppendStream(AName, AStream)` | â€” | Adiciona entry ao ZIP (comprime em Deflate) |
-| `AppendFile(APath)` | â€” | Adiciona arquivo do disco ao ZIP |
-| `CreateFromFiles(AFiles)` | â€” | Cria ZIP novo a partir de lista de arquivos |
-| `UpdateFile(AName, AStream)` | â€” | Atualiza entry existente |
-| `DeleteFile(AName)` | â€” | Remove entry do ZIP |
+| `AppendStream(AName, AStream)` | — | Adiciona entry ao ZIP (comprime em Deflate) |
+| `AppendFile(APath)` | — | Adiciona arquivo do disco ao ZIP |
+| `CreateFromFiles(AFiles)` | — | Cria ZIP novo a partir de lista de arquivos |
+| `UpdateFile(AName, AStream)` | — | Atualiza entry existente |
+| `DeleteFile(AName)` | — | Remove entry do ZIP |
 | `WithFileName(AName)` | `TZipFile` | Fluent: define FileName |
 | `WithPassword(APwd)` | `TZipFile` | Fluent: define password AES |
 | `ThatOpens` | `TZipFile` | Fluent: chama Open e retorna Self |
@@ -91,7 +91,7 @@ date: 2026-05-28
 
 ---
 
-## 2. Modulo TAR â€” TTarFile
+## 2. Modulo TAR — TTarFile
 
 ### 2.1 Identificacao
 
@@ -107,7 +107,7 @@ date: 2026-05-28
 
 | Ficheiro | Conteudo |
 |---|---|
-| `TarFile.GzipStream.pas` | `TGzipReadStream` / `TGzipWriteStream` â€” wraps ZLib com WindowBits=31 (gzip header) |
+| `TarFile.GzipStream.pas` | `TGzipReadStream` / `TGzipWriteStream` — wraps ZLib com WindowBits=31 (gzip header) |
 | `Tar.Fluent.pas` | Builder fluent: `WithFileName`, `WithFormat`, `ThatOpens` |
 
 ### 2.3 Capacidades
@@ -133,16 +133,16 @@ TTarEntryType = (tetFile, tetDirectory, tetSymLink, tetHardLink, tetOther);
 
 | Metodo | Retorno | Descricao |
 |---|---|---|
-| `Open` | â€” | Abre TAR para leitura, constroi indice de entries |
-| `Close` | â€” | Fecha e libera recursos |
+| `Open` | — | Abre TAR para leitura, constroi indice de entries |
+| `Close` | — | Fecha e libera recursos |
 | `GetEntryCount` | `Integer` | Total de entries |
 | `FileExists(AName)` | `Boolean` | Verifica entry por nome |
 | `GetEntryStream(AName)` | `TStream` | Stream do payload (caller faz Free) |
 | `ReadAsBytes(AName)` | `TBytes` | Payload completo em bytes |
 | `ReadAsString(AName)` | `string` | Payload como string |
-| `AppendStream(AName, AStream, AMode)` | â€” | Adiciona entry ao TAR |
-| `AppendFile(APath)` | â€” | Adiciona arquivo do disco |
-| `CreateFromFiles(AFiles)` | â€” | Cria TAR de lista de arquivos |
+| `AppendStream(AName, AStream, AMode)` | — | Adiciona entry ao TAR |
+| `AppendFile(APath)` | — | Adiciona arquivo do disco |
+| `CreateFromFiles(AFiles)` | — | Cria TAR de lista de arquivos |
 
 ### 2.6 Dependencias internas consumidas
 
@@ -153,7 +153,7 @@ TTarEntryType = (tetFile, tetDirectory, tetSymLink, tetHardLink, tetOther);
 
 ---
 
-## 3. Modulo TAR+GZ â€” TTarGzFile
+## 3. Modulo TAR+GZ — TTarGzFile
 
 ### 3.1 Identificacao
 
@@ -167,13 +167,13 @@ TTarEntryType = (tetFile, tetDirectory, tetSymLink, tetHardLink, tetOther);
 
 ### 3.2 Arquitetura interna
 
-TTarGzFile e um wrapper: decompress gzip para `TMemoryStream` e delega ao `FInner: TTarFile` interno. Nao e um TComponent separado por si mesmo â€” reutiliza toda a logica de TTarFile.
+TTarGzFile e um wrapper: decompress gzip para `TMemoryStream` e delega ao `FInner: TTarFile` interno. Nao e um TComponent separado por si mesmo — reutiliza toda a logica de TTarFile.
 
 ```
 TarGzFile.Open
-  â””â”€ Bz TGzipReadStream(FileStream)
-       â””â”€ Descomprime para FTempBuffer (TMemoryStream)
-            â””â”€ FInner.Open(FTempBuffer)   -- TTarFile lerÃ¡ o buffer
+  └─ Bz TGzipReadStream(FileStream)
+       └─ Descomprime para FTempBuffer (TMemoryStream)
+            └─ FInner.Open(FTempBuffer)   -- TTarFile lerá o buffer
 ```
 
 ### 3.3 Capacidades
@@ -195,7 +195,7 @@ TarGzFile.Open
 
 ---
 
-## 4. Modulo GZIP â€” TGzipFile
+## 4. Modulo GZIP — TGzipFile
 
 ### 4.1 Identificacao
 
@@ -209,7 +209,7 @@ TarGzFile.Open
 
 ### 4.2 Escopo
 
-Single-file Gzip (RFC 1952): comprime ou descomprime UM unico arquivo. Nao e um archive multi-entrada â€” diferente de TTarGzFile.
+Single-file Gzip (RFC 1952): comprime ou descomprime UM unico arquivo. Nao e um archive multi-entrada — diferente de TTarGzFile.
 
 ### 4.3 Campos de metadata Gzip
 
@@ -226,12 +226,12 @@ Single-file Gzip (RFC 1952): comprime ou descomprime UM unico arquivo. Nao e um 
 
 | Metodo | Retorno | Descricao |
 |---|---|---|
-| `Open` | â€” | Abre .gz e le header de metadata |
-| `Close` | â€” | Fecha e libera |
-| `CompressFromFile(ASrc)` | â€” | Comprime arquivo do disco para FileName |
-| `CompressFromStream(ASrc)` | â€” | Comprime stream para FileName |
-| `DecompressToFile(ADst)` | â€” | Descomprime FileName para arquivo |
-| `DecompressToStream(ADst)` | â€” | Descomprime FileName para stream |
+| `Open` | — | Abre .gz e le header de metadata |
+| `Close` | — | Fecha e libera |
+| `CompressFromFile(ASrc)` | — | Comprime arquivo do disco para FileName |
+| `CompressFromStream(ASrc)` | — | Comprime stream para FileName |
+| `DecompressToFile(ADst)` | — | Descomprime FileName para arquivo |
+| `DecompressToStream(ADst)` | — | Descomprime FileName para stream |
 | `WithLevel(ALevel)` | `TGzipFile` | Fluent: nivel Deflate (1..9) |
 
 ### 4.5 Dependencias internas consumidas
@@ -244,7 +244,7 @@ Single-file Gzip (RFC 1952): comprime ou descomprime UM unico arquivo. Nao e um 
 
 ---
 
-## 5. Modulo CAB â€” TCabFile
+## 5. Modulo CAB — TCabFile
 
 ### 5.1 Identificacao
 
@@ -272,7 +272,7 @@ TCabFile linka estaticamente `fdi.obj` do sdk/cabnet/ (Wine cabinet source compi
 |---|---|---|
 | Read (Store / MSZIP) | Sim (Win32) | Via FDI linkado estaticamente |
 | Write (FCI) | Sim | Implementado em v3.7+ |
-| Win64 | Deferido | Problemas bcc64 ELF (ver SPEC Â§15) |
+| Win64 | Deferido | Problemas bcc64 ELF (ver SPEC §15) |
 | FPC/Linux | Deferido | Requer cross-compile do fdi.obj |
 | Sets multi-cabinet | Parcial | SetID + CabinetIndex suportados |
 
@@ -295,7 +295,7 @@ TCabFile linka estaticamente `fdi.obj` do sdk/cabnet/ (Wine cabinet source compi
 
 ---
 
-## 6. Modulo 7-Zip â€” TSevenZFile
+## 6. Modulo 7-Zip — TSevenZFile
 
 ### 6.1 Identificacao
 
@@ -321,7 +321,7 @@ TSevenZFile linka estaticamente os .obj do LZMA SDK 24.07 (em `Lib/lzma_obj_win3
 |---|---|---|
 | Delphi Win32 | OMF | bcc32c (BCC102/D29) |
 | Delphi Win64 | ELF | bcc64 (D37) |
-| FPC | â€” | Nao suportado (raise ESevenZNotSupportedOnPlatform) |
+| FPC | — | Nao suportado (raise ESevenZNotSupportedOnPlatform) |
 
 ### 6.4 Metodos de compressao suportados (leitura)
 
@@ -347,7 +347,7 @@ TSevenZFile linka estaticamente os .obj do LZMA SDK 24.07 (em `Lib/lzma_obj_win3
 
 ---
 
-## 7. Modulo ARJ â€” TArjFile
+## 7. Modulo ARJ — TArjFile
 
 ### 7.1 Identificacao
 
@@ -363,9 +363,9 @@ TSevenZFile linka estaticamente os .obj do LZMA SDK 24.07 (em `Lib/lzma_obj_win3
 
 | Capacidade | Suporte | Notas |
 |---|---|---|
-| Leitura (Method 0 â€” Store) | Sim | Pure-pascal, sem lib C |
+| Leitura (Method 0 — Store) | Sim | Pure-pascal, sem lib C |
 | Leitura de metadata (qualquer method) | Sim | Lista entries sem extrair |
-| Extracao (Methods 1-9) | Nao | Deferido v3.4.1 â€” raise EArjError |
+| Extracao (Methods 1-9) | Nao | Deferido v3.4.1 — raise EArjError |
 | Criptografia | Nao | file_type=1 nao implementado |
 | Multi-volume | Nao | Deferido |
 | Cross-platform | Sim | Delphi + FPC + Linux |
@@ -383,11 +383,11 @@ TSevenZFile linka estaticamente os .obj do LZMA SDK 24.07 (em `Lib/lzma_obj_win3
 
 ### 7.4 Dependencias internas consumidas
 
-Nenhuma dependencia em Commons.* â€” implementacao pure-pascal autonoma usando apenas `SysUtils` e `Classes`.
+Nenhuma dependencia em Commons.* — implementacao pure-pascal autonoma usando apenas `SysUtils` e `Classes`.
 
 ---
 
-## 8. Modulo ISO â€” TIsoFile
+## 8. Modulo ISO — TIsoFile
 
 ### 8.1 Identificacao
 
@@ -421,11 +421,11 @@ Nenhuma dependencia em Commons.* â€” implementacao pure-pascal autonoma usa
 
 ### 8.4 Dependencias internas consumidas
 
-Nenhuma dependencia em Commons.* â€” pure-pascal, apenas `SysUtils` + `Classes`.
+Nenhuma dependencia em Commons.* — pure-pascal, apenas `SysUtils` + `Classes`.
 
 ---
 
-## 9. Modulo LHA â€” TLhaFile
+## 9. Modulo LHA — TLhaFile
 
 ### 9.1 Identificacao
 
@@ -447,11 +447,11 @@ Nenhuma dependencia em Commons.* â€” pure-pascal, apenas `SysUtils` + `Clas
 
 ### 9.3 Dependencias internas consumidas
 
-Nenhuma dependencia em Commons.* â€” pure-pascal autonomo.
+Nenhuma dependencia em Commons.* — pure-pascal autonomo.
 
 ---
 
-## 10. Modulo RAR â€” TRarFile
+## 10. Modulo RAR — TRarFile
 
 ### 10.1 Identificacao
 
@@ -468,21 +468,21 @@ Nenhuma dependencia em Commons.* â€” pure-pascal autonomo.
 | Capacidade | Suporte | Notas |
 |---|---|---|
 | RAR5 Store (method 0) | Sim | Via UnRAR DLL em `dll/` |
-| RAR5 methods 1-5 | Deferido | Aguarda decisao de viabilidade (SPEC Â§17, P60) |
+| RAR5 methods 1-5 | Deferido | Aguarda decisao de viabilidade (SPEC §17, P60) |
 | RAR4 | Nao | Fora de escopo v4.x |
 | Write (.rar) | Nao | RAR e formato proprietario; encoder nao disponivel |
 
 ### 10.3 Dependencias externas
 
-TRarFile depende de `unrar.dll` (Win32/Win64) da pasta `dll/`. A DLL e binario proprietario da RarLabs â€” nao compilada a partir do codigo-fonte.
+TRarFile depende de `unrar.dll` (Win32/Win64) da pasta `dll/`. A DLL e binario proprietario da RarLabs — nao compilada a partir do codigo-fonte.
 
 ### 10.4 Dependencias internas consumidas
 
-Minima â€” apenas `SysUtils` + `Classes` + `ZipFileORM.Events` para eventos de erro.
+Minima — apenas `SysUtils` + `Classes` + `ZipFileORM.Events` para eventos de erro.
 
 ---
 
-## 11. Helper Stream â€” TGzipReadStream / TGzipWriteStream
+## 11. Helper Stream — TGzipReadStream / TGzipWriteStream
 
 ### 11.1 Identificacao
 
@@ -490,7 +490,7 @@ Minima â€” apenas `SysUtils` + `Classes` + `ZipFileORM.Events` para eventos
 |---|---|
 | Ficheiro | `src/TarFile.GzipStream.pas` |
 | Unit Delphi | `TarFile.GzipStream` |
-| Tipo | Helper stream â€” nao e TComponent |
+| Tipo | Helper stream — nao e TComponent |
 | Capacidades | Read + Write (streaming) |
 
 ### 11.2 Finalidade
@@ -511,16 +511,16 @@ Wraps ZLib com `WindowBits = 31` para ativar o header Gzip (RFC 1952) em vez do 
 
 | Compiler | Implementacao |
 |---|---|
-| Delphi (D24..D37) | `System.ZLib` â€” `TZDecompressionStream` / `TZCompressionStream` |
-| FPC / Lazarus | `zstream` unit â€” `TDecompressionStream` / `TCompressionStream` |
+| Delphi (D24..D37) | `System.ZLib` — `TZDecompressionStream` / `TZCompressionStream` |
+| FPC / Lazarus | `zstream` unit — `TDecompressionStream` / `TCompressionStream` |
 
 ### 11.5 Dependencias internas consumidas
 
-Nenhuma dependencia em Commons.* â€” usa apenas a RTL ZLib de cada compilador.
+Nenhuma dependencia em Commons.* — usa apenas a RTL ZLib de cada compilador.
 
 ---
 
-## 12. Helper Stream â€” Bzip2.Stream
+## 12. Helper Stream — Bzip2.Stream
 
 ### 12.1 Identificacao
 
@@ -528,7 +528,7 @@ Nenhuma dependencia em Commons.* â€” usa apenas a RTL ZLib de cada compilad
 |---|---|
 | Ficheiro | `src/Bzip2.Stream.pas` |
 | Unit Delphi | `Bzip2.Stream` |
-| Tipo | Helper stream â€” nao e TComponent |
+| Tipo | Helper stream — nao e TComponent |
 | Capacidades | Compress + Decompress (buffer e stream one-shot) |
 
 ### 12.2 API publica
@@ -557,7 +557,7 @@ Nenhuma dependencia em Commons.* â€” usa apenas a RTL ZLib de cada compilad
 
 ---
 
-## 13. Helper Stream â€” ZCompress.LzwStream
+## 13. Helper Stream — ZCompress.LzwStream
 
 ### 13.1 Identificacao
 
@@ -565,12 +565,12 @@ Nenhuma dependencia em Commons.* â€” usa apenas a RTL ZLib de cada compilad
 |---|---|
 | Ficheiro | `src/ZCompress.LzwStream.pas` |
 | Unit Delphi | `ZCompress.LzwStream` |
-| Tipo | Helper stream â€” nao e TComponent |
+| Tipo | Helper stream — nao e TComponent |
 | Capacidades | Compress + Decompress formato .Z (Unix compress) |
 
 ### 13.2 Formato suportado
 
-O formato `.Z` usa LZW (Lempel-Ziv-Welch) com header de 3 bytes (`$1F`, `$9D`, flags). A patente Sperry/Unisys LZW US4558302 expirou em jun/2003 â€” formato livre.
+O formato `.Z` usa LZW (Lempel-Ziv-Welch) com header de 3 bytes (`$1F`, `$9D`, flags). A patente Sperry/Unisys LZW US4558302 expirou em jun/2003 — formato livre.
 
 | Campo | Valor |
 |---|---|
@@ -590,7 +590,7 @@ O formato `.Z` usa LZW (Lempel-Ziv-Welch) com header de 3 bytes (`$1F`, `$9D`, f
 
 ### 13.4 Dependencias internas consumidas
 
-Nenhuma â€” implementacao pure-pascal autonoma, apenas `SysUtils` + `Classes`.
+Nenhuma — implementacao pure-pascal autonoma, apenas `SysUtils` + `Classes`.
 
 ---
 
@@ -627,13 +627,13 @@ Nenhuma â€” implementacao pure-pascal autonoma, apenas `SysUtils` + `Classe
 
 ## Ver tambem
 
-- [Overview_V1.0.md](Overview_V1.0.md) â€” visao de camadas e principios arquiteturais
-- [Commons_V1.0.md](Commons_V1.0.md) â€” detalhe dos 13 ficheiros Commons.*
-- [Camadas_V1.0.md](Camadas_V1.0.md) â€” regras de importacao entre camadas
-- [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) â€” diagrama Mermaid de dependencias
+- [Overview_V1.0.md](Overview_V1.0.md) — visao de camadas e principios arquiteturais
+- [Commons_V1.0.md](Commons_V1.0.md) — detalhe dos 13 ficheiros Commons.*
+- [Camadas_V1.0.md](Camadas_V1.0.md) — regras de importacao entre camadas
+- [FLOWCHART_V1.0.md](FLOWCHART_V1.0.md) — diagrama Mermaid de dependencias
 
 ---
 
 ## Changelog (este arquivo)
 
-- 1.0.0 (2026-05-28): Criacao inicial â€” 13 modulos documentados (10 format + 3 helper streams) a partir de inspecao real de `src/`.
+- 1.0.0 (2026-05-28): Criacao inicial — 13 modulos documentados (10 format + 3 helper streams) a partir de inspecao real de `src/`.
