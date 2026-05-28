@@ -30,11 +30,11 @@ uses
   ToolsAPI;
 
 const
-  cProductName    = 'ZipFileORM 4.0.0';
-  cProductTitle   = 'Gnostice ZipFileORM';
+  cProductName    = 'ZipFileORM';
+  cProductTitle   = 'ZipFileORM';
   cProductDesc    = 'Multi-format archive component family â€” Zip/Tar/Gzip/Cab/7z/Arj/Iso/Lha/Rar for Delphi and FPC/Lazarus.';
   cLicenseStatus  = 'Free / Open-source';
-  cSKU            = 'ZIPFILEORM-4.0.0';
+  cSKU            = '4.0.0';
 
 var
   GSplashBmp:  TBitmap = nil;

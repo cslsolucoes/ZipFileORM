@@ -117,8 +117,15 @@ powershell tools/Build-Bzip2Objs.ps1
 powershell tools/Build-LhaObjs.ps1
 powershell tools/Build-ArjObjs.ps1
 
-# Smoke tests FPC (4 targets):
+# Smoke tests FPC (22 targets: Win32+Win64+Linux x 6 formatos):
 powershell tools/Build-FPC-Smoke.ps1
+
+# Build FPC completo + Library Paths Lazarus (idempotente):
+powershell tools/Build-AllFPC.ps1 -Install
+
+# Install/Uninstall Library Paths Lazarus standalone:
+powershell tools/Install-LibraryPaths-Lazarus.ps1
+powershell tools/Uninstall-LibraryPaths-Lazarus.ps1
 
 # DUnitX Delphi suite:
 & "$bds/bin/dcc32.exe" -Q -B tests/ZipFileTestsD29.dpr "-U..\src"

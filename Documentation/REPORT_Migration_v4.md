@@ -23,8 +23,10 @@ ZipFileORM v3.12.2 cresceu organicamente para 10 formatos com 35+ units em `src/
 **Status final:**
 - ✅ **23/23 packages OK** em D24..D37 W32+W64
 - ✅ **21/21 testes** compilam em D29 W32 (DUnitX + 20 smokes)
+- ✅ **22/22 smoke FPC OK** (Win32 + Win64 + Linux i386 + Linux x86_64)
 - ✅ **90 ficheiros de Documentação** em 8 áreas estruturadas
 - ✅ **Self-installing Library Paths** via design-time BPL initialization
+- ✅ **Lazarus package (.lpk) + wrapper + tools FPC** completos
 - ⏳ **Deferred:** split em 5 ficheiros por módulo (~25h) para v4.1
 
 ---
@@ -337,6 +339,39 @@ end;
 
 ---
 
+## 5.10 — FPC/Lazarus completo (Ondas 9-11)
+
+Após o gap reportado pelo usuário ("faltou o FPC"), foi executado um pacote final cobrindo Lazarus/FPC:
+
+### Onda 9 — Validação build FPC
+
+| Item | Mudança |
+|---|---|
+| `packages/zipfilepkg.pas` | `uses` reescrito v3 → v4 (35 items: Commons.*, ZipFileORM.*, sub-módulos, helper streams) |
+| `packages/ZipFileORMpkg.lpk` | **Criado** com 35 items + RequiredPkgs (LCL, FCL) + UnitOutputDirectory `..\Lib\FPC\$(TargetOS)` |
+| `packages/ZipFileORM.LibraryPathReg.pas` | Envelopado em `{$IFNDEF FPC}` (usa ToolsAPI/Win.Registry — Delphi-only) |
+| `src/Commons.Compression.ZLib.Bridge.pas:154,198` | `Integer(Pointer)` → `PtrUInt(Pointer)` (FPC64 pointer size mismatch + warning) |
+| `src/SevenZFile.pas:1321,1428` | `CreateFromBytesLzma2` + `CreateFromFilesLzma2` envelopados em `{$IFDEF SEVENZ_AVAILABLE}` com fallback `raise` no FPC |
+| `tools/Build-FPC-Smoke.ps1` | Ajustado: targets `smoke_linux.pas` Win32/Win64 agora recebem `-Fl<GccLibDir>` (igual aos CAB targets) |
+
+**Build gate FPC:** `22/22 OK` (Win32, Win64, Linux x86_64, Linux i386, CAB, LZMA, ISO, LHA, ARJ, RAR).
+
+### Onda 10 — Lazarus IDE integration
+
+| Script | Função |
+|---|---|
+| `tools/Install-LibraryPaths-Lazarus.ps1` | Localiza `%APPDATA%\lazarus\environmentoptions.xml` (ou `~/.lazarus/`), faz backup, adiciona `<ZipFileORM>/<Paths>` com `<root>\src`, `<root>\Lib\FPC\win{32,64}`. Idempotente. Aborta se Lazarus IDE rodando. Instrui usuário a finalizar via `Package → Open Package File → ZipFileORMpkg.lpk`. |
+| `tools/Uninstall-LibraryPaths-Lazarus.ps1` | Remove o node `<ZipFileORM>` preservando todo o resto. Backup automático. |
+| `tools/Build-AllFPC.ps1` | Wrapper: roda `Build-FPC-Smoke.ps1` + opcional `-Install` que dispara `Install-LibraryPaths-Lazarus.ps1` após build verde. |
+
+### Onda 11 — Documentação e meta-arquivos
+
+- `CLAUDE.md` ganhou comandos FPC (`Build-AllFPC.ps1 -Install`, `Install-LibraryPaths-Lazarus.ps1`, etc.)
+- `.wolf/memory.md` com checkpoint da sessão FPC
+- Esta seção do REPORT consolida o trabalho
+
+---
+
 ## 6. Decisões Arquiteturais Chave
 
 ### 6.1 `src/` flat (sem subpastas)
@@ -580,7 +615,7 @@ Tradução do unrar C++ source. Decisão de viabilidade pendente.
 
 ## 12. Pendências Conhecidas
 
-1. **FPC build não validado** — `tools/Build-FPC-Smoke.ps1` não foi executado nesta sessão (requer FPC instalado + paths configurados).
+1. ~~**FPC build não validado**~~ → **resolvido na Onda 9** (22/22 OK).
 2. **DUnitX run não executado** — testes compilam (`21/21 OK`) mas não foi rodado o EXE para validar funcionalidade end-to-end.
 3. **Push remoto não feito** — commits são apenas locais. `git push origin master --tags` pendente quando estiver confortável.
 4. **`example/` não atualizado** — código de exemplo foi copiado da origem mas ainda usa `uses zipfile` (v3 naming). Update pendente.

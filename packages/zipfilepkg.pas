@@ -1,6 +1,8 @@
 { This file was automatically created by Lazarus. Do not edit!
   This source is only used to compile and install the package.
- }
+
+  Refactored for ZipFileORM v4.0.0 - new namespaces (Commons.*, ZipFileORM.*).
+}
 
 unit ZipFilePkg;
 
@@ -8,10 +10,29 @@ unit ZipFilePkg;
 interface
 
 uses
-  ZipFile, ZipFile.UTF8, ZipFile.ZIP64, ZipFile.Progress, 
-  ZipFile.Encryption.AES, ZipFile.Streaming, ZipFile.Fluent, 
-  ZipFile.Compression.LZMA, Tar.GzipStream, TarFile, TarGzFile, 
-  Archive.Open, LazarusPackageIntf;
+  // Commons cross-format
+  Commons.Consts, Commons.Types, Commons.Exceptions, Commons.Progress,
+  Commons.Compression.Consts, Commons.Compression.Base,
+  Commons.Compression.None, Commons.Compression.ZLib,
+  Commons.Compression.LZMA, Commons.Encryption.AES,
+  // ZipFileORM facade
+  ZipfileORM, ZipfileORM.Interfaces, ZipfileORM.Compression, ZipfileORM.Events,
+  // Archive auto-detect
+  Archive.Open,
+  // ZIP module + sub-modules ZIP-only
+  ZipFile, ZipFile.UTF8, ZipFile.ZIP64, ZipFile.Streaming, ZipFile.Fluent,
+  // Other format modules
+  TarFile, TarFile.GzipStream, Tar.Fluent,
+  TarGzFile, GzipFile,
+  CabFile, Cab.Fluent,
+  SevenZFile, SevenZ.Fluent,
+  ArjFile, IsoFile, LhaFile, RarFile,
+  // Helper streams
+  Bzip2.Stream, Bzip2.Fluent,
+  UUE.Stream, UUE.Fluent,
+  ZCompress.LzwStream, ZCompress.Fluent,
+  // Lazarus integration
+  LazarusPackageIntf;
 
 implementation
 

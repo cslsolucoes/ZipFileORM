@@ -90,3 +90,18 @@ Resumo dos prioritários:
 
 Próxima sessão: Onda 7 (gerar Documentation/ completa) + Onda 8 (commits finais + tag).
 | 01:59 | Criado esqueleto navegavel Documentation/Analise/ — 14 modulos x 4 ficheiros + 1 hub | Documentation/Analise/**/*.md, README_V1.0.md | 57 ficheiros .md criados | ~12k tok |
+
+## Session 2026-05-28 (continuation) — Ondas 9-11 FPC/Lazarus
+
+- Onda 9.1: zipfilepkg.pas uses v3 -> v4 (35 items)
+- Onda 9.2: ZipFileORMpkg.lpk criado com 35 items
+- Onda 9.3: ZipFileORM.LibraryPathReg.pas envelopado em {$IFNDEF FPC}
+- Onda 9.4: Build-FPC-Smoke 22/22 OK (apos PtrUInt fix + SEVENZ_AVAILABLE envelope + GccLibDir)
+- Onda 10: Install/Uninstall-LibraryPaths-Lazarus.ps1 + Build-AllFPC.ps1 wrapper
+- Onda 11: CLAUDE.md atualizado com comandos FPC
+
+Fixes em src/:
+- Commons.Compression.ZLib.Bridge.pas linha 154, 198: Integer() -> PtrUInt() (FPC64 pointer size mismatch)
+- SevenZFile.pas CreateFromBytesLzma2 + CreateFromFilesLzma2 envelopados em {$IFDEF SEVENZ_AVAILABLE} com fallback raise
+
+Status final: Delphi 23/23 OK + FPC 22/22 OK + DUnitX 21/21 OK

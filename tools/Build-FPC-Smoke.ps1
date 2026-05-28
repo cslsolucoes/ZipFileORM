@@ -26,8 +26,8 @@ $mingwGccW64 = Join-Path $root 'deps\gcc-mingw-w64\x86_64-w64-mingw32\lib\gcc\x8
 
 # Targets para smoke_linux.pas (ZIP core) + smoke_cab_fpc.pas (CAB FPC Windows)
 $targets = @(
-  @{ Name='Win32 i386';     Compiler="$bin\i386-win32\ppc386.exe"; Args=@('-TWin32');                Subdir='i386-win32';    Pas='smoke_linux.pas';     OutExe='smoke_linux.exe';     LibDir=$mingwW32Lib }
-  @{ Name='Win64 x86_64';   Compiler="$bin\x86_64-win64\ppcx64.exe"; Args=@('-TWin64','-Px86_64');  Subdir='x86_64-win64';  Pas='smoke_linux.pas';     OutExe='smoke_linux.exe';     LibDir=$mingwW64Lib }
+  @{ Name='Win32 i386';     Compiler="$bin\i386-win32\ppc386.exe"; Args=@('-TWin32');                Subdir='i386-win32';    Pas='smoke_linux.pas';     OutExe='smoke_linux.exe';     LibDir=$mingwW32Lib; GccLibDir=$mingwGccW32 }
+  @{ Name='Win64 x86_64';   Compiler="$bin\x86_64-win64\ppcx64.exe"; Args=@('-TWin64','-Px86_64');  Subdir='x86_64-win64';  Pas='smoke_linux.pas';     OutExe='smoke_linux.exe';     LibDir=$mingwW64Lib; GccLibDir=$mingwGccW64 }
   @{ Name='Linux x86_64';   Compiler="$bin\x86_64-win64\ppcx64.exe"; Args=@('-Tlinux','-Px86_64'); Subdir='x86_64-linux';  Pas='smoke_linux.pas';     OutExe='smoke_linux';         LibDir=$null }
   @{ Name='Linux i386';     Compiler="$bin\x86_64-win64\ppcross386.exe"; Args=@('-Tlinux','-Pi386'); Subdir='i386-linux';  Pas='smoke_linux.pas';     OutExe='smoke_linux';         LibDir=$null }
   @{ Name='CAB Win32 i386'; Compiler="$bin\i386-win32\ppc386.exe"; Args=@('-TWin32');                Subdir='i386-win32';    Pas='smoke_cab_fpc.pas';     OutExe='smoke_cab_fpc.exe';     LibDir=$mingwW32Lib; GccLibDir=$mingwGccW32 }

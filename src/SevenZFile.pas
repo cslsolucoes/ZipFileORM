@@ -1320,6 +1320,7 @@ end;
 // Properties = 1 byte (dict size encoded per LZMA2 spec).
 procedure TSevenZFile.CreateFromBytesLzma2(const ANames: array of string;
   const AData: array of TBytes; ALevel: Integer);
+{$IFDEF SEVENZ_AVAILABLE}
 var
   N, I: Integer;
   PackSizes, UnpackSizes: array of UInt64;
@@ -1424,9 +1425,15 @@ begin
     Outf.WriteBuffer(HdrBytes[0], Length(HdrBytes));
   finally Outf.Free; end;
 end;
+{$ELSE}
+begin
+  raise ESevenZError.Create('LZMA2 encode not available on this platform (requires SEVENZ_AVAILABLE)');
+end;
+{$ENDIF}
 
 procedure TSevenZFile.CreateFromFilesLzma2(const AFileList: array of string;
   ALevel: Integer);
+{$IFDEF SEVENZ_AVAILABLE}
 var
   N, I: Integer;
   Names: array of string;
@@ -1449,6 +1456,11 @@ begin
   end;
   CreateFromBytesLzma2(Names, Data, ALevel);
 end;
+{$ELSE}
+begin
+  raise ESevenZError.Create('LZMA2 encode not available on this platform (requires SEVENZ_AVAILABLE)');
+end;
+{$ENDIF}
 
 procedure TSevenZFile.CreateFromFiles(const AFileList: array of string);
 var

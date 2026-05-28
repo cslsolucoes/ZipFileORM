@@ -33,6 +33,8 @@ interface
 
 implementation
 
+{$IFNDEF FPC}
+
 uses
   Winapi.Windows,
   System.SysUtils,
@@ -186,5 +188,7 @@ initialization
   except
     // Never break IDE startup.
   end;
+
+{$ENDIF} // not FPC
 
 end.

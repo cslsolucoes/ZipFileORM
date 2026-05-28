@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="2">
+    <PathDelim Value="\"/>
+    <Name Value="ZipFileORMPkg"/>
+    <CompilerOptions>
+      <Version Value="5"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\src"/>
+        <UnitOutputDirectory Value="..\Lib\FPC\$(TargetOS)"/>
+      </SearchPaths>
+      <CodeGeneration>
+        <Generate Value="Faster"/>
+      </CodeGeneration>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="ZipFileORM v4.0.0 - Multi-format archive component library for Lazarus/FPC."/>
+    <License Value="LGPL-3.0"/>
+    <Version Major="4"/>
+    <Files Count="35">
+      <Item1>
+        <Filename Value="..\src\Commons.Consts.pas"/>
+        <UnitName Value="Commons.Consts"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\src\Commons.Types.pas"/>
+        <UnitName Value="Commons.Types"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\src\Commons.Exceptions.pas"/>
+        <UnitName Value="Commons.Exceptions"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\src\Commons.Progress.pas"/>
+        <UnitName Value="Commons.Progress"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\src\Commons.Compression.Consts.pas"/>
+        <UnitName Value="Commons.Compression.Consts"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\src\Commons.Compression.Base.pas"/>
+        <UnitName Value="Commons.Compression.Base"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\src\Commons.Compression.None.pas"/>
+        <UnitName Value="Commons.Compression.None"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\src\Commons.Compression.ZLib.pas"/>
+        <UnitName Value="Commons.Compression.ZLib"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\src\Commons.Compression.ZLib.Bridge.pas"/>
+        <UnitName Value="Commons.Compression.ZLib.Bridge"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\src\Commons.Compression.LZMA.pas"/>
+        <UnitName Value="Commons.Compression.LZMA"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\src\Commons.Encryption.AES.pas"/>
+        <UnitName Value="Commons.Encryption.AES"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\src\ZipfileORM.pas"/>
+        <UnitName Value="ZipfileORM"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\src\ZipfileORM.Interfaces.pas"/>
+        <UnitName Value="ZipfileORM.Interfaces"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\src\ZipfileORM.Compression.pas"/>
+        <UnitName Value="ZipfileORM.Compression"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\src\ZipfileORM.Events.pas"/>
+        <UnitName Value="ZipfileORM.Events"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\src\Archive.Open.pas"/>
+        <UnitName Value="Archive.Open"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\src\ZipFile.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ZipFile"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\src\ZipFile.UTF8.pas"/>
+        <UnitName Value="ZipFile.UTF8"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\src\ZipFile.ZIP64.pas"/>
+        <UnitName Value="ZipFile.ZIP64"/>
+      </Item19>
+      <Item20>
+        <Filename Value="..\src\ZipFile.Streaming.pas"/>
+        <UnitName Value="ZipFile.Streaming"/>
+      </Item20>
+      <Item21>
+        <Filename Value="..\src\ZipFile.Fluent.pas"/>
+        <UnitName Value="ZipFile.Fluent"/>
+      </Item21>
+      <Item22>
+        <Filename Value="..\src\TarFile.pas"/>
+        <UnitName Value="TarFile"/>
+      </Item22>
+      <Item23>
+        <Filename Value="..\src\TarFile.GzipStream.pas"/>
+        <UnitName Value="TarFile.GzipStream"/>
+      </Item23>
+      <Item24>
+        <Filename Value="..\src\Tar.Fluent.pas"/>
+        <UnitName Value="Tar.Fluent"/>
+      </Item24>
+      <Item25>
+        <Filename Value="..\src\TarGzFile.pas"/>
+        <UnitName Value="TarGzFile"/>
+      </Item25>
+      <Item26>
+        <Filename Value="..\src\GzipFile.pas"/>
+        <UnitName Value="GzipFile"/>
+      </Item26>
+      <Item27>
+        <Filename Value="..\src\CabFile.pas"/>
+        <UnitName Value="CabFile"/>
+      </Item27>
+      <Item28>
+        <Filename Value="..\src\Cab.Fluent.pas"/>
+        <UnitName Value="Cab.Fluent"/>
+      </Item28>
+      <Item29>
+        <Filename Value="..\src\SevenZFile.pas"/>
+        <UnitName Value="SevenZFile"/>
+      </Item29>
+      <Item30>
+        <Filename Value="..\src\SevenZ.Fluent.pas"/>
+        <UnitName Value="SevenZ.Fluent"/>
+      </Item30>
+      <Item31>
+        <Filename Value="..\src\ArjFile.pas"/>
+        <UnitName Value="ArjFile"/>
+      </Item31>
+      <Item32>
+        <Filename Value="..\src\IsoFile.pas"/>
+        <UnitName Value="IsoFile"/>
+      </Item32>
+      <Item33>
+        <Filename Value="..\src\LhaFile.pas"/>
+        <UnitName Value="LhaFile"/>
+      </Item33>
+      <Item34>
+        <Filename Value="..\src\RarFile.pas"/>
+        <UnitName Value="RarFile"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\src\Bzip2.Stream.pas"/>
+        <UnitName Value="Bzip2.Stream"/>
+      </Item35>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
