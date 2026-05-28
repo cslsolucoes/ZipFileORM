@@ -15,6 +15,11 @@
 .PARAMETER DryRun
   Mostra o que seria removido sem alterar o registro.
 
+.PARAMETER Force
+  Por default, aborta se IDE Delphi (bds.exe) estiver rodando — o IDE
+  pode reescrever cache antigo no registro ao clicar Save, anulando o
+  uninstall. Use -Force para ignorar.
+
 .EXAMPLE
   pwsh tools/Uninstall-LibraryPaths.ps1
   pwsh tools/Uninstall-LibraryPaths.ps1 -DryRun
@@ -22,8 +27,20 @@
 [CmdletBinding()]
 param(
   [string[]] $OnlyDelphi = @(),
-  [switch]   $DryRun
+  [switch]   $DryRun,
+  [switch]   $Force
 )
+
+# Detect running Delphi IDE.
+$running = Get-Process -Name 'bds' -ErrorAction SilentlyContinue
+if ($running -and -not $Force -and -not $DryRun) {
+  Write-Host ""
+  Write-Host "ABORT: One or more Delphi IDE processes (bds.exe) are running:" -ForegroundColor Red
+  $running | ForEach-Object { Write-Host "  PID $($_.Id) - $($_.MainWindowTitle)" -ForegroundColor Red }
+  Write-Host ""
+  Write-Host "Close all Delphi IDEs and re-run, OR pass -Force to bypass." -ForegroundColor Yellow
+  exit 1
+}
 
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
