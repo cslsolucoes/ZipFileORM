@@ -56,7 +56,7 @@ unit ArjFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, ArjFile.Exceptions;
 
 const
   ARJ_MAGIC = $EA60;
@@ -68,8 +68,10 @@ const
   ARJ_FILETYPE_LABEL     = 4;
 
 type
-  EArjError = class(Exception);
-  EArjMethodNotSupported = class(EArjError);
+  // Exception types relocated to ArjFile.Exceptions.pas (Wave 3b).
+  // Aliased for backward compat with `uses ArjFile` consumers.
+  EArjError = ArjFile.Exceptions.EArjError;
+  EArjMethodNotSupported = ArjFile.Exceptions.EArjMethodNotSupported;
 
   TArjEntry = record
     FileName: string;

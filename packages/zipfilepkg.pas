@@ -29,7 +29,8 @@ uses
   TarGzFile, GzipFile,
   CabFile, CabFile.Interfaces, CabFile.Exceptions, CabFile.Types,
   SevenZFile, SevenZFile.Interfaces, SevenZFile.Exceptions, SevenZFile.Types,
-  ArjFile, IsoFile, LhaFile, RarFile,
+  ArjFile, ArjFile.Exceptions, IsoFile, IsoFile.Exceptions,
+  LhaFile, LhaFile.Exceptions, RarFile, RarFile.Exceptions,
   // Helper streams
   Bzip2.Stream, Bzip2.Stream.Interfaces,
   UUE.Stream, UUE.Stream.Interfaces,

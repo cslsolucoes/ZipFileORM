@@ -34,7 +34,7 @@ unit RarFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, RarFile.Exceptions;
 
 const
   // RAR5 marker: 8 bytes "Rar!\x1A\x07\x01\x00"
@@ -58,9 +58,10 @@ const
   RAR_FILE_FLAG_UNK_SIZE  = $08;
 
 type
-  ERarError = class(Exception);
-  ERarMethodNotSupported = class(ERarError);
-  ERarUnsupportedFormat = class(ERarError);
+  // Exception types relocated to RarFile.Exceptions.pas (Wave 3b).
+  ERarError = RarFile.Exceptions.ERarError;
+  ERarMethodNotSupported = RarFile.Exceptions.ERarMethodNotSupported;
+  ERarUnsupportedFormat = RarFile.Exceptions.ERarUnsupportedFormat;
 
   TRarEntry = record
     FileName: string;

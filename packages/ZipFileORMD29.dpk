@@ -86,9 +86,13 @@ contains
 
   // ── Read-only formats ──
   ArjFile in '..\src\ArjFile.pas',
+  ArjFile.Exceptions in '..\src\ArjFile.Exceptions.pas',
   IsoFile in '..\src\IsoFile.pas',
+  IsoFile.Exceptions in '..\src\IsoFile.Exceptions.pas',
   LhaFile in '..\src\LhaFile.pas',
+  LhaFile.Exceptions in '..\src\LhaFile.Exceptions.pas',
   RarFile in '..\src\RarFile.pas',
+  RarFile.Exceptions in '..\src\RarFile.Exceptions.pas',
 
   // ── Helper streams ──
   Bzip2.Stream in '..\src\Bzip2.Stream.pas',

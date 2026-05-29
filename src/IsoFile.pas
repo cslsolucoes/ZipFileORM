@@ -32,7 +32,7 @@ unit IsoFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, IsoFile.Exceptions;
 
 const
   ISO_SECTOR_SIZE   = 2048;
@@ -52,7 +52,8 @@ const
   DREC_MULTI_EXTENT = $80;
 
 type
-  EIsoError = class(Exception);
+  // Exception type relocated to IsoFile.Exceptions.pas (Wave 3b).
+  EIsoError = IsoFile.Exceptions.EIsoError;
 
   TIsoEntry = record
     FullPath: string;       // ex.: 'DIR1/SUB/FILE.TXT'

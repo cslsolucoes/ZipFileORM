@@ -33,11 +33,12 @@ unit LhaFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipFileORM.Events;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, LhaFile.Exceptions;
 
 type
-  ELhaError = class(Exception);
-  ELhaMethodNotSupported = class(ELhaError);
+  // Exception types relocated to LhaFile.Exceptions.pas (Wave 3b).
+  ELhaError = LhaFile.Exceptions.ELhaError;
+  ELhaMethodNotSupported = LhaFile.Exceptions.ELhaMethodNotSupported;
 
   TLhaEntry = record
     FileName: string;
