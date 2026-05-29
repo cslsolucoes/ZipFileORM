@@ -42,6 +42,7 @@
 - **`uses` clause:** `{$IFNDEF FPC}System.ZLib{$ELSE}ZStream{$ENDIF}` para zlib cross. Delphi usa `System.ZLib`, FPC usa `ZStream`.
 
 ### Text encoding & file headers
+
 - **Mojibake detection signatures** (UTF-8 double-encoding): bytes `C3 83 C2 XX` (Latin-1 letters Ã§/Ã£/Ã¡/...), `C3 A2 E2 82 AC E2 80 9D` (em-dash —), `C3 A2 E2 80 A0 E2 80 99` (right arrow →). Scan files for these as canary; ASCII-only replaces preserve mojibake silently.
 - **Mojibake fix strategy** (reverse round-trip): (1) read bytes, (2) strip leading BOM if present, (3) decode UTF-8 → .NET string, (4) re-encode as Windows-1252 with `EncoderExceptionFallback`, (5) validate result as strict UTF-8 (`DecoderExceptionFallback`), (6) write bytes. The validation step catches false positives where the file already has legitimate uppercase 'Ã' in Portuguese words like "NÃO" — those produce invalid UTF-8 when reverse-encoded and abort safely.
 - **PowerShell `Get-ChildItem -LiteralPath -Include`:** `-Include` is IGNORED when `-LiteralPath` is used (only works with `-Path` + wildcard). Result: filter silently fails and recursion pulls in all files including binaries (DCU/EXE/PPU). Use `-Path` with wildcard OR explicit file extension filtering after `Get-ChildItem`.

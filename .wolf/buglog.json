@@ -217,6 +217,18 @@
       "last_seen": "2026-05-28"
     },
     {
+      "id": "bug-zf-020",
+      "timestamp": "2026-05-28T16:00:00Z",
+      "error_message": "sdk/bzip2/BzipCombined.c and bz_version.h appear as untracked content in submodule status; absent from upstream bzip2 git tree",
+      "file": "sdk/bzip2/{BzipCombined.c,bz_version.h}",
+      "root_cause": "BzipCombined.c is a hand-rolled file that combines 7 bzlib .c files into a single compilation unit (Delphi single-pass linker workaround for mutual deps between bzlib.c, compress.c, decompress.c, blocksort.c, huffman.c — AssertH cross-refs inviable as separate .obj files). bz_version.h carries project-specific version banner '1.1.0-dev (gnostice-zipfile-v3.8)'. Both are INPUTS to tools/Build-Bzip2Objs.ps1. Placed inside upstream bzip2 submodule directory but not tracked by either parent repo or submodule — limbo state. Fresh clone of submodule loses both files, breaking bzip2 build.",
+      "fix": "Architectural fix deferred to v4.1: move both files OUT of submodule to sdk/bzip2-overlay/ (parent-tracked) and update Build-Bzip2Objs.ps1 source paths. Short-term: keep as-is, document in REPORT, ensure Build-Bzip2Objs.ps1 regeneration steps are documented (if BzipCombined.c can be regenerated from upstream sources).",
+      "tags": ["bzip2", "submodule", "build-input", "limbo", "architectural-debt"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-05-28"
+    },
+    {
       "id": "bug-zf-019",
       "timestamp": "2026-05-28T01:45:00Z",
       "error_message": "dcc32 D37 W32: F2039 Could not create output file 'Lib\\RAD13\\Win32\\dclZipFileORMD37.bpl' during full matrix rebuild (22/23 OK)",
@@ -234,6 +246,6 @@
     "filtered_from": "Gnostice/.wolf/buglog.json",
     "filter_date": "2026-05-27",
     "filter_criteria": "Entries containing zipfile/TZipFile/TSevenZFile/TTarFile/TCabFile/TArjFile/TIsoFile/TLhaFile/TRarFile/TGzipFile/TTarGzFile or ZipFile.* unit name",
-    "total_entries": 19
+    "total_entries": 20
   }
 }

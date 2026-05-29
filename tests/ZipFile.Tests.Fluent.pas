@@ -24,7 +24,7 @@ implementation
 
 uses
   System.SysUtils, System.Classes,
-  ZipFile, ZipFile.Fluent, ZipFile.Tests.Shared;
+  ZipFile, ZipFile.Interfaces, ZipFile.Tests.Shared;
 
 const
   PLAIN: AnsiString = 'Fluent builder canonical test payload';
