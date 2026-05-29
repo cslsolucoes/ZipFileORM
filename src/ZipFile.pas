@@ -38,6 +38,7 @@ uses
     {$ELSE}
     crc,
     {$ENDIF}
+    zstream,    // v4.1: raw-deflate writer (paszlib TCompressionStream)
   {$ELSE}
   // Delphi: use ZLib unit's crc32 function (compatible signature with FPC's crc unit)
   ZLib,
@@ -1222,9 +1223,15 @@ begin
     end
     else
     begin
+      // v4.1: fix — case ramo `else` and method-8 both fell into cgsCompressNone,
+      // which silently returned raw DEFLATE bytes instead of decompressed
+      // plaintext. Now method 8 routes to cgsCompressZLib correctly.
       case LRealMethod of
         0: lCompress := gCompressFactory.CreateInstance(cgsCompressNone);
+        8: lCompress := gCompressFactory.CreateInstance(cgsCompressZLib);
       else
+        // Unknown methods fall back to None (legacy behavior preserved;
+        // streaming GetEntryStream path handles LZMA/AES separately).
         lCompress := gCompressFactory.CreateInstance(cgsCompressNone);
       end;
       try
@@ -1585,6 +1592,55 @@ begin
   end;
 end;
 
+// v4.1: raw-DEFLATE writers — bypass cgsCompressZLib (zlib-wrapped) and emit
+// raw deflate bitstream consumable by TZipEntryDeflateReadStream (WindowBits=-15).
+// Used by TZipFile.AppendStream when Compression = cmMaximal.
+{$IFDEF FPC}
+procedure DeflateRawCompressFPC(Source, Dest: TStream);
+var
+  Z: zstream.TCompressionStream;
+  Buf: array[0..65535] of Byte;
+  N: Integer;
+begin
+  Source.Position := 0;
+  // paszlib: 3rd arg ASkipHeader=True -> raw deflate (no zlib header/trailer).
+  Z := zstream.TCompressionStream.Create(zstream.clmax, Dest, True);
+  try
+    while True do
+    begin
+      N := Source.Read(Buf, SizeOf(Buf));
+      if N <= 0 then Break;
+      Z.WriteBuffer(Buf, N);
+    end;
+  finally
+    Z.Free;  // flushes pending deflate bits to Dest before freeing
+  end;
+  Dest.Position := 0;  // reset for downstream CopyFrom
+end;
+{$ELSE}
+procedure DeflateRawCompressDelphi(Source, Dest: TStream);
+var
+  Z: ZLib.TZCompressionStream;
+  Buf: array[0..65535] of Byte;
+  N: Integer;
+begin
+  Source.Position := 0;
+  // Delphi System.ZLib: 3rd arg windowBits=-15 -> raw deflate (no zlib wrapper).
+  Z := ZLib.TZCompressionStream.Create(Dest, ZLib.zcMax, -15);
+  try
+    while True do
+    begin
+      N := Source.Read(Buf, SizeOf(Buf));
+      if N <= 0 then Break;
+      Z.WriteBuffer(Buf, N);
+    end;
+  finally
+    Z.Free;  // flushes pending deflate bits to Dest before freeing
+  end;
+  Dest.Position := 0;  // reset for downstream CopyFrom
+end;
+{$ENDIF}
+
 procedure TZipFile.AppendStream(Stream: TStream; ZIPFileName: string; FileDateTime: TDateTime);
 var
   localoffset: longword;
@@ -1626,24 +1682,61 @@ begin
   localoffset := endofcdrecord.start.cdoffset;
   AddCDFileHeader(Stream.Size, ZIPFileName, localoffset, SizeOf(lfh.start), crc32, FileDateTime);
 
-  //compress data
+  //compress data — pick path based on FCompression property.
+  // v4.1: TZipFile.AppendStream now honors Compression := cmMaximal
+  // (was hardcoded to cgsCompressNone, ignoring user setting — bug
+  // detected by smoke_streaming_deflate.dpr).
+  // For DEFLATE (cmMaximal) we use TZCompressionStream with WindowBits=-15
+  // which produces RAW DEFLATE (no zlib header/trailer) — exactly what
+  // ZIP entries require per PKWARE APPNOTE §4.4.5 and what the matching
+  // TZipEntryDeflateReadStream reader (WindowBits=-15) expects.
   lCompressed := TMemoryStream.Create;
   try
-    //case FileHeaderList[index].start.compressionmethod of
-    //else
+    if FCompression = cmMaximal then
+    begin
+      Stream.Position := 0;
+      {$IFDEF FPC}
+      // FPC paszlib: TCompressionStream(Level, Dest, SkipHeader=True) -> raw deflate
+      DeflateRawCompressFPC(Stream, lCompressed);
+      {$ELSE}
+      // Delphi System.ZLib: WindowBits=-15 selects raw deflate
+      DeflateRawCompressDelphi(Stream, lCompressed);
+      {$ENDIF}
+    end
+    else
+    begin
       lCompress := gCompressFactory.CreateInstance(cgsCompressNone);
-    //end;
-
-    try
-      lCompress.CompressStream(Stream, lCompressed);
-    finally
-      lCompress.Free;
+      try
+        lCompress.CompressStream(Stream, lCompressed);
+      finally
+        lCompress.Free;
+      end;
     end;
   finally
   end;
 
-  //update lfh
+  //update lfh — record actual method (8=DEFLATE if cmMaximal, 0=Store otherwise).
+  // Method/version mutations must also be applied to the matching CD entry
+  // (fileheaderlist) to keep LFH and CDH consistent on disk. EOCDR
+  // cdoffset accounting must absorb the delta between Stream.Size (assumed
+  // by AddCDFileHeader) and lCompressed.Size (actual bytes on disk).
   lfh.start.compressedsize := lCompressed.Size;
+  if FCompression = cmMaximal then
+  begin
+    lfh.start.compressmethod := 8;       // DEFLATE
+    lfh.start.extractversion := $0014;   // PKWARE 2.0 (DEFLATE requires >=2.0)
+    with fileheaderlist[Pred(fileheadercount)] do
+    begin
+      start.compressionmethod := 8;
+      if start.versiontoextract < $0014 then start.versiontoextract := $0014;
+      start.compressedsize := lCompressed.Size;
+    end;
+    FEntryCSize64[Pred(fileheadercount)] := lCompressed.Size;
+    // Fix EOCDR cdoffset: AddCDFileHeader incremented assuming uncompressed
+    // size. Apply the delta now (negative when DEFLATE shrinks the entry).
+    Inc(endofcdrecord.start.cdoffset, lCompressed.Size - Stream.Size);
+    Inc(FZip64CDOffset, lCompressed.Size - Stream.Size);
+  end;
 
   // ===== v2.1: LZMA wrap (PKWARE method 14, APPNOTE 5.8.8) =====
   if LDoLZMA then
