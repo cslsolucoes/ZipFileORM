@@ -7,7 +7,7 @@ program _05_bzip2_example;
 {$IFDEF FPC}{$mode delphi}{$H+}{$ENDIF}
 uses
   {$IFDEF FPC}SysUtils, Classes,{$ELSE}System.SysUtils, System.Classes,{$ENDIF}
-  Bzip2.Bzip2Stream, Bzip2.Fluent;
+  Bzip2.Stream, Bzip2.Stream.Interfaces;
 
 procedure DemoBytes;
 var

@@ -19,18 +19,19 @@ uses
   ZipfileORM, ZipfileORM.Interfaces, ZipfileORM.Compression, ZipfileORM.Events,
   // Archive auto-detect
   Archive.Open,
-  // ZIP module + sub-modules ZIP-only
-  ZipFile, ZipFile.UTF8, ZipFile.ZIP64, ZipFile.Streaming, ZipFile.Fluent,
+  // ZIP module + sub-modules ZIP-only (Fluent dissolved into base files;
+  // builder interfaces in companion .Interfaces.pas per naming rule §2)
+  ZipFile, ZipFile.Interfaces, ZipFile.UTF8, ZipFile.ZIP64, ZipFile.Streaming,
   // Other format modules
-  TarFile, TarFile.GzipStream, Tar.Fluent,
+  TarFile, TarFile.Interfaces, TarFile.GzipStream,
   TarGzFile, GzipFile,
-  CabFile, Cab.Fluent,
-  SevenZFile, SevenZ.Fluent,
+  CabFile, CabFile.Interfaces,
+  SevenZFile, SevenZFile.Interfaces,
   ArjFile, IsoFile, LhaFile, RarFile,
   // Helper streams
-  Bzip2.Stream, Bzip2.Fluent,
-  UUE.Stream, UUE.Fluent,
-  ZCompress.LzwStream, ZCompress.Fluent,
+  Bzip2.Stream, Bzip2.Stream.Interfaces,
+  UUE.Stream, UUE.Stream.Interfaces,
+  ZCompress.LzwStream, ZCompress.LzwStream.Interfaces,
   // Lazarus integration
   LazarusPackageIntf;
 

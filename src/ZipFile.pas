@@ -44,7 +44,7 @@ uses
   {$ENDIF}
   Commons.Compression.Base, Commons.Compression.None, Commons.Compression.ZLib, Commons.Compression.Consts,
   ZipFile.UTF8, ZipFile.ZIP64, Commons.Progress, ZipFileORM.Events, Commons.Encryption.AES,
-  ZipFile.Streaming, Commons.Compression.LZMA;
+  ZipFile.Streaming, Commons.Compression.LZMA, ZipFile.Interfaces;
 
 resourcestring
   rsFilenameSDoesNotExistInS = 'Filename %s does not exist in %s';
@@ -143,11 +143,21 @@ type
     filedata: Pbyte;
   end;
 
-  TFileChangedEvent = procedure(Sender: TObject) of object;
+  // Type aliases — definitive declarations live in ZipFile.Interfaces.pas
+  // (so IZipFileBuilder there can reference them without circular dependency).
+  // Backward-compatible re-export for `uses ZipFile` consumers.
+  TFileChangedEvent = ZipFile.Interfaces.TFileChangedEvent;
+  TCompressionMethod = ZipFile.Interfaces.TCompressionMethod;
+  TReCompressionMethod = ZipFile.Interfaces.TReCompressionMethod;
 
-  TCompressionMethod = (cmNone, cmMaximal);
-  TReCompressionMethod = (rmKeepOriginal, rmNone, rmMaximal);
+const
+  cmNone        = ZipFile.Interfaces.cmNone;
+  cmMaximal     = ZipFile.Interfaces.cmMaximal;
+  rmKeepOriginal = ZipFile.Interfaces.rmKeepOriginal;
+  rmNone        = ZipFile.Interfaces.rmNone;
+  rmMaximal     = ZipFile.Interfaces.rmMaximal;
 
+type
   { TZipFile }
 
   TZipFile = class(TComponent)
@@ -384,7 +394,69 @@ type
 
   EZipFileCancelled = class(Exception);
   EZipFileZip64NotSupported = class(Exception);
-  
+
+type
+  // Fluent builder + factory (relocated from former ZipFile.Fluent.pas per
+  // backend-pascal-unit-naming_V1.6.0 §2). Interface IZipFileBuilder lives
+  // in ZipFile.Interfaces.pas (along with TCompressionMethod/TReCompressionMethod/
+  // TFileChangedEvent types it uses).
+
+  // Append intent recorded by the fluent chain; flushed lazily in .Execute.
+  TZipBuilderItem = record
+    Kind: (zbkStream, zbkFile, zbkDelete, zbkUpdate);
+    ZipName: string;
+    DiskFileName: string;
+    Stream: TStream;
+    OwnStream: Boolean;
+  end;
+
+  TZipFileBuilder = class(TInterfacedObject, IZipFileBuilder)
+  private
+    FArchivePath: string;
+    FOpenForUpdate: Boolean;
+    FUseUtf8: Boolean;
+    FUseAES: Boolean;
+    FPassword: string;
+    FUseLZMA: Boolean;
+    FForceZip64: Boolean;
+    FCompression: TCompressionMethod;
+    FReCompression: TReCompressionMethod;
+    FCompressionSet: Boolean;
+    FReCompressionSet: Boolean;
+    FOnProgress: TZipProgressEvent;
+    FOnArchiveChanged: TFileChangedEvent;
+    FItems: array of TZipBuilderItem;
+    procedure ApplySettings(AZip: TZipFile);
+  public
+    constructor CreateNew(const APath: string);
+    constructor CreateOpen(const APath: string);
+    function WithUtf8(AEnable: Boolean = True): IZipFileBuilder;
+    function WithAES(const APassword: string): IZipFileBuilder;
+    function WithPassword(const APassword: string): IZipFileBuilder;
+    function WithLZMA(AEnable: Boolean = True): IZipFileBuilder;
+    function WithForceZip64(AEnable: Boolean = True): IZipFileBuilder;
+    function WithCompression(AMethod: TCompressionMethod): IZipFileBuilder;
+    function WithReCompression(AMethod: TReCompressionMethod): IZipFileBuilder;
+    function OnProgress(AEvent: TZipProgressEvent): IZipFileBuilder;
+    function OnArchiveChanged(AEvent: TFileChangedEvent): IZipFileBuilder;
+    function AppendStream(AStream: TStream; const AZipName: string;
+                         AOwnStream: Boolean = False): IZipFileBuilder;
+    function AppendFile(const ADiskFileName, AZipName: string): IZipFileBuilder;
+    function DeleteEntry(const AZipName: string): IZipFileBuilder;
+    function UpdateEntry(AStream: TStream; const AZipName: string;
+                         AOwnStream: Boolean = False): IZipFileBuilder;
+    procedure Execute;
+    function ExtractStream(const AZipName: string): TStream;
+    function HasEntry(const AZipName: string): Boolean;
+    function CountEntries: Cardinal;
+  end;
+
+  Zip = class
+  public
+    class function NewArchive(const APath: string): IZipFileBuilder;
+    class function OpenArchive(const APath: string): IZipFileBuilder;
+  end;
+
 procedure Register;
 
 implementation
@@ -2025,6 +2097,257 @@ begin
     Result.Add(Format('%s  extrafield             : %s', [o, add.extrafield]));
     Result.Add(Format('%s  filecomment            : %s', [o, add.filecomment]));
   end;
+end;
+
+{ ============================================================================
+  Fluent builder + factory — relocated from former ZipFile.Fluent.pas (dissolved
+  per backend-pascal-unit-naming_V1.6.0 §2; interface in companion .Interfaces.pas).
+  ============================================================================ }
+
+constructor TZipFileBuilder.CreateNew(const APath: string);
+begin
+  inherited Create;
+  FArchivePath := APath;
+  FOpenForUpdate := False;
+  if SysUtils.FileExists(APath) then
+    SysUtils.DeleteFile(APath);
+end;
+
+constructor TZipFileBuilder.CreateOpen(const APath: string);
+begin
+  inherited Create;
+  FArchivePath := APath;
+  FOpenForUpdate := True;
+end;
+
+function TZipFileBuilder.WithUtf8(AEnable: Boolean): IZipFileBuilder;
+begin
+  FUseUtf8 := AEnable;
+  Result := Self;
+end;
+
+function TZipFileBuilder.WithAES(const APassword: string): IZipFileBuilder;
+begin
+  FUseAES := True;
+  FPassword := APassword;
+  Result := Self;
+end;
+
+function TZipFileBuilder.WithPassword(const APassword: string): IZipFileBuilder;
+begin
+  FPassword := APassword;
+  Result := Self;
+end;
+
+function TZipFileBuilder.WithLZMA(AEnable: Boolean): IZipFileBuilder;
+begin
+  FUseLZMA := AEnable;
+  Result := Self;
+end;
+
+function TZipFileBuilder.WithForceZip64(AEnable: Boolean): IZipFileBuilder;
+begin
+  FForceZip64 := AEnable;
+  Result := Self;
+end;
+
+function TZipFileBuilder.WithCompression(AMethod: TCompressionMethod): IZipFileBuilder;
+begin
+  FCompression := AMethod;
+  FCompressionSet := True;
+  Result := Self;
+end;
+
+function TZipFileBuilder.WithReCompression(AMethod: TReCompressionMethod): IZipFileBuilder;
+begin
+  FReCompression := AMethod;
+  FReCompressionSet := True;
+  Result := Self;
+end;
+
+function TZipFileBuilder.OnProgress(AEvent: TZipProgressEvent): IZipFileBuilder;
+begin
+  FOnProgress := AEvent;
+  Result := Self;
+end;
+
+function TZipFileBuilder.OnArchiveChanged(AEvent: TFileChangedEvent): IZipFileBuilder;
+begin
+  FOnArchiveChanged := AEvent;
+  Result := Self;
+end;
+
+function TZipFileBuilder.AppendStream(AStream: TStream; const AZipName: string;
+                                      AOwnStream: Boolean): IZipFileBuilder;
+var
+  Idx: Integer;
+begin
+  Idx := Length(FItems);
+  SetLength(FItems, Idx + 1);
+  FItems[Idx].Kind := zbkStream;
+  FItems[Idx].ZipName := AZipName;
+  FItems[Idx].Stream := AStream;
+  FItems[Idx].OwnStream := AOwnStream;
+  Result := Self;
+end;
+
+function TZipFileBuilder.AppendFile(const ADiskFileName, AZipName: string): IZipFileBuilder;
+var
+  Idx: Integer;
+begin
+  Idx := Length(FItems);
+  SetLength(FItems, Idx + 1);
+  FItems[Idx].Kind := zbkFile;
+  FItems[Idx].ZipName := AZipName;
+  FItems[Idx].DiskFileName := ADiskFileName;
+  Result := Self;
+end;
+
+function TZipFileBuilder.DeleteEntry(const AZipName: string): IZipFileBuilder;
+var
+  Idx: Integer;
+begin
+  Idx := Length(FItems);
+  SetLength(FItems, Idx + 1);
+  FItems[Idx].Kind := zbkDelete;
+  FItems[Idx].ZipName := AZipName;
+  Result := Self;
+end;
+
+function TZipFileBuilder.UpdateEntry(AStream: TStream; const AZipName: string;
+                                     AOwnStream: Boolean): IZipFileBuilder;
+var
+  Idx: Integer;
+begin
+  Idx := Length(FItems);
+  SetLength(FItems, Idx + 1);
+  FItems[Idx].Kind := zbkUpdate;
+  FItems[Idx].ZipName := AZipName;
+  FItems[Idx].Stream := AStream;
+  FItems[Idx].OwnStream := AOwnStream;
+  Result := Self;
+end;
+
+procedure TZipFileBuilder.ApplySettings(AZip: TZipFile);
+begin
+  AZip.UseUtf8     := FUseUtf8;
+  AZip.UseAES      := FUseAES;
+  AZip.Password    := FPassword;
+  AZip.UseLZMA     := FUseLZMA;
+  AZip.ForceZip64  := FForceZip64;
+  if FCompressionSet   then AZip.Compression   := FCompression;
+  if FReCompressionSet then AZip.ReCompression := FReCompression;
+  if Assigned(FOnProgress)       then AZip.OnProgress    := FOnProgress;
+  if Assigned(FOnArchiveChanged) then AZip.OnFileChanged := FOnArchiveChanged;
+end;
+
+procedure TZipFileBuilder.Execute;
+var
+  ZipObj: TZipFile;
+  I: Integer;
+begin
+  ZipObj := TZipFile.Create(nil);
+  try
+    ZipObj.FileName := FArchivePath;
+    ApplySettings(ZipObj);
+    ZipObj.Active := True;
+    for I := 0 to High(FItems) do
+    begin
+      case FItems[I].Kind of
+        zbkStream:
+          try
+            ZipObj.AppendStream(FItems[I].Stream, FItems[I].ZipName, Now);
+          finally
+            if FItems[I].OwnStream then
+              FreeAndNil(FItems[I].Stream);
+          end;
+        zbkFile:
+          ZipObj.AppendFileFromDisk(FItems[I].DiskFileName, FItems[I].ZipName);
+        zbkDelete:
+          ZipObj.DeleteFile(FItems[I].ZipName);
+        zbkUpdate:
+          try
+            ZipObj.UpdateFile(FItems[I].Stream, FItems[I].ZipName);
+          finally
+            if FItems[I].OwnStream then
+              FreeAndNil(FItems[I].Stream);
+          end;
+      end;
+    end;
+  finally
+    ZipObj.Free;
+  end;
+  SetLength(FItems, 0);
+end;
+
+function TZipFileBuilder.ExtractStream(const AZipName: string): TStream;
+var
+  ZipObj: TZipFile;
+  EntryStm: TStream;
+  Mem: TMemoryStream;
+begin
+  ZipObj := TZipFile.Create(nil);
+  try
+    ZipObj.FileName := FArchivePath;
+    ApplySettings(ZipObj);
+    ZipObj.Active := True;
+    EntryStm := ZipObj.GetEntryStream(AZipName);
+    try
+      Mem := TMemoryStream.Create;
+      try
+        Mem.CopyFrom(EntryStm, EntryStm.Size);
+        Mem.Position := 0;
+        Result := Mem;
+      except
+        Mem.Free;
+        raise;
+      end;
+    finally
+      EntryStm.Free;
+    end;
+  finally
+    ZipObj.Free;
+  end;
+end;
+
+function TZipFileBuilder.HasEntry(const AZipName: string): Boolean;
+var
+  ZipObj: TZipFile;
+begin
+  ZipObj := TZipFile.Create(nil);
+  try
+    ZipObj.FileName := FArchivePath;
+    ApplySettings(ZipObj);
+    ZipObj.Active := True;
+    Result := ZipObj.FileExists(AZipName);
+  finally
+    ZipObj.Free;
+  end;
+end;
+
+function TZipFileBuilder.CountEntries: Cardinal;
+var
+  ZipObj: TZipFile;
+begin
+  ZipObj := TZipFile.Create(nil);
+  try
+    ZipObj.FileName := FArchivePath;
+    ApplySettings(ZipObj);
+    ZipObj.Active := True;
+    Result := ZipObj.FileCount;
+  finally
+    ZipObj.Free;
+  end;
+end;
+
+class function Zip.NewArchive(const APath: string): IZipFileBuilder;
+begin
+  Result := TZipFileBuilder.CreateNew(APath);
+end;
+
+class function Zip.OpenArchive(const APath: string): IZipFileBuilder;
+begin
+  Result := TZipFileBuilder.CreateOpen(APath);
 end;
 
 initialization

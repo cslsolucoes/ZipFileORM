@@ -57,12 +57,12 @@ contains
   ZipFile.ZIP64 in '..\src\ZipFile.ZIP64.pas',
   ZipFile.UTF8 in '..\src\ZipFile.UTF8.pas',
   ZipFile.Streaming in '..\src\ZipFile.Streaming.pas',
-  ZipFile.Fluent in '..\src\ZipFile.Fluent.pas',
+  ZipFile.Interfaces in '..\src\ZipFile.Interfaces.pas',
   ZipFile in '..\src\ZipFile.pas',
 
   // ?????? TAR family ??????
   TarFile.GzipStream in '..\src\TarFile.GzipStream.pas',
-  Tar.Fluent in '..\src\Tar.Fluent.pas',
+  TarFile.Interfaces in '..\src\TarFile.Interfaces.pas',
   TarFile in '..\src\TarFile.pas',
   TarGzFile in '..\src\TarGzFile.pas',
 
@@ -70,11 +70,11 @@ contains
   GzipFile in '..\src\GzipFile.pas',
 
   // ?????? CAB ??????
-  Cab.Fluent in '..\src\Cab.Fluent.pas',
+  CabFile.Interfaces in '..\src\CabFile.Interfaces.pas',
   CabFile in '..\src\CabFile.pas',
 
   // ?????? 7z ??????
-  SevenZ.Fluent in '..\src\SevenZ.Fluent.pas',
+  SevenZFile.Interfaces in '..\src\SevenZFile.Interfaces.pas',
   SevenZFile in '..\src\SevenZFile.pas',
 
   // ?????? Read-only formats ??????
@@ -85,10 +85,10 @@ contains
 
   // ?????? Helper streams ??????
   Bzip2.Stream in '..\src\Bzip2.Stream.pas',
-  Bzip2.Fluent in '..\src\Bzip2.Fluent.pas',
+  Bzip2.Stream.Interfaces in '..\src\Bzip2.Stream.Interfaces.pas',
   UUE.Stream in '..\src\UUE.Stream.pas',
-  UUE.Fluent in '..\src\UUE.Fluent.pas',
+  UUE.Stream.Interfaces in '..\src\UUE.Stream.Interfaces.pas',
   ZCompress.LzwStream in '..\src\ZCompress.LzwStream.pas',
-  ZCompress.Fluent in '..\src\ZCompress.Fluent.pas';
+  ZCompress.LzwStream.Interfaces in '..\src\ZCompress.LzwStream.Interfaces.pas';
 
 end.

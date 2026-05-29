@@ -103,8 +103,8 @@
         <UnitName Value="ZipFile.Streaming"/>
       </Item20>
       <Item21>
-        <Filename Value="..\src\ZipFile.Fluent.pas"/>
-        <UnitName Value="ZipFile.Fluent"/>
+        <Filename Value="..\src\ZipFile.Interfaces.pas"/>
+        <UnitName Value="ZipFile.Interfaces"/>
       </Item21>
       <Item22>
         <Filename Value="..\src\TarFile.pas"/>
@@ -115,8 +115,8 @@
         <UnitName Value="TarFile.GzipStream"/>
       </Item23>
       <Item24>
-        <Filename Value="..\src\Tar.Fluent.pas"/>
-        <UnitName Value="Tar.Fluent"/>
+        <Filename Value="..\src\TarFile.Interfaces.pas"/>
+        <UnitName Value="TarFile.Interfaces"/>
       </Item24>
       <Item25>
         <Filename Value="..\src\TarGzFile.pas"/>
@@ -131,16 +131,16 @@
         <UnitName Value="CabFile"/>
       </Item27>
       <Item28>
-        <Filename Value="..\src\Cab.Fluent.pas"/>
-        <UnitName Value="Cab.Fluent"/>
+        <Filename Value="..\src\CabFile.Interfaces.pas"/>
+        <UnitName Value="CabFile.Interfaces"/>
       </Item28>
       <Item29>
         <Filename Value="..\src\SevenZFile.pas"/>
         <UnitName Value="SevenZFile"/>
       </Item29>
       <Item30>
-        <Filename Value="..\src\SevenZ.Fluent.pas"/>
-        <UnitName Value="SevenZ.Fluent"/>
+        <Filename Value="..\src\SevenZFile.Interfaces.pas"/>
+        <UnitName Value="SevenZFile.Interfaces"/>
       </Item30>
       <Item31>
         <Filename Value="..\src\ArjFile.pas"/>
