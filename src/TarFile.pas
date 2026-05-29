@@ -167,6 +167,9 @@ type
       ATypeflag: AnsiChar; AModTime: TDateTime; AMode: Cardinal): Boolean;
     procedure SetActive(AValue: Boolean);
     procedure SetFileName(const AValue: string);
+    // v4.1 P28: setters de BlockSize / BlockingFactor recomputam FRecordSize.
+    procedure SetBlockSize(AValue: Integer);
+    procedure SetBlockingFactor(AValue: Integer);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -218,10 +221,12 @@ type
 
     // ---- Block / record geometry ----
     // Tamanho de cada tar block em bytes. Default 512 (spec POSIX).
-    property BlockSize: Integer read FBlockSize write FBlockSize default 512;
+    // v4.1 P28: setter recomputa RecordSize = BlockSize * BlockingFactor.
+    property BlockSize: Integer read FBlockSize write SetBlockSize default 512;
     // Blocks per record (-b factor em GNU tar). Default 20 — record = 10240 bytes.
-    property BlockingFactor: Integer read FBlockingFactor write FBlockingFactor default 20;
-    // Physical record size = BlockSize * BlockingFactor. Read-only (calculado).
+    property BlockingFactor: Integer read FBlockingFactor write SetBlockingFactor default 20;
+    // Physical record size = BlockSize * BlockingFactor. Read-only (calculado
+    // automaticamente pelos setters de BlockSize / BlockingFactor).
     property RecordSize: Integer read FRecordSize;
 
     // ---- Format extensions ----
@@ -391,6 +396,25 @@ begin
   FDefaultMode := $1A4;            // 0644 octal
   FDefaultUid := 0;
   FDefaultGid := 0;
+  // v4.1 P28: block/record geometry defaults per POSIX tar spec.
+  FBlockSize := 512;
+  FBlockingFactor := 20;
+  FRecordSize := FBlockSize * FBlockingFactor;  // 10240
+  FArchiveSize := 0;
+end;
+
+procedure TTarFile.SetBlockSize(AValue: Integer);
+begin
+  if AValue <= 0 then Exit;
+  FBlockSize := AValue;
+  FRecordSize := FBlockSize * FBlockingFactor;
+end;
+
+procedure TTarFile.SetBlockingFactor(AValue: Integer);
+begin
+  if AValue <= 0 then Exit;
+  FBlockingFactor := AValue;
+  FRecordSize := FBlockSize * FBlockingFactor;
 end;
 
 destructor TTarFile.Destroy;
@@ -434,12 +458,17 @@ begin
     SetLength(FEntries, 0);
     FEntryCount := 0;
   end;
+  // v4.1 P28: populate read-only ArchiveSize from actual stream size.
+  if Assigned(FStream) then FArchiveSize := FStream.Size else FArchiveSize := 0;
   FActive := True;
 end;
 
 procedure TTarFile.Close;
 begin
   if not FActive then Exit;
+  // v4.1 P28: refresh ArchiveSize one last time before freeing stream
+  // (writes that occurred during the session change file size).
+  if Assigned(FStream) then FArchiveSize := FStream.Size;
   if FOwnsStream and Assigned(FStream) then
     FreeAndNil(FStream);
   FStream := nil;

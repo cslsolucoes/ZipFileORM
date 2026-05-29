@@ -1915,10 +1915,23 @@ begin
       endofcdrecord.start.cdoffset := ZipFile.ZIP64.ZIP64_MAGIC_32;
   end;
 
+  // v4.1 P54: emit ArchiveComment property into EOCDR ZIPfilecomment field
+  // (PKWARE APPNOTE §4.3.16 — max 65535 bytes). Was declared but never
+  // wired into the write path.
+  if FArchiveComment <> '' then
+  begin
+    if Length(FArchiveComment) > 65535 then
+      endofcdrecord.add.ZIPfilecomment := Copy(FArchiveComment, 1, 65535)
+    else
+      endofcdrecord.add.ZIPfilecomment := FArchiveComment;
+    endofcdrecord.start.ZIPfilecommentlength := Word(Length(endofcdrecord.add.ZIPfilecomment));
+  end;
+
   //write EOCDH
   count := SizeOf(endofcdrecord.start);
   fs.WriteBuffer(endofcdrecord.start, count);
-  fs.WriteBuffer(endofcdrecord.add.ZIPfilecomment[1], Length(endofcdrecord.add.ZIPfilecomment));
+  if Length(endofcdrecord.add.ZIPfilecomment) > 0 then
+    fs.WriteBuffer(endofcdrecord.add.ZIPfilecomment[1], Length(endofcdrecord.add.ZIPfilecomment));
 
   if Assigned(FOnFileChanged) then FOnFileChanged(Self);
 end;
