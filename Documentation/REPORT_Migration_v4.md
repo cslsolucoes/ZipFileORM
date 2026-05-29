@@ -640,3 +640,93 @@ Tradução do unrar C++ source. Decisão de viabilidade pendente.
 - **Sessão:** 2026-05-28
 - **Plano aprovado pelo:** usuário em mode plan
 - **Hash final:** `09cac43c`
+
+---
+
+## 15. Sessão 2026-05-28/29 — Plano `structured-orbiting-fox`
+
+> Continuação posterior à v4.0.0 inicial. Executou Waves 1+2+3a+3b + Wave 4 inicial
+> do plano `D:\Users\claiton.linhares\.claude\plans\structured-orbiting-fox.md`.
+
+### 15.1 Sumário de commits da sessão (15 commits)
+
+```text
+8895d013  feat(properties): wire P28 TarFile geometry + P54 Zip ArchiveComment  ← Wave 4 inicial
+a02a4beb  fix: TZipFile.AppendStream now actually honors Compression := cmMaximal ← bug histórico
+10f7be31  docs(headers): apply canonical 7-field template to 11 new split units
+8e391092  refactor: split Arj/Iso/Lha/Rar Exceptions (Wave 3b uniformity)
+d34234d1  refactor: split CabFile/SevenZFile/ZipFile into Types/Exceptions/Consts (Wave 3a)
+c7cfdfea  wolf+tests: capture sdk/bzip2 limbo + fix Tests.Fluent uses clause
+6f8d9929  refactor: dissolve *.Fluent.pas into <X>.Interfaces.pas + base unit (rule §2)
+dd3a3300  docs: add project README and PKWARE APPNOTE reference
+4d58853d  wolf: capture session learnings (encoding, gitignore, case-rename, IDE guard)
+dacc2722  Fix double-encoded UTF-8 mojibake in 9 docs (Portuguese accents)
+62f9fa3f  gitignore: allow vendored Library/**/*.o (Delphi Win64 + FPC link inputs)
+5bea30b8  Add ignore files for Claude Code, Continue.dev and Cursor
+eafdae68  Normalize facade namespace: ZipfileORM -> ZipFileORM
+56c3366c  FPC/Lazarus support complete (Ondas 9-11)
+4f36592a  chore(headers): fix mojibake, strip BOM, sync stale names in src/ + packages/
+```
+
+### 15.2 Architectural changes (per rule `backend-pascal-unit-naming_V1.6.0 §2`)
+
+| Item | Antes | Depois |
+|---|---|---|
+| Builder pattern | 7 `<X>.Fluent.pas` standalone units | 7 builders movidos para `<X>[File].pas` + interfaces em `<X>[File].Interfaces.pas` companion |
+| Exceptions | inline em cada `<X>.pas` | 7 companion `<X>File.Exceptions.pas` (Cab/SevenZ/Zip + Arj/Iso/Lha/Rar) |
+| Types públicos | inline | 3 companion `<X>File.Types.pas` (Cab/SevenZ/Zip — 6 enums 7z + records) |
+| Consts | inline | 1 companion `ZipFile.Consts.pas` (resourcestrings) |
+| Headers | 35 estilo A minimal (preservados) | 18 novos arquivos com canonical 7-field template (`backend-pascal-source-header_V1.0.0`) |
+
+### 15.3 Bug fixes da sessão
+
+| ID | Local | Impacto |
+|---|---|---|
+| streaming-deflate | `TZipFile.AppendStream` | `Compression := cmMaximal` era ignorado (case statement comentada). Fix: factory dispatch + raw deflate helpers (Delphi `ZLib.TZCompressionStream` WindowBits=-15; FPC `zstream.TCompressionStream` ASkipHeader=True) + EOCDR cdoffset delta |
+| mojibake | 9 docs | Round-trip reverse-encoding (UTF-8 → 1252 → bytes, safety check via UTF-8 strict decoder) |
+| Library/**/*.o | `.gitignore` | 109 arquivos vendored faltavam; negação explícita `!Library/**/*.o` |
+| facade naming | 4 src/ + 67 refs | `ZipfileORM` (lowercase f) → `ZipFileORM` (canonical) |
+
+### 15.4 Wave 4 inicial (Property population)
+
+Status de cada propriedade tratada nesta sessão:
+
+| ID | Componente | Properties wired | Status |
+|---|---|---|---|
+| **P28** | TTarFile | FBlockSize=512, FBlockingFactor=20, FRecordSize=10240 (computed), FArchiveSize (Open/Close) | ✅ |
+| **P20** parcial | TZipFile | FArchiveSize, FArchiveComment (read from EOCDR) | ✅ |
+| **P54** | TZipFile | ArchiveComment write para EOCDR `ZIPfilecomment` field | ✅ |
+
+Restam P21-P27, P29 (~45h), P40-P58 (~120h), Waves 5-7.
+
+### 15.5 Métricas finais
+
+| Métrica | v4.0.0 inicial | v4.1.0-WIP atual |
+|---|---|---|
+| `src/*.pas` arquivos | 40 | 58 (40 base + 18 companions) |
+| Build matrix Delphi | 23/23 OK | 23/23 OK |
+| FPC matrix | 4 smokes | **22/22 OK** |
+| DUnitX tests | 21 (compile only) | **43/43 passed (functional)** |
+| Companion files com canonical header | 0 | 18 (100%) |
+| Audit P4 progress (base files retrofit) | 35 pending | 35 pending (per rule §11 incremental) |
+
+### 15.6 Pendências restantes formais
+
+| Wave | Item | Esforço estimado | Bloqueador |
+|---|---|---|---|
+| 4 | P21-P27/P29 property population | ~40h | scope de release |
+| 4 | P40-P58 format-specific write features | ~120h | scope de release |
+| 5 | P01-P12 event firing wiring | ~150h | scope de release |
+| 6 | v4.5 Documentation excellence | ~20-40h | scope de release |
+| 7 | v5.0 UnRAR encoder | meses | decisão community |
+| Audit P4 | 35 base files header retrofit | incremental | per rule §11 (no-retroactive-sweep) |
+
+---
+
+## 16. Assinatura sessão 2
+
+- **Modelo:** Claude Opus 4.7 (1M context)
+- **Projeto:** ZipFileORM v4.1.0-WIP
+- **Sessão:** 2026-05-28 → 2026-05-29
+- **Plano aprovado:** `structured-orbiting-fox` em mode plan
+- **Hash inicial:** `09cac43c` · **Hash final:** `8895d013` (ou subsequente desta consolidação)

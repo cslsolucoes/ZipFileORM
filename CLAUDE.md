@@ -19,9 +19,10 @@ refatorada da v3.x para uma arquitetura canônica `src/` flat com namespaces
 `Commons.*` (cross-format) + `ZipFileORM.*` (facade) + módulos format (`ZipFile`, `TarFile`, etc.).
 
 **Legacy v3.x (read-only para diff):** `c:\Users\Public\Documents\Embarcadero\Studio\Outros\zipfile`
-**Versão:** v4.0.0 (2026-05-28)
+**Versão:** v4.1.0-WIP (2026-05-29) · base v4.0.0 (2026-05-28)
 **Plataformas:** Delphi D24..D37 (10.1 Berlin a 13 Florence, Win32+Win64) + FPC/Lazarus.
 **Licença:** LGPL-3.0
+**Plano corrente:** `D:\Users\claiton.linhares\.claude\plans\structured-orbiting-fox.md`
 
 ### Formatos suportados (10 componentes)
 
@@ -47,7 +48,8 @@ Naming `<ModuleConcept>.<Feature>[.<SubFeature>].pas` atua como pasta virtual:
 - **Facade pública** (`ZipFileORM.*`): `ZipFileORM.pas` (TArchive factory), `ZipFileORM.Interfaces.pas` (IArchive/IArchiveEntry), `ZipFileORM.Compression.pas` (TCompressionMethod enum), `ZipFileORM.Events.pas` (15 TArchive*Event types).
 - **Commons** (`Commons.*` — cross-format): `Commons.Consts.pas`, `Commons.Types.pas`, `Commons.Exceptions.pas`, `Commons.Progress.pas`, `Commons.Compression.{Base,None,ZLib,LZMA,Consts}.pas`, `Commons.Encryption.AES.pas`, `Commons.FPC.inc`, `Commons.Compression.Defines.inc`.
 - **Módulos format** (10): `ZipFile.pas`, `TarFile.pas`, `TarGzFile.pas`, `GzipFile.pas`, `CabFile.pas`, `SevenZFile.pas`, `ArjFile.pas`, `IsoFile.pas`, `LhaFile.pas`, `RarFile.pas`.
-- **Sub-módulos format-only** (ZIP-specific): `ZipFile.ZIP64.pas`, `ZipFile.UTF8.pas`, `ZipFile.Streaming.pas`, `ZipFile.Fluent.pas`; TAR-specific: `TarFile.GzipStream.pas`.
+- **Companions canônicos** (Wave 1.3 + 3a/3b): `<X>File.Interfaces.pas` (builder interfaces — substitui antigos `*.Fluent.pas`), `<X>File.Exceptions.pas`, `<X>File.Types.pas`, `<X>File.Consts.pas` para os 7 formats principais (ZIP/Tar/Cab/SevenZ + Arj/Iso/Lha/Rar Exceptions).
+- **Sub-módulos format-only** (ZIP-specific): `ZipFile.ZIP64.pas`, `ZipFile.UTF8.pas`, `ZipFile.Streaming.pas`; TAR-specific: `TarFile.GzipStream.pas`. *(Antigo `*.Fluent.pas` dissolvido per rule §2.)*
 - **Helper streams**: `Bzip2.Stream.pas`, `UUE.Stream.pas`, `ZCompress.LzwStream.pas` + Fluent variantes.
 - **Auto-detect**: `Archive.Open.pas` (TArchiveFormat + DetectArchiveFormat).
 
@@ -143,13 +145,17 @@ Chave do registro: `HKCU\Software\Embarcadero\BDS\<bds>\Library\Win{32,64}\Searc
 
 Idempotente — paths já presentes não são duplicados. Reversível via `Uninstall-LibraryPaths.ps1`. Pode ser disparado automaticamente após build com `Build-AllDelphis.ps1 -InstallLibPaths`.
 
-### Status v4.0.0
+### Status v4.0.0 → v4.1.0-WIP
 
-- Build matrix: **23/23 OK** (D24..D37 Win32+Win64) + FPC smokes (4 targets)
-- Tests: DUnitX suite (D29) + 20 smokes (Delphi + FPC nativo)
+- Build matrix: **23/23 OK** (D24..D37 Win32+Win64) + **FPC 22/22** (Win32/Win64 + Linux32/64 x 6 formatos)
+- Tests: **DUnitX 43/43 passed** (D29) + 19/19 Delphi smokes + 7/7 FPC smokes
 - **Self-install:** design-time BPL `dclZipFileORMDxx` carrega `ZipFileORM.LibraryPathReg` que descobre paths em runtime e registra Library Paths automaticamente ao abrir o IDE — sem hardcoded paths.
-- Pendente: `Documentation/` completa via agents `documentation-*`; tag `v4.0.0`.
-- **Deferred:** split em 5 ficheiros por módulo (Types/Consts/Exceptions/Interfaces) — ~25h.
+- **v4.1-WIP refactors aplicados** (plano `structured-orbiting-fox`):
+  - Wave 1.3: 7 `*.Fluent.pas` dissolvidas em `<X>.Interfaces.pas` companion (per rule `backend-pascal-unit-naming_V1.6.0 §2`)
+  - Wave 3a+3b: 11 splits arquiteturais (Types/Exceptions/Consts) para CabFile/SevenZFile/ZipFile + Arj/Iso/Lha/Rar
+  - Wave 4 inicial: P28 TarFile geometry + P54 Zip ArchiveComment + P20 partial (TZipFile.FArchiveSize/FArchiveComment populated)
+  - Hotfix: TZipFile.AppendStream agora honra `Compression := cmMaximal` (era hardcoded Store)
+- Pendente: Waves 4-7 (P20-P58 properties, P01-P12 event wiring, docs excellence, v5.0 UnRAR encoder)
 
 ### Packages — runtime vs design-time
 

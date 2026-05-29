@@ -1014,13 +1014,18 @@ end;
 procedure TZipFile.GetEndOfCDRecord;
 begin
   fs.Seek(endofcdrecordstartpos, soFromBeginning);
-  
+
   //read fixed part
   fs.ReadBuffer(endofcdrecord.start, SizeOf(endofcdrecord.start));
-  
+
   //read variable part
   SetLength(endofcdrecord.add.ZIPfilecomment, endofcdrecord.start.ZIPfilecommentlength);
-  fs.ReadBuffer(endofcdrecord.add.ZIPfilecomment[1], endofcdrecord.start.ZIPfilecommentlength);
+  if endofcdrecord.start.ZIPfilecommentlength > 0 then
+    fs.ReadBuffer(endofcdrecord.add.ZIPfilecomment[1], endofcdrecord.start.ZIPfilecommentlength);
+
+  // v4.1 P20: populate read-only ArchiveComment + ArchiveSize properties.
+  FArchiveComment := endofcdrecord.add.ZIPfilecomment;
+  FArchiveSize := fs.Size;
 end;
 
 function TZipFile.GetFileSize: Int64;
