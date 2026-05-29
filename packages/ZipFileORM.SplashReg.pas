@@ -41,28 +41,44 @@ var
   GAboutIdx:   Integer = 0;
   GRegistered: Boolean = False;
 
-function MakeSplashBitmap: TBitmap;
 const
-  cMagenta = TColor($00FF00FF);   // BBGGRR — used as the transparent indicator
+  cMagenta = TColor($00FF00FF);  // BBGGRR — pixel-key transparency indicator
+
+// Fallback usado quando o recurso ZIPFILEORM_SPLASH nao esta presente
+// (raro — so se a DPL design-time for instalada sem .dcr atualizado).
+function MakeSplashBitmapFallback: TBitmap;
 begin
   Result := TBitmap.Create;
   Result.PixelFormat := pf24bit;
   Result.SetSize(24, 24);
-
-  // Fundo: red brand square — DPI-aware DrawString preserves crispness.
-  Result.Canvas.Brush.Color := $002030C8;          // BBGGRR — red
+  Result.Canvas.Brush.Color := $002030C8;          // BBGGRR — red brand
   Result.Canvas.FillRect(Rect(0, 0, 24, 24));
-
-  // Texto "ZIP" centralizado.
   Result.Canvas.Font.Name  := 'Tahoma';
   Result.Canvas.Font.Size  := 7;
   Result.Canvas.Font.Style := [fsBold];
   Result.Canvas.Font.Color := clWhite;
   Result.Canvas.Brush.Style := bsClear;
   Result.Canvas.TextOut(2, 6, 'ZIP');
-
-  // LOWER-LEFT pixel = transparent color (per IOTA convention).
   Result.Canvas.Pixels[0, Result.Height - 1] := cMagenta;
+end;
+
+// Carrega o splash bitmap do recurso ZIPFILEORM_SPLASH (embutido via
+// ZipFileORM.dcr — declarado em ZipFileORM.rc). Compilado por brcc32
+// a partir de packages/ZipFileORM.bmp (24x24 BMP v3, gerado de
+// ZipFileORM.png via tools/Convert-PngToSplashBmp.ps1).
+function MakeSplashBitmap: TBitmap;
+begin
+  Result := TBitmap.Create;
+  try
+    Result.LoadFromResourceName(HInstance, 'ZIPFILEORM_SPLASH');
+    // Garantir pixel-key transparency mesmo que o BMP no .dcr tenha
+    // sido editado externamente sem o marker.
+    Result.Canvas.Pixels[0, Result.Height - 1] := cMagenta;
+  except
+    // Resource ausente / corrompido — usar fallback programatico.
+    FreeAndNil(Result);
+    Result := MakeSplashBitmapFallback;
+  end;
 end;
 
 procedure TryRegisterSplash;

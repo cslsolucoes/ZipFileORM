@@ -1,3 +1,10 @@
+// Splash bitmap (used by ZipFileORM.SplashReg via LoadFromResourceName).
+// Generated from packages/ZipFileORM.png via tools/Convert-PngToSplashBmp.ps1
+// (HighQualityBicubic 256x256 -> 24x24 + brand background + pixel-key
+// transparency at (0, 23)). BMP v3 (40-byte header) for brcc32 compatibility.
+ZIPFILEORM_SPLASH BITMAP "ZipFileORM.bmp"
+
+// Component palette icons (24x24 each, BMP v3, magenta transparency key).
 TZIPFILE     BITMAP "icons\\TZIPFILE.bmp"
 TTARFILE     BITMAP "icons\\TTARFILE.bmp"
 TTARGZFILE   BITMAP "icons\\TTARGZFILE.bmp"
