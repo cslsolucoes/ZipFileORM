@@ -1,15 +1,31 @@
-{ SevenZFile.Types.pas
+{ =============================================================================
+  SevenZFile.Types - Codec / filter / crypto / LZMA tuning enums of 7Z
 
-  Codec / filter / crypto / LZMA tuning enums of the 7Z module (split
-  from SevenZFile.pas per v4.1 Wave 3a refactor). Backward compat via
-  type + const aliases in SevenZFile.pas.
+  Descrição:
+  Companion types unit of SevenZFile.pas. These 6 enums encode the full
+  7z codec ID space (compression methods, filters, encryption, LZMA-internal
+  tuning) and are referenced by consumers configuring TSevenZFile.Compression /
+  Filter / Crypto / LzmaMatchFinder / LzmaAlgorithm. Splitting them here keeps
+  SevenZFile.pas focused on class implementation.
 
-  Why a separate file: these 6 enums encode the full 7z codec ID space
-  (compression methods, filters, encryption, LZMA-internal tuning) and
-  are referenced by consumers configuring TSevenZFile.Compression /
-  Filter / Crypto / LzmaMatchFinder / LzmaAlgorithm. Splitting them
-  here keeps SevenZFile.pas focused on the class implementation.
-}
+  Características:
+  - TSevenZMethod (12 compressors com codec IDs binarios per 7z spec)
+  - TSevenZFilter (11 BCJ/Delta preprocessors)
+  - TSevenZCrypto (3 encryption modes: None/AES256/ZipCrypto)
+  - TLzmaMatchFinder (4 match finder strategies: BT2/BT3/BT4/HC4)
+  - TLzmaAlgorithm (2 modes: laFast/laNormal)
+  - Backward-compatible re-export via type + const aliases em SevenZFile.pas
+  - Cross-platform: Delphi (D24..D37 Win32+Win64) + FPC/Lazarus
+
+  Project:        ZipFileORM
+  ProjectVersion: 4.0.0
+  FileVersion:    1.0.0
+  Author:         CSL Softwares
+  Date:           28/05/2026
+
+  Changelog (file):
+  - 1.0.0 (28/05/2026): created — split from SevenZFile.pas (Wave 3a).
+  ============================================================================= }
 unit SevenZFile.Types;
 
 {$IFDEF FPC}

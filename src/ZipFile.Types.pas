@@ -1,14 +1,29 @@
-{ ZipFile.Types.pas
+{ =============================================================================
+  ZipFile.Types - Public type definitions of the ZIP module
 
-  Public types of the ZIP module (split from ZipFile.pas per v4.1 Wave 3a
-  refactor). Backward compat via type alias in ZipFile.pas.
+  Descrição:
+  Companion types unit of ZipFile.pas. Holds the public-facing TZipSearchRec
+  record returned by FindFirst/FindNext iteration over a ZIP central directory.
 
-  Scope: only TZipSearchRec (user-facing API record returned by FindFirst/
-  FindNext). Internal wire-format records (TLocalFileHeader, TCDFileHeader,
-  TEndOfCentralDirectoryRecord, TZipFileItem) stay in ZipFile.pas — they
-  are implementation detail of the binary parser and not part of the
-  public surface.
-}
+  Scope deliberately limited: internal wire-format records (TLocalFileHeader,
+  TCDFileHeader, TEndOfCentralDirectoryRecord, TZipFileItem) remain in
+  ZipFile.pas — they are implementation detail of the binary parser and not
+  part of the public surface a consumer should depend on.
+
+  Características:
+  - 1 public record (TZipSearchRec — name + dates + sizes per entry)
+  - Backward-compatible re-export via `type` alias in ZipFile.pas
+  - Cross-platform: Delphi (D24..D37 Win32+Win64) + FPC/Lazarus
+
+  Project:        ZipFileORM
+  ProjectVersion: 4.0.0
+  FileVersion:    1.0.0
+  Author:         CSL Softwares
+  Date:           28/05/2026
+
+  Changelog (file):
+  - 1.0.0 (28/05/2026): created — split from ZipFile.pas (Wave 3a).
+  ============================================================================= }
 unit ZipFile.Types;
 
 {$IFDEF FPC}
