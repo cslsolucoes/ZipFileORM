@@ -58,6 +58,9 @@ contains
   ZipFile.UTF8 in '..\src\ZipFile.UTF8.pas',
   ZipFile.Streaming in '..\src\ZipFile.Streaming.pas',
   ZipFile.Interfaces in '..\src\ZipFile.Interfaces.pas',
+  ZipFile.Exceptions in '..\src\ZipFile.Exceptions.pas',
+  ZipFile.Consts in '..\src\ZipFile.Consts.pas',
+  ZipFile.Types in '..\src\ZipFile.Types.pas',
   ZipFile in '..\src\ZipFile.pas',
 
   // ── TAR family ──
@@ -71,10 +74,14 @@ contains
 
   // ── CAB ──
   CabFile.Interfaces in '..\src\CabFile.Interfaces.pas',
+  CabFile.Exceptions in '..\src\CabFile.Exceptions.pas',
+  CabFile.Types in '..\src\CabFile.Types.pas',
   CabFile in '..\src\CabFile.pas',
 
   // ── 7z ──
   SevenZFile.Interfaces in '..\src\SevenZFile.Interfaces.pas',
+  SevenZFile.Exceptions in '..\src\SevenZFile.Exceptions.pas',
+  SevenZFile.Types in '..\src\SevenZFile.Types.pas',
   SevenZFile in '..\src\SevenZFile.pas',
 
   // ── Read-only formats ──

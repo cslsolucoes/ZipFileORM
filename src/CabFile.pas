@@ -25,17 +25,16 @@ unit CabFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, CabFile.Interfaces;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events,
+  CabFile.Interfaces, CabFile.Exceptions, CabFile.Types;
 
 type
-  ECabError = class(Exception);
-  ECabNotSupportedOnPlatform = class(ECabError);
-
-  TCabEntry = record
-    Name: string;
-    Size: Int64;
-    Date: TDateTime;
-  end;
+  // Exception types relocated to CabFile.Exceptions.pas (Wave 3a split).
+  // TCabEntry relocated to CabFile.Types.pas. Re-exported as aliases for
+  // backward compat with `uses CabFile` consumers.
+  ECabError = CabFile.Exceptions.ECabError;
+  ECabNotSupportedOnPlatform = CabFile.Exceptions.ECabNotSupportedOnPlatform;
+  TCabEntry = CabFile.Types.TCabEntry;
 
   // TCabCompressionType is now declared in CabFile.Interfaces.pas (alongside
   // ICabFileBuilder which needs it). Aliased here for backward compatibility

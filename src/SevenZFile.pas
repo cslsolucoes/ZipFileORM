@@ -34,11 +34,17 @@ unit SevenZFile;
 interface
 
 uses
-  SysUtils, Classes, Commons.Progress, ZipFileORM.Events, SevenZFile.Interfaces;
+  SysUtils, Classes, Commons.Progress, ZipFileORM.Events,
+  SevenZFile.Interfaces, SevenZFile.Exceptions, SevenZFile.Types;
 
 type
-  ESevenZError = class(Exception);
-  ESevenZNotSupportedOnPlatform = class(ESevenZError);
+  // Exception + codec types relocated to companion units (Wave 3a split):
+  //   - ESevenZError, ESevenZNotSupportedOnPlatform: SevenZFile.Exceptions
+  //   - TSevenZMethod, TSevenZFilter, TSevenZCrypto, TLzmaMatchFinder,
+  //     TLzmaAlgorithm: SevenZFile.Types
+  // Re-exported as aliases for backward compat with `uses SevenZFile`.
+  ESevenZError = SevenZFile.Exceptions.ESevenZError;
+  ESevenZNotSupportedOnPlatform = SevenZFile.Exceptions.ESevenZNotSupportedOnPlatform;
 
   // Fluent builder + factory (relocated from former SevenZ.Fluent.pas per
   // backend-pascal-unit-naming_V1.6.0 §2). Interface ISevenZFileBuilder lives
@@ -81,72 +87,51 @@ type
     class function OpenArchive(const APath: string): ISevenZFileBuilder;
   end;
 
-  // Metodo de compressao primario por entry no .7z. CodecIDs binarios per
-  // 7z format spec (lzma SDK / 7zFormat.txt):
-  //
-  // Compressores:
-  //   szmCopy        = $00            — sem compressao (Store)
-  //   szmLzma2       = $21            — LZMA2 (default, melhor general-purpose)
-  //   szmLzma        = $03 $01 $01    — LZMA classico (pre-LZMA2)
-  //   szmPpmd        = $03 $04 $01    — PPMd (compressao de texto excelente)
-  //   szmDeflate     = $04 $01 $08    — Deflate (zlib — compat .zip)
-  //   szmDeflate64   = $04 $01 $09    — Deflate64 (PKWARE extension)
-  //   szmBzip2       = $04 $02 $02    — bzip2 (Burrows-Wheeler)
-  //   szmZstd        = $04 $F7 $11 $01 — Zstandard (extensao 7-zip 22+)
-  //   szmBrotli      = $04 $F7 $11 $02 — Brotli (extensao 7-zip 22+)
-  //   szmLz4         = $04 $F7 $11 $04 — LZ4 (extensao 7-zip 22+)
-  //   szmLz5         = $04 $F7 $11 $05 — LZ5
-  //   szmLizard      = $04 $F7 $11 $06 — Lizard
-  TSevenZMethod = (
-    szmCopy,         // $00
-    szmLzma2,        // $21 — default
-    szmLzma,         // $03 $01 $01
-    szmPpmd,         // $03 $04 $01
-    szmDeflate,      // $04 $01 $08
-    szmDeflate64,    // $04 $01 $09
-    szmBzip2,        // $04 $02 $02
-    szmZstd,         // $04 $F7 $11 $01
-    szmBrotli,       // $04 $F7 $11 $02
-    szmLz4,          // $04 $F7 $11 $04
-    szmLz5,          // $04 $F7 $11 $05
-    szmLizard        // $04 $F7 $11 $06
-  );
+  // Codec / filter / crypto / LZMA tuning enums relocated to
+  // SevenZFile.Types.pas (Wave 3a). Aliased here so `uses SevenZFile`
+  // consumers continue to see TSevenZMethod, TSevenZFilter, etc.
+  TSevenZMethod    = SevenZFile.Types.TSevenZMethod;
+  TSevenZFilter    = SevenZFile.Types.TSevenZFilter;
+  TSevenZCrypto    = SevenZFile.Types.TSevenZCrypto;
+  TLzmaMatchFinder = SevenZFile.Types.TLzmaMatchFinder;
+  TLzmaAlgorithm   = SevenZFile.Types.TLzmaAlgorithm;
 
-  // Filters/preprocessors aplicados ANTES da compressao (codec chain).
-  // Detectados por arquitetura do binario para melhorar ratio.
-  // CodecIDs $03 $03 *:
-  //   szfNone     = sem filtro (default)
-  //   szfDelta    = $03 $03 $08 $01 — Delta encoding (audio/imagens)
-  //   szfBCJ      = $03 $03 $01 $03 — Branch Call/Jump x86 32-bit
-  //   szfBCJ2     = $03 $03 $01 $1B — BCJ2 (BCJ com 4 streams output)
-  //   szfPPC      = $03 $03 $02 $05 — PowerPC big-endian
-  //   szfIA64     = $03 $03 $04 $01 — Intel Itanium IA-64
-  //   szfARM      = $03 $03 $05 $01 — ARM little-endian
-  //   szfARMT     = $03 $03 $07 $01 — ARM Thumb
-  //   szfSPARC    = $03 $03 $08 $05 — SPARC
-  //   szfARM64    = $03 $03 $0A $01 — ARM64 / AArch64
-  //   szfRISCV    = $03 $03 $0B $01 — RISC-V
-  TSevenZFilter = (
-    szfNone, szfDelta, szfBCJ, szfBCJ2, szfPPC, szfIA64,
-    szfARM, szfARMT, szfSPARC, szfARM64, szfRISCV
-  );
+const
+  // Enum-value aliases (Delphi+FPC support const alias of enum members).
+  szmCopy      = SevenZFile.Types.szmCopy;
+  szmLzma2     = SevenZFile.Types.szmLzma2;
+  szmLzma      = SevenZFile.Types.szmLzma;
+  szmPpmd      = SevenZFile.Types.szmPpmd;
+  szmDeflate   = SevenZFile.Types.szmDeflate;
+  szmDeflate64 = SevenZFile.Types.szmDeflate64;
+  szmBzip2     = SevenZFile.Types.szmBzip2;
+  szmZstd      = SevenZFile.Types.szmZstd;
+  szmBrotli    = SevenZFile.Types.szmBrotli;
+  szmLz4       = SevenZFile.Types.szmLz4;
+  szmLz5       = SevenZFile.Types.szmLz5;
+  szmLizard    = SevenZFile.Types.szmLizard;
+  szfNone   = SevenZFile.Types.szfNone;
+  szfDelta  = SevenZFile.Types.szfDelta;
+  szfBCJ    = SevenZFile.Types.szfBCJ;
+  szfBCJ2   = SevenZFile.Types.szfBCJ2;
+  szfPPC    = SevenZFile.Types.szfPPC;
+  szfIA64   = SevenZFile.Types.szfIA64;
+  szfARM    = SevenZFile.Types.szfARM;
+  szfARMT   = SevenZFile.Types.szfARMT;
+  szfSPARC  = SevenZFile.Types.szfSPARC;
+  szfARM64  = SevenZFile.Types.szfARM64;
+  szfRISCV  = SevenZFile.Types.szfRISCV;
+  szcNone      = SevenZFile.Types.szcNone;
+  szcAES256    = SevenZFile.Types.szcAES256;
+  szcZipCrypto = SevenZFile.Types.szcZipCrypto;
+  mfBT2 = SevenZFile.Types.mfBT2;
+  mfBT3 = SevenZFile.Types.mfBT3;
+  mfBT4 = SevenZFile.Types.mfBT4;
+  mfHC4 = SevenZFile.Types.mfHC4;
+  laFast   = SevenZFile.Types.laFast;
+  laNormal = SevenZFile.Types.laNormal;
 
-  // Crypto methods (codec chain $06 $F1 *):
-  //   szcNone     = sem encryption
-  //   szcAES256   = $06 $F1 $07 $01 — AES-256 + SHA-256 (7z default)
-  //   szcZipCrypto= $06 $F1 $07 $02 — ZipCrypto (PKWARE legacy, weak)
-  TSevenZCrypto = (szcNone, szcAES256, szcZipCrypto);
-
-  // LZMA match finder algorithm (parametro `mf` em 7-zip CLI).
-  //   mfBT2  = binary tree, 2-byte hash
-  //   mfBT3  = binary tree, 3-byte hash
-  //   mfBT4  = binary tree, 4-byte hash (default — best ratio)
-  //   mfHC4  = hash chain, 4-byte hash (faster, lower ratio)
-  TLzmaMatchFinder = (mfBT2, mfBT3, mfBT4, mfHC4);
-
-  // LZMA encoding algorithm: fast (0) ou normal (1, default — better ratio).
-  TLzmaAlgorithm = (laFast, laNormal);
-
+type
   TSevenZFile = class(TComponent)
   protected
     FCtx: Pointer;        // opaque SzCtx* do wrapper C

@@ -20,13 +20,15 @@ uses
   // Archive auto-detect
   Archive.Open,
   // ZIP module + sub-modules ZIP-only (Fluent dissolved into base files;
-  // builder interfaces in companion .Interfaces.pas per naming rule §2)
-  ZipFile, ZipFile.Interfaces, ZipFile.UTF8, ZipFile.ZIP64, ZipFile.Streaming,
+  // builder interfaces in companion .Interfaces.pas per naming rule §2;
+  // exceptions/consts/types split per Wave 3a v4.1 refactor)
+  ZipFile, ZipFile.Interfaces, ZipFile.Exceptions, ZipFile.Consts, ZipFile.Types,
+  ZipFile.UTF8, ZipFile.ZIP64, ZipFile.Streaming,
   // Other format modules
   TarFile, TarFile.Interfaces, TarFile.GzipStream,
   TarGzFile, GzipFile,
-  CabFile, CabFile.Interfaces,
-  SevenZFile, SevenZFile.Interfaces,
+  CabFile, CabFile.Interfaces, CabFile.Exceptions, CabFile.Types,
+  SevenZFile, SevenZFile.Interfaces, SevenZFile.Exceptions, SevenZFile.Types,
   ArjFile, IsoFile, LhaFile, RarFile,
   // Helper streams
   Bzip2.Stream, Bzip2.Stream.Interfaces,

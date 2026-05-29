@@ -44,19 +44,17 @@ uses
   {$ENDIF}
   Commons.Compression.Base, Commons.Compression.None, Commons.Compression.ZLib, Commons.Compression.Consts,
   ZipFile.UTF8, ZipFile.ZIP64, Commons.Progress, ZipFileORM.Events, Commons.Encryption.AES,
-  ZipFile.Streaming, Commons.Compression.LZMA, ZipFile.Interfaces;
+  ZipFile.Streaming, Commons.Compression.LZMA,
+  ZipFile.Interfaces, ZipFile.Exceptions, ZipFile.Consts, ZipFile.Types;
 
-resourcestring
-  rsFilenameSDoesNotExistInS = 'Filename %s does not exist in %s';
-  rsZipFileSDoesNotExist = 'ZipFile %s does not exist';
+// Resourcestrings relocated to ZipFile.Consts.pas (Wave 3a). They are
+// re-exported by virtue of the `uses ZipFile.Consts;` above — resourcestring
+// identifiers are visible to any unit that has them in its uses chain.
 
 type
-  TZipSearchRec = record
-    DateTime : TDateTime;
-    USize : Int64;
-    CSize: Int64;
-    Name : TFileName;
-  end;
+  // TZipSearchRec relocated to ZipFile.Types.pas. Aliased for backward
+  // compat with `uses ZipFile` consumers.
+  TZipSearchRec = ZipFile.Types.TZipSearchRec;
   
   TLocalFileHeaderStart = packed record
     signature:         longword;      {local file header signature     4 bytes  (0x04034b50)}
@@ -392,8 +390,10 @@ type
     property StoreNTSecurity: Boolean read FStoreNTSecurity write FStoreNTSecurity default False;
   end;
 
-  EZipFileCancelled = class(Exception);
-  EZipFileZip64NotSupported = class(Exception);
+  // Exception types relocated to ZipFile.Exceptions.pas (Wave 3a).
+  // Aliased for backward compat with `uses ZipFile` consumers.
+  EZipFileCancelled         = ZipFile.Exceptions.EZipFileCancelled;
+  EZipFileZip64NotSupported = ZipFile.Exceptions.EZipFileZip64NotSupported;
 
 type
   // Fluent builder + factory (relocated from former ZipFile.Fluent.pas per
